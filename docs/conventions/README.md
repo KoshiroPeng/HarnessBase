@@ -16,6 +16,8 @@ owner: "@PengKang"
 | 错误处理 | `docs/conventions/error-handling.md` |
 | 测试规范 | `docs/conventions/testing.md` |
 | 日志规范 | `docs/conventions/logging.md` |
+| 文件规模 | `docs/conventions/file-size.md` |
+| 方法规模 | `docs/conventions/method-size.md` |
 | API 规范 | `docs/reference/api-spec.yaml` |
 | 错误码 | `docs/reference/error-codes.md` |
 

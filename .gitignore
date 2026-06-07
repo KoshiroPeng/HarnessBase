@@ -9,6 +9,7 @@ server/logs/*
 
 # IDE
 .idea/
+.vscode/
 *.iml
 
 # OS
