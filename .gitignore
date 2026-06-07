@@ -1,0 +1,15 @@
+# Maven
+target/
+**/target/
+
+# Logs
+*.log
+server/logs/*
+!server/logs/.gitkeep
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store

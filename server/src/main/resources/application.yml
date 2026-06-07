@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: herness-demo-server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  file:
+    name: logs/herness-demo-server.log
