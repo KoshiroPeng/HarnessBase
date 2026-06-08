@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
 description: HernessDemo 后续待办列表，覆盖文档代码对齐、workflow 修正、SQL 治理、发布支撑与 Harness 自动化。
@@ -19,7 +19,7 @@ description: HernessDemo 后续待办列表，覆盖文档代码对齐、workflo
 - 持续校准 [docs/reference/api-spec.yaml](../reference/api-spec.yaml)，确保仓库级 API 摘要与 SpringDoc、真实 Controller 和前端 [web/src/api](../../web/src/api) 保持一致。
 - 持续维护 [docs/reference/error-codes.md](../reference/error-codes.md)，确保它与当前 `R`、`TableDataInfo`、`HttpStatus`、i18n 消息、`GlobalExceptionHandler`、`SaTokenExceptionHandler` 对齐。
 - 持续维护 [docs/reference/sql-change-checklist.md](../reference/sql-change-checklist.md)，确保 SQL 变更模板和验证清单跟当前脚本体系一致。
-- 跟进 [docs/reference/README.md](../reference/README.md) 中记录的前后端接口差异，优先处理 `/workflow/definition/definitionXml/{definitionId}` 与 `/workflow/definition/xmlString/{id}` 的不一致，以及 `/monitor/cache/*` 前端残留与当前后端 `CacheController` 的不一致。
+- 跟进 [docs/reference/README.md](../reference/README.md) 中记录的前后端接口差异，按 [docs/plans/frontend-backend-api-drift-fix-brief.md](frontend-backend-api-drift-fix-brief.md) 优先处理 `/workflow/definition/definitionXml/{definitionId}` 与 `/workflow/definition/xmlString/{id}` 的不一致，以及 `/monitor/cache/*` 前端残留与当前后端 `CacheController` 的不一致。
 
 ## P2：代码与质量硬化
 
