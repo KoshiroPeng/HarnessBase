@@ -28,13 +28,13 @@ owner: "@PengKang"
 使用参数化日志：
 
 ```java
-log.info("创建项目成功 projectId={} ownerId={}", projectId, ownerId);
+log.info("接收通话事件成功 callId={} eventId={}", callId, eventId);
 ```
 
 不要使用字符串拼接：
 
 ```java
-log.info("创建项目成功 projectId=" + projectId);
+log.info("接收通话事件成功 callId=" + callId);
 ```
 
 ## 敏感信息
@@ -56,7 +56,7 @@ log.info("创建项目成功 projectId=" + projectId);
 记录异常时必须包含上下文：
 
 ```java
-log.error("创建项目失败 ownerId={} projectName={}", ownerId, projectName, ex);
+log.error("处理通话事件失败 callId={} eventId={}", callId, eventId, ex);
 ```
 
 不要只记录异常消息：
@@ -71,8 +71,8 @@ log.error(ex.getMessage());
 
 - `traceId`
 - `userId`
-- `organizationId`
-- `projectId`
-- `taskId`
+- `agentId`
+- `callId`
+- `eventId`
 
 这些字段用于跨服务、跨请求或跨模块定位问题。

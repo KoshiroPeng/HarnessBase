@@ -37,97 +37,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  herness-server:
-    name: HernessDemo Server 质量门禁
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        shell: bash
-
-    steps:
-      - name: 检出代码
-        uses: actions/checkout@v4
-
-      - name: 设置 JDK 1.8
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "8"
-          cache: maven
-          cache-dependency-path: server/pom.xml
-
-      - name: 设置 Maven 3.6.3
-        uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: 3.6.3
-
-      - name: 校验构建工具版本
-        run: |
-          java -version
-          mvn -v
-
-      - name: 执行 Maven 全量校验
-        working-directory: server
-        run: mvn -B clean verify
-
-      - name: 执行架构规则检查
-        working-directory: server
-        run: mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
-
-      - name: 执行文件行数检查
-        run: |
-          find server/src/main/java -name '*.java' | while read -r f; do
-            lines=$(wc -l < "$f")
-            if [ "$lines" -gt 300 ]; then
-              echo "❌ $f 有 $lines 行（上限 300）"
-              echo "✅ FIX: 拆分为更小的类，将辅助方法移至 *Helper 或 infrastructure。"
-              echo "📖 See: docs/conventions/file-size.md"
-              exit 1
-            fi
-          done
-
-      - name: 执行设计文档新鲜度检查
-        run: |
-          find docs/design -name '*.md' | while read -r f; do
-            last_mod=$(git log -1 --format=%ct -- "$f" 2>/dev/null || true)
-            if [ -z "$last_mod" ]; then
-              echo "⚠️ $f 尚未提交，跳过文档新鲜度检查"
-              continue
-            fi
-
-            now=$(date +%s)
-            days_old=$(((now - last_mod) / 86400))
-            if [ "$days_old" -gt 60 ]; then
-              echo "⚠️ $f 已 ${days_old} 天未更新，可能已过期"
-            fi
-          done
-
-      - name: 生成构建元数据
-        run: |
-          mkdir -p artifacts
-          {
-            echo "service=herness-demo-server"
-            echo "git_sha=${GITHUB_SHA}"
-            echo "git_ref=${GITHUB_REF}"
-            echo "run_id=${GITHUB_RUN_ID}"
-            echo "run_number=${GITHUB_RUN_NUMBER}"
-            echo "workflow=${GITHUB_WORKFLOW}"
-            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          } > artifacts/build-metadata.txt
-
-      - name: 上传构建产物与报告
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: server-ci-${{ github.run_number }}
-          if-no-files-found: ignore
-          path: |
-            artifacts/**
-            server/target/*.jar
-            server/target/surefire-reports/**
-            server/target/site/jacoco/**
-
   callcenter-server:
     name: CallCenter Server 构建校验
     runs-on: ubuntu-latest
@@ -157,13 +66,27 @@ jobs:
         working-directory: services/callcenter-server
         run: mvn -B -DskipTests package
 
-      - name: 上传 CallCenter 后端制品
+      - name: 生成构建元数据
+        run: |
+          mkdir -p artifacts
+          {
+            echo "service=callcenter-server"
+            echo "git_sha=${GITHUB_SHA}"
+            echo "git_ref=${GITHUB_REF}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_number=${GITHUB_RUN_NUMBER}"
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > artifacts/build-metadata.txt
+
+      - name: 上传构建产物与报告
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: callcenter-server-ci-${{ github.run_number }}
           if-no-files-found: ignore
           path: |
+            artifacts/**
             services/callcenter-server/**/target/*.jar
             services/callcenter-server/**/target/surefire-reports/**
 
@@ -206,3 +129,80 @@ jobs:
           name: callcenter-web-ci-${{ github.run_number }}
           if-no-files-found: ignore
           path: services/callcenter-web/dist/**
+
+  legacy-server:
+    name: Legacy Server 兼容校验
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 JDK 1.8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+          cache-dependency-path: server/pom.xml
+
+      - name: 设置 Maven 3.6.3
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.6.3
+
+      - name: 校验构建工具版本
+        run: |
+          java -version
+          mvn -v
+
+      - name: 执行历史骨架 Maven 校验
+        working-directory: server
+        run: mvn -B clean verify
+
+      - name: 执行历史骨架架构规则检查
+        working-directory: server
+        run: mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
+
+      - name: 执行历史骨架文件行数检查
+        run: |
+          find server/src/main/java -name '*.java' | while read -r f; do
+            lines=$(wc -l < "$f")
+            if [ "$lines" -gt 300 ]; then
+              echo "❌ $f 有 $lines 行（上限 300）"
+              echo "✅ FIX: 拆分为更小的类，将辅助方法移至 *Helper 或 infrastructure。"
+              echo "📖 See: docs/conventions/file-size.md"
+              exit 1
+            fi
+          done
+
+      - name: 执行设计文档新鲜度检查
+        run: |
+          find docs/design -name '*.md' | while read -r f; do
+            last_mod=$(git log -1 --format=%ct -- "$f" 2>/dev/null || true)
+            if [ -z "$last_mod" ]; then
+              echo "⚠️ $f 尚未提交，跳过文档新鲜度检查"
+              continue
+            fi
+
+            now=$(date +%s)
+            days_old=$(((now - last_mod) / 86400))
+            if [ "$days_old" -gt 60 ]; then
+              echo "⚠️ $f 已 ${days_old} 天未更新，可能已过期"
+            fi
+          done
+
+      - name: 上传历史骨架报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-server-ci-${{ github.run_number }}
+          if-no-files-found: ignore
+          path: |
+            server/target/*.jar
+            server/target/surefire-reports/**
+            server/target/site/jacoco/**

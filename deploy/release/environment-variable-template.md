@@ -1,6 +1,6 @@
 # 环境变量与密钥模板
 
-本文件用于沉淀 HernessDemo 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
+本文件用于沉淀 CallCenter 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
 
 ## 公共变量
 
@@ -11,10 +11,10 @@
 | `OBSERVATION_MINUTES` | variable | 否 | `15` | 发布后观察窗口分钟数 |
 | `RELEASE_OWNER` | variable | 否 | `backend-team` | 发布负责人 |
 | `ONCALL_CONTACT` | variable | 否 | `oncall@example.com` | 值班联系人 |
-| `APP_DEPLOY_DIR` | variable | 否 | `/opt/herness-demo` | 远端部署目录 |
+| `APP_DEPLOY_DIR` | variable | 否 | `/opt/callcenter` | 远端部署目录 |
 | `APP_DEPLOY_PORT` | variable | 否 | `22` | SSH 端口 |
 | `APP_DEPLOY_STRATEGY` | variable | 否 | `systemd` | 远端启动策略，支持 `systemd` 或 `nohup` |
-| `APP_SERVICE_NAME` | variable | 否 | `herness-demo` | systemd 服务名 |
+| `APP_SERVICE_NAME` | variable | 否 | `callcenter` | systemd 服务名 |
 
 ## 后端部署变量
 

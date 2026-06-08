@@ -46,10 +46,10 @@ owner: "@PengKang"
 
 ## 当前项目适配说明
 
-- 表结构与 SQL 必须兼容 MySQL 5.7。
-- 数据库结构变更必须通过 Flyway migration 管理。
-- 后端主业务链路必须遵守 `domain/config/mapper -> service -> controller`，`infrastructure` 只能作为横切基础设施由 `config` 装配、由 `service` 使用。
-- 外部调用必须通过 `ApiClient` 抽象接入。
+- 表结构与 SQL 必须对齐 CallCenter 当前数据库版本和客户现场部署约束。
+- 数据库结构变更必须通过受控脚本或迁移流程管理。
+- 后端设计必须明确 Controller、Service、Mapper、领域模型和 adapter / integration 的职责边界。
+- 外部调用必须通过 adapter 或 integration 边界接入。
 - 设计评审中若已经确认涉及发布、回滚、配置或密钥要求，应同步参考 `docs/delivery/` 与 `docs/operations/`。
 - 命名、错误处理、测试策略分别参考：
   - `docs/conventions/naming.md`

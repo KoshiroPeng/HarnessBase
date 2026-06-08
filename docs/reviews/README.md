@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本目录用于沉淀 HernessDemo 在需求、设计、代码和测试阶段的评审清单，作为项目交付过程中的统一检查入口。
+本目录用于沉淀 CallCenter 在需求、设计、代码和测试阶段的评审清单，作为项目交付过程中的统一检查入口。
 
 这些清单的目标不是替代需求文档、详细设计文档、测试用例或代码规范，而是帮助评审人员在关键阶段快速检查高风险遗漏项。
 
@@ -52,9 +52,9 @@ owner: "@PengKang"
 
 结合当前仓库现状，使用这些清单时需注意：
 
-- 当前仓库已包含 `services/callcenter-web` 前端 Service，前端评审清单可用于该 Service 的代码与设计评审。
-- 后台设计评审应优先对齐 MySQL 5.7、Spring Boot 2.7、MyBatis-Plus、Flyway 和现有分层架构约束。
-- 涉及外部调用时，必须遵守 `ApiClient` 抽象和错误处理规范。
+- 当前仓库已包含 `services/callcenter-server` 和 `services/callcenter-web`，评审清单适用于 CallCenter 主前后台。
+- 后台设计评审应优先对齐 Java 17、Spring Boot 3.x、RuoYi-Vue-Plus 裁剪版和呼叫中心领域边界。
+- 涉及外部调用时，必须遵守 adapter / integration 隔离和错误处理规范。
 - 涉及交付、配置、发布、回滚时，应同步参考 [docs/delivery/](../delivery/) 与 [docs/operations/](../operations/)。
 
 ## 维护规则

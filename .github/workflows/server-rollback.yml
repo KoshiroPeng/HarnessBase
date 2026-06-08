@@ -8,7 +8,7 @@ on:
         required: true
         type: environment
       rollback_artifact:
-        description: "目标回滚制品名称，例如 herness-demo-server-0.1.0.jar"
+        description: "目标回滚制品名称，例如 callcenter-admin.jar"
         required: true
         type: string
       rollback_reason:

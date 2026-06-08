@@ -1,10 +1,12 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: deprecated     # active | deprecated | draft
 owner: "@PengKang"
 ---
 
 # 功能设计：搜索
+
+> 历史设计草稿，仅保留参考。CallCenter 当前第一阶段不以项目/任务搜索作为主线能力。
 
 ## 背景
 

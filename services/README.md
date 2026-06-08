@@ -1,12 +1,12 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
 # Services
 
-本目录存放从 CallCenter 合并进来的独立 Service。它们作为 Harness Engineering 视角下的独立可交付单元管理，不覆盖根目录现有的 `server/` 工程。
+本目录存放当前项目的正式前后台工程。CallCenter 后端与前端作为独立可交付 Service 管理。
 
 ## Service 清单
 
@@ -17,7 +17,7 @@ owner: "@PengKang"
 
 ## 边界
 
-- `services/callcenter-server` 和 `services/callcenter-web` 保留 CallCenter 原始工程结构，便于后续作为独立 Service 接入 CI/CD。
-- 根目录 `server/` 仍是 HernessDemo 的 Java 8 + Spring Boot 2.7 后端骨架，继续使用原有质量门禁。
-- 不要把 CallCenter 的 Java 17 / Spring Boot 3 规则套到根 `server/`，也不要把根 `server/` 的 Java 8 规则套到 CallCenter 服务。
-
+- `services/callcenter-server` 是当前项目完整后台，后续呼叫中心后端能力从这里扩展。
+- `services/callcenter-web` 是当前项目前端，后续坐席工作台、话务条、来电弹屏和聊天界面从这里扩展。
+- 根目录 `server/` 是历史工程骨架，不再作为当前项目主后台入口。
+- 新增业务前先对齐 [docs/specs/](../docs/specs/) 或对应领域设计文档。

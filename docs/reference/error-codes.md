@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: draft
 owner: "@PengKang"
 ---
 
@@ -18,9 +18,9 @@ MODULE_REASON
 
 示例：
 
-- `PROJECT_NOT_FOUND`
-- `AUTH_TOKEN_EXPIRED`
-- `BILLING_PLAN_NOT_FOUND`
+- `AGENT_NOT_FOUND`
+- `CALL_EVENT_DUPLICATED`
+- `CTI_ADAPTER_UNAVAILABLE`
 
 ## 通用错误码
 
@@ -41,31 +41,31 @@ MODULE_REASON
 | `AUTH_TOKEN_INVALID` | 401 | 登录凭证无效 |
 | `AUTH_FORBIDDEN` | 403 | 权限不足 |
 
-## 项目与任务
+## 坐席
 
 | 错误码 | HTTP 状态 | 说明 |
 | --- | --- | --- |
-| `PROJECT_NOT_FOUND` | 404 | 项目不存在 |
-| `PROJECT_NAME_DUPLICATED` | 409 | 项目名称重复 |
-| `PROJECT_ACCESS_DENIED` | 403 | 无权访问项目 |
-| `TASK_NOT_FOUND` | 404 | 任务不存在 |
-| `TASK_STATUS_INVALID` | 422 | 任务状态不合法 |
+| `AGENT_NOT_FOUND` | 404 | 坐席不存在 |
+| `AGENT_STATUS_INVALID` | 422 | 坐席状态不合法 |
+| `AGENT_STATUS_TRANSITION_DENIED` | 422 | 坐席状态流转不允许 |
 
-## 搜索
+## 通话与 CTI
 
 | 错误码 | HTTP 状态 | 说明 |
 | --- | --- | --- |
-| `SEARCH_QUERY_INVALID` | 400 | 搜索条件不合法 |
-| `SEARCH_PAGE_SIZE_EXCEEDED` | 400 | 分页大小超过限制 |
+| `CALL_NOT_FOUND` | 404 | 通话不存在 |
+| `CALL_EVENT_INVALID` | 400 | 通话事件格式不合法 |
+| `CALL_EVENT_DUPLICATED` | 409 | 通话事件重复 |
+| `CTI_ADAPTER_UNAVAILABLE` | 503 | CTI 适配器不可用 |
+| `CTI_EVENT_UNSUPPORTED` | 422 | CTI 事件类型不支持 |
 
-## 计费
+## 来电弹屏
 
 | 错误码 | HTTP 状态 | 说明 |
 | --- | --- | --- |
-| `BILLING_PLAN_NOT_FOUND` | 404 | 套餐不存在 |
-| `BILLING_SUBSCRIPTION_INACTIVE` | 422 | 订阅未激活 |
-| `BILLING_INVOICE_NOT_FOUND` | 404 | 账单不存在 |
-| `BILLING_PROVIDER_UNAVAILABLE` | 503 | 外部计费渠道不可用 |
+| `SCREEN_POP_QUERY_INVALID` | 400 | 弹屏查询条件不合法 |
+| `SCREEN_POP_CUSTOMER_NOT_FOUND` | 404 | 未匹配到客户资料 |
+| `SCREEN_POP_SOURCE_UNAVAILABLE` | 503 | 客户资料来源不可用 |
 
 ## 维护要求
 

@@ -1,10 +1,12 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: deprecated     # active | deprecated | draft
 owner: "@PengKang"
 ---
 
 # 功能设计：认证与授权
+
+> 历史设计草稿，仅保留参考。CallCenter 当前权限模型应结合坐席、主管、质检、管理员和客户现场系统重新校准。
 
 ## 背景
 

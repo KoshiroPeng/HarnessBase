@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档提供 HernessDemo 在 GitHub 仓库中落地 `test`、`staging`、`prod` Environments 的具体操作步骤，让环境审批、密钥隔离和发布验证从文档约定变成真实配置。
+本文档提供 CallCenter 在 GitHub 仓库中落地 `test`、`staging`、`prod` Environments 的具体操作步骤，让环境审批、密钥隔离和发布验证从文档约定变成真实配置。
 
 ## 前置条件
 
@@ -38,10 +38,10 @@ owner: "@PengKang"
   - `APP_PROFILE=test`
   - `VERIFY_BASE_URL=<test 环境地址>`
   - `OBSERVATION_MINUTES=10`
-  - `APP_DEPLOY_DIR=/opt/herness-demo-test`
+  - `APP_DEPLOY_DIR=/opt/callcenter-test`
   - `APP_DEPLOY_PORT=22`
   - `APP_DEPLOY_STRATEGY=nohup`
-  - `APP_SERVICE_NAME=herness-demo-test`
+  - `APP_SERVICE_NAME=callcenter-test`
 - `Environment secrets`：
   - `DB_URL`
   - `DB_USERNAME`
@@ -63,10 +63,10 @@ owner: "@PengKang"
   - `OBSERVATION_MINUTES=15`
   - `RELEASE_OWNER=<发布负责人>`
   - `ONCALL_CONTACT=<值班联系人>`
-  - `APP_DEPLOY_DIR=/opt/herness-demo-staging`
+  - `APP_DEPLOY_DIR=/opt/callcenter-staging`
   - `APP_DEPLOY_PORT=22`
   - `APP_DEPLOY_STRATEGY=systemd`
-  - `APP_SERVICE_NAME=herness-demo-staging`
+  - `APP_SERVICE_NAME=callcenter-staging`
 - `Environment secrets`：
   - `DB_URL`
   - `DB_USERNAME`
@@ -90,10 +90,10 @@ owner: "@PengKang"
   - `OBSERVATION_MINUTES=30`
   - `RELEASE_OWNER=<发布负责人>`
   - `ONCALL_CONTACT=<值班联系人>`
-  - `APP_DEPLOY_DIR=/opt/herness-demo`
+  - `APP_DEPLOY_DIR=/opt/callcenter`
   - `APP_DEPLOY_PORT=22`
   - `APP_DEPLOY_STRATEGY=systemd`
-  - `APP_SERVICE_NAME=herness-demo`
+  - `APP_SERVICE_NAME=callcenter`
 - `Environment secrets`：
   - `DB_URL`
   - `DB_USERNAME`
@@ -128,7 +128,7 @@ owner: "@PengKang"
 ## 远端服务托管建议
 
 - `test`：可先使用 `nohup`，降低初期接入成本。
-- `staging` / `prod`：建议切换到 `systemd`，并参考 `deploy/release/herness-demo.service.template` 统一管理服务生命周期。
+- `staging` / `prod`：建议切换到 `systemd`，并参考 `deploy/release/callcenter.service.template` 统一管理服务生命周期。
 
 若首次接入新的 `staging` 或 `prod` 主机，建议先参考：
 

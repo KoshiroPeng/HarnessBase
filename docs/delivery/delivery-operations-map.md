@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档作为 HernessDemo 交付体系的统一入口，汇总当前仓库中与环境治理、发布、回滚、主机初始化和运行手册相关的 workflow、脚本与文档，帮助协作者快速找到正确入口。
+本文档作为 CallCenter 交付体系的统一入口，汇总当前仓库中与环境治理、发布、回滚、主机初始化和运行手册相关的 workflow、脚本与文档，帮助协作者快速找到正确入口。
 
 ## 总览
 
@@ -32,7 +32,7 @@ owner: "@PengKang"
 
 - Workflow：[.github/workflows/bootstrap-remote-host.yml](../../.github/workflows/bootstrap-remote-host.yml)
 - 脚本：[deploy/release/bootstrap-remote-host.sh](../../deploy/release/bootstrap-remote-host.sh)
-- systemd 模板：[deploy/release/herness-demo.service.template](../../deploy/release/herness-demo.service.template)
+- systemd 模板：[deploy/release/callcenter.service.template](../../deploy/release/callcenter.service.template)
 - 手册：[docs/operations/remote-host-bootstrap.md](../operations/remote-host-bootstrap.md)
 
 ## 二、日常发布
@@ -74,6 +74,7 @@ owner: "@PengKang"
 - GitHub 配置手册：[docs/operations/github-environment-setup.md](../operations/github-environment-setup.md)
 - 变量与密钥模板：[deploy/release/environment-variable-template.md](../../deploy/release/environment-variable-template.md)
 - 配置与密钥治理：[docs/operations/config-and-secrets.md](../operations/config-and-secrets.md)
+- 本地 Compose 运维入口：[deploy/README.md](../../deploy/README.md)
 
 ## 五、交付模型与策略
 
@@ -108,6 +109,14 @@ owner: "@PengKang"
 | [bootstrap-remote-host.yml](../../.github/workflows/bootstrap-remote-host.yml) | 首次初始化远端主机 |
 | [server-release.yml](../../.github/workflows/server-release.yml) | 日常发布与验证 |
 | [server-rollback.yml](../../.github/workflows/server-rollback.yml) | 异常回滚与回滚后验证 |
+
+## 本地运维入口
+
+| 命令 | 用途 |
+| --- | --- |
+| `./deploy/ops start` | 启动基础设施容器 |
+| `./deploy/ops start --app` | 启动基础设施和 CallCenter 应用容器 |
+| `./deploy/ops health` | 执行本地健康检查 |
 
 ## 维护规则
 

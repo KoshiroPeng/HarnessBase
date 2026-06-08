@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档定义 HernessDemo 在 GitHub Actions 中的 Environment 使用方式，把 Harness 风格的环境门禁、审批和密钥隔离映射到 GitHub 原生能力。
+本文档定义 CallCenter 在 GitHub Actions 中的 Environment 使用方式，把 Harness 风格的环境门禁、审批和密钥隔离映射到 GitHub 原生能力。
 
 ## 标准 Environment
 

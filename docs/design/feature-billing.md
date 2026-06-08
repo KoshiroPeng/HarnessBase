@@ -1,14 +1,16 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: deprecated     # active | deprecated | draft
 owner: "@PengKang"
 ---
 
 # 功能设计：计费
 
+> 历史设计草稿，仅保留参考。CallCenter 第一阶段明确不交付计费系统。
+
 ## 背景
 
-HernessDemo 面向中小企业，需要支持组织维度的套餐、用量和账单管理。
+历史项目管理平台方向曾计划支持组织维度的套餐、用量和账单管理。
 
 本设计只定义第一版边界，不假设已经接入真实支付渠道。
 

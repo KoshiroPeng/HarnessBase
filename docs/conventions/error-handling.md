@@ -20,8 +20,8 @@ HTTP API 使用统一错误响应：
 
 ```json
 {
-  "code": "PROJECT_NOT_FOUND",
-  "message": "项目不存在",
+  "code": "AGENT_NOT_FOUND",
+  "message": "坐席不存在",
   "traceId": "req-20260607-000001"
 }
 ```
@@ -39,7 +39,7 @@ HTTP API 使用统一错误响应：
 | 参数错误 | 请求字段缺失、格式不合法 | 400 |
 | 认证失败 | 未登录、令牌无效 | 401 |
 | 权限不足 | 无权访问资源 | 403 |
-| 资源不存在 | 项目、任务、成员不存在 | 404 |
+| 资源不存在 | 坐席、通话、客户资料不存在 | 404 |
 | 冲突错误 | 重复创建、状态冲突 | 409 |
 | 业务规则错误 | 不满足业务约束 | 422 |
 | 系统错误 | 未预期异常 | 500 |
@@ -70,6 +70,6 @@ MODULE_REASON
 
 示例：
 
-- `PROJECT_NOT_FOUND`
-- `TASK_STATUS_INVALID`
+- `AGENT_NOT_FOUND`
+- `CALL_EVENT_DUPLICATED`
 - `AUTH_TOKEN_EXPIRED`

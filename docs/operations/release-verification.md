@@ -35,9 +35,10 @@ owner: "@PengKang"
 根据变更内容执行最小业务探针，例如：
 
 - 登录是否成功。
-- 项目列表是否可查询。
-- 任务创建是否可用。
-- 计费相关接口是否返回预期结果。
+- 坐席状态是否可查询。
+- 来电弹屏接口是否可用。
+- 实时通道是否能建立连接。
+- CTI 事件适配器是否能处理测试事件。
 
 ## 观察窗口
 
@@ -89,6 +90,7 @@ owner: "@PengKang"
 当前仓库已提供最小验证脚本入口：
 
 - `deploy/release/verify-release.sh`
+- `deploy/ops health`
 - `.github/workflows/server-rollback.yml`
 
 脚本行为约定：

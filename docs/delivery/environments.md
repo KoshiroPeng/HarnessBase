@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档定义 HernessDemo 的标准环境分层、差异边界和准入条件，避免环境用途混乱、配置漂移或发布流程失控。
+本文档定义 CallCenter 的标准环境分层、差异边界和准入条件，避免环境用途混乱、配置漂移或发布流程失控。
 
 ## 标准环境
 
@@ -100,7 +100,15 @@ owner: "@PengKang"
 
 ## 当前落地状态
 
-当前仓库已经为 `server` 提供最小 profile 配置：
+当前仓库已经为 CallCenter 提供本地 Compose 环境入口，并保留历史骨架 `server` 的最小 profile 配置：
+
+| 入口 | 文件 | 当前用途 |
+| --- | --- | --- |
+| 基础设施 | `deploy/compose.yml` | 启动 MySQL 8、Redis、MinIO |
+| 应用 | `deploy/compose.app.yml` | 启动 CallCenter 后端和前端应用容器 |
+| 运维脚本 | `deploy/ops` | 统一启停、构建、日志和健康检查 |
+
+历史骨架 profile：
 
 | Profile | 文件 | 当前用途 |
 | --- | --- | --- |

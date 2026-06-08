@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
@@ -8,19 +8,19 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档用于定义 HernessDemo 的构建产物、版本规则和可追溯要求，确保每次部署都能明确追溯到源码、构建过程和配置上下文。
+本文档用于定义 CallCenter 的构建产物、版本规则和可追溯要求，确保每次部署都能明确追溯到源码、构建过程和配置上下文。
 
 ## 制品范围
 
 当前阶段至少应治理以下制品：
 
-- `server` 的可部署 Jar 包或等价运行制品。
-- `callcenter-server` 的可部署 Jar 包。
-- `callcenter-web` 的前端静态构建产物。
+- `callcenter-server` 的可部署 Jar 包或 Docker 镜像。
+- `callcenter-web` 的前端静态构建产物或 Docker 镜像。
 - CI 构建元数据。
 - 发布 workflow 上传的 release bundle。
-- 数据库迁移脚本版本集合。
+- 数据库初始化和迁移脚本版本集合。
 - 部署描述文件和环境配置模板。
+- 历史骨架 `server` 的兼容构建产物。
 
 ## 版本原则
 
@@ -44,9 +44,10 @@ owner: "@PengKang"
 
 | 制品 | 来源 | 用途 |
 | --- | --- | --- |
-| `server/target/herness-demo-server-*.jar` | Maven `verify` / release workflow | 部署到远端主机的应用制品 |
 | `services/callcenter-server/**/target/*.jar` | CallCenter Maven 构建 | CallCenter 后端发布候选制品 |
 | `services/callcenter-web/dist/**` | pnpm + Vite 构建 | CallCenter 前端发布候选制品 |
+| `callcenter-admin:local` | `deploy/compose.app.yml` | 本地后端应用镜像 |
+| `callcenter-web:local` | `deploy/compose.app.yml` | 本地前端应用镜像 |
 | `artifacts/build-metadata.txt` | `agent-guardrails.yml` | CI 构建追踪 |
 | `release-output/release-metadata.txt` | `server-release.yml` | 发布批次追踪 |
 | `release-output/release-plan.md` | `render-release-plan.sh` | 发布计划与审批摘要 |
@@ -62,7 +63,7 @@ owner: "@PengKang"
 
 ## 当前缺口
 
-当前仓库已有 Maven 构建入口，但尚未定义：
+当前仓库已有 Maven、pnpm 和本地 Compose 构建入口，但尚未定义：
 
 - 制品仓库目标位置。
 - 发布批次与提交记录的映射方式。
@@ -71,7 +72,7 @@ owner: "@PengKang"
 
 ## 最小落地建议
 
-1. 为后端制品定义统一命名格式。
+1. 为 CallCenter 后端、前端和镜像制品定义统一命名格式。
 2. 在 CI 中输出构建元数据文件。
 3. 在部署记录中显式写入制品版本号。
 4. 为回滚场景保留最近稳定版本清单。

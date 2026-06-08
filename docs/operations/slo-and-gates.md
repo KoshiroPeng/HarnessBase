@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档用于定义 HernessDemo 的基础 SLI / SLO 和发布门禁规则，为后续自动化验证和渐进式发布提供统一判定标准。
+本文档用于定义 CallCenter 的基础 SLI / SLO 和发布门禁规则，为后续自动化验证和渐进式发布提供统一判定标准。
 
 ## 推荐 SLI
 

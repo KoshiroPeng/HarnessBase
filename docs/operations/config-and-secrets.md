@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档用于规范 HernessDemo 的配置来源、密钥管理和环境覆盖方式，避免配置漂移、凭据泄露和不可审计的手工改动。
+本文档用于规范 CallCenter 的配置来源、密钥管理和环境覆盖方式，避免配置漂移、凭据泄露和不可审计的手工改动。
 
 ## 配置分类
 
@@ -36,7 +36,7 @@ owner: "@PengKang"
 
 - 数据库密码。
 - 外部 API Token。
-- 第三方支付密钥。
+- CTI / CRM / 工单系统访问凭据。
 - JWT 签名密钥。
 
 ## 管理原则
@@ -55,6 +55,8 @@ owner: "@PengKang"
 - `application-test.yml`
 - `application-staging.yml`
 - `application-prod.yml`
+- `deploy/compose.yml`
+- `deploy/compose.app.yml`
 - `deploy/release/environment-variable-template.md`
 - `docs/operations/github-environment-setup.md`
 

@@ -1,70 +1,66 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
 # Backlog
 
-## P0：工程基线
+## P0：CallCenter 主项目收敛
 
 已完成：
 
-- 创建后端 Maven 项目，锁定 JDK 1.8、Spring Boot 2.7.x 和 Maven 3.6.3。
-- 配置 Maven Enforcer，防止版本漂移。
-- 接入 MyBatis-Plus 3.5.x。
-- 接入 Flyway 和 `flyway-mysql`。
-- 建立 SLF4J 日志配置。
-- 建立 JUnit 5 测试基础设施。
-- 接入 Checkstyle、SpotBugs、JaCoCo 和 ArchUnit。
-- 建立 GitHub Actions CI、发布、回滚和远端主机初始化骨架。
+- 将 `services/callcenter-server` 作为当前项目完整后台。
+- 将 `services/callcenter-web` 作为当前项目前端。
+- 将 CallCenter 规格文档接入 `docs/specs/`。
+- 将 `AGENTS.md` 改为 CallCenter 协作规则。
+- 迁入 `deploy/compose.yml`、`deploy/compose.app.yml` 和 `deploy/ops`。
 
 待补齐：
 
-- 建立统一异常处理和错误响应模型。
-- 建立首批真实 Controller、Service、Mapper、Entity 和 DTO。
-- 建立首批 Flyway migration。
-- 在真实 test/staging/prod 环境演练发布、验证和回滚。
+- 为 `callcenter-server` 和 `callcenter-web` 建立独立发布、回滚和发布后验证 workflow。
+- 为真实 test/staging/prod 环境配置 GitHub Environments、变量、密钥和审批人。
+- 为 CallCenter 后端、前端和镜像制品定义统一版本命名与制品仓库策略。
 
-## P1：核心业务
+## P1：呼叫中心核心领域
 
-- 用户注册、登录、登出和会话校验。
-- 组织管理。
-- 项目管理。
-- 任务管理。
-- 成员与角色管理。
-- 项目与任务搜索。
+- 坐席领域模型：坐席、技能组、状态、签入签出、忙闲状态。
+- 通话领域模型：呼入、外呼、接听、挂断、转接、保持、通话记录。
+- CTI adapter：华为 CTI 或其他电话系统事件接入与标准事件转换。
+- 实时通道：WebSocket / SSE 连接管理、重连、广播和多实例策略。
+- 来电弹屏：客户资料查询、弹屏上下文、权限与降级。
+- 话务条：坐席端通话控制入口和状态同步。
 
-## P2：商业化能力
+## P2：客户沟通与记录
 
-- 套餐管理。
-- 订阅管理。
-- 用量统计。
-- 账单查询。
-- 支付渠道适配抽象。
+- 文字聊天会话。
+- 通话小结。
+- 客户沟通记录。
+- 录音元数据管理。
+- 录音下载权限与审计。
+- CRM / 工单 / 客户资料系统集成边界。
 
-## P3：运营与质量
+## P3：质检、AI 与报表
 
-- API 文档持续维护。
-- 错误码治理。
-- 审计日志。
-- 指标和 telemetry。
-- 部署文档。
-- 性能基准测试。
+- 人工质检评分。
+- 语音转写异步任务。
+- AI 质检任务与结果归档。
+- 转写和 AI 成本控制。
+- T+1 报表链路。
+- 坐席、通话、质检和客户服务指标。
 
-## P4：交付平台化
+## P4：交付与运维平台化
 
-- 建立交付模型文档，明确 Application、Service、Environment、Infrastructure 的映射关系。
-- 建立环境治理文档，明确 dev、test、staging、prod 的职责和准入条件。
-- 建立标准 CI / CD / 发布验证流水线模型。
-- 定义部署策略、回滚策略和数据库变更兼容策略。
-- 建立配置与密钥治理规则。
-- 建立发布审批、权限和审计规则。
-- 建立运行手册和发布后验证流程。
+- 建立 CallCenter 专用发布 workflow。
+- 建立 CallCenter 专用回滚 workflow。
+- 建立 CTI、坐席状态、来电弹屏和实时通道业务探针。
+- 补齐依赖漏洞扫描和密钥泄露扫描。
+- 建立生产级日志、指标和告警规则。
+- 按客户机房约束确认高可用部署方案。
 
 ## Backlog 维护规则
 
 - 每个任务进入迭代前必须有明确验收标准。
+- 涉及业务边界变化的任务必须同步 `docs/specs/` 或对应领域设计文档。
 - 涉及架构或边界变化的任务必须同步 `docs/architecture/`。
-- 涉及 API 的任务必须同步 `docs/reference/api-spec.yaml`。
-- 涉及错误码的任务必须同步 `docs/reference/error-codes.md`。
+- 涉及交付、环境、验证或回滚的任务必须同步 `docs/delivery/` 或 `docs/operations/`。

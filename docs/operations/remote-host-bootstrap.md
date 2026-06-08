@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档定义 HernessDemo 在首次接入新服务器时的标准初始化步骤，确保部署目录、环境文件、日志目录和 systemd 服务以统一方式落地。
+本文档定义 CallCenter 在首次接入新服务器时的标准初始化步骤，确保部署目录、环境文件、日志目录和 systemd 服务以统一方式落地。
 
 ## 适用场景
 
@@ -19,7 +19,7 @@ owner: "@PengKang"
 ## 对应脚本
 
 - `deploy/release/bootstrap-remote-host.sh`
-- `deploy/release/herness-demo.service.template`
+- `deploy/release/callcenter.service.template`
 - `.github/workflows/bootstrap-remote-host.yml`
 
 ## 初始化内容
