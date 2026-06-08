@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 文件规模规范，约束单文件大小并提示超限时的拆分方式。
 ---
 
 # 文件规模规范

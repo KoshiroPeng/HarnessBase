@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 错误处理规范，约束异常分类、错误码映射与对外响应方式。
 ---
 
 # 错误处理规范

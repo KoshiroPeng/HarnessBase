@@ -1,6 +1,6 @@
 spring:
   application:
-    name: herness-demo-server
+    name: projectpilot-server
 
 management:
   endpoints:
@@ -12,5 +12,8 @@ management:
       application: ${spring.application.name}
 
 logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
   file:
-    name: logs/herness-demo-server.log
+    name: logs/projectpilot-server.log

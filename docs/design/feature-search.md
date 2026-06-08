@@ -2,13 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 搜索功能设计，定义第一版搜索边界、接口方向与实现约束。
 ---
 
 # 功能设计：搜索
 
 ## 背景
 
-用户需要在项目、任务、成员和文档中快速定位信息。第一版搜索应优先保证简单、稳定和兼容 MySQL 5.7。
+用户需要在项目、任务、成员和文档中快速定位信息。第一版搜索应优先保证简单、稳定，并优先使用当前关系型主线可承载的能力。
 
 在当前阶段，搜索属于次主线增强能力，不应抢占登录、项目、任务主链路的实现顺序。
 
@@ -49,18 +50,18 @@ GET /api/v1/search
 ## 数据流
 
 ```text
-Controller
-  -> SearchService
+Web Adapter
+  -> Search Application Service
   -> Permission Check
-  -> Mapper
-  -> MySQL 5.7
+  -> Persistence Adapter
+  -> MySQL 8
 ```
 
 ## 实现约束
 
-- SQL 必须兼容 MySQL 5.7。
-- 禁止在 Controller 拼接 SQL 或查询条件。
-- 查询条件由 Service 规范化后传入 Mapper。
+- SQL 与索引设计必须兼容 MySQL 8 主线。
+- 禁止在 Web Adapter 拼接 SQL 或查询条件。
+- 查询条件由应用层规范化后传入持久化适配层。
 - 搜索结果必须按权限过滤。
 - 分页默认限制最大 `pageSize`，避免大查询拖垮数据库。
 
@@ -69,14 +70,14 @@ Controller
 - 关键词为空时按默认条件返回。
 - 无权限资源不出现在搜索结果中。
 - 分页参数越界时返回参数错误。
-- 组合过滤条件能正确传入 Mapper。
+- 组合过滤条件能正确传入持久化适配层。
 
 ## 后续演进
 
-当 MySQL 查询无法满足性能或相关性要求时，再评估独立搜索服务。引入新搜索基础设施前必须更新架构文档和部署文档。
+当关系型查询无法满足性能或相关性要求时，再评估独立搜索服务。引入新搜索基础设施前必须更新架构文档和部署文档。
 
 ## 当前阶段判断
 
 - 优先级：中，属于 Web MVP 之后的增强能力。
-- 实现策略：先使用 MySQL 5.7 可承载的最小搜索闭环，再按真实瓶颈决定是否升级。
+- 实现策略：先使用关系型数据库可承载的最小搜索闭环，再按真实瓶颈决定是否升级。
 - 纠偏提醒：如果搜索设计开始脱离当前业务问题、转向平台能力堆叠，应先回看 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)。

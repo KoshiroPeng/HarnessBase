@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 认证与授权功能设计，定义登录、会话与最小权限边界。
 ---
 
 # 功能设计：认证与授权

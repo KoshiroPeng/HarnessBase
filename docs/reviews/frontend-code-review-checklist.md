@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 前端代码评审清单，用于检查代码规范、结构合理性与前端逻辑安全性。
 ---
 
 # 前端代码评审清单
@@ -36,7 +37,8 @@ owner: "@PengKang"
 
 ## 当前项目适配说明
 
-- 当前仓库尚未启用 `web/` 前端应用，本清单先作为预留能力。
+- 当前仓库已经明确了 `web/` 主线与目标结构，本清单应按 Vue 3、TypeScript、Vite 与共享包边界执行。
+- 若改动涉及 `apps / packages / tooling` 结构、共享 API 客户端或公共组件，必须评估影响范围并同步更新相关设计文档。
 
 ## 配套入口
 

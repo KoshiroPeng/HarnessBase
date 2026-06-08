@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 的 Harness Engineering 参考手册，解释方法论、落点与常见误区。
 ---
 
 # Harness Engineering 参考手册

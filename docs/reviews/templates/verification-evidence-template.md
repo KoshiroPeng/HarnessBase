@@ -23,6 +23,9 @@ description: ProjectPilot 验证证据输出模板，用于统一记录验证方
 - [docs/conventions/task-startup-checklist.md](../../conventions/task-startup-checklist.md)
 - [docs/conventions/testing.md](../../conventions/testing.md)
 - [docs/reviews/backend-code-review-checklist.md](../backend-code-review-checklist.md)
+- [docs/reviews/frontend-code-review-checklist.md](../frontend-code-review-checklist.md)
+- [docs/architecture/target-technology-baseline.md](../../architecture/target-technology-baseline.md)
+- [docs/plans/jdk17-springboot3-migration-roadmap.md](../../plans/jdk17-springboot3-migration-roadmap.md)
 - [deploy/release/release-checklist.md](../../../deploy/release/release-checklist.md)
 
 ```md
@@ -46,6 +49,12 @@ description: ProjectPilot 验证证据输出模板，用于统一记录验证方
 | 序号 | 验证项 | 验证方式 | 结果 | 备注 |
 | --- | --- | --- | --- | --- |
 | 1 |  |  | 通过 / 未通过 / 未执行 |  |
+
+## 基线对齐结果
+
+- 是否符合当前目标技术基线：
+- 是否仍存在历史残留：
+- 若存在残留，是否已记录到迁移路线或 backlog：
 
 ## 关键命令或操作记录
 
@@ -73,4 +82,5 @@ description: ProjectPilot 验证证据输出模板，用于统一记录验证方
 
 - 如果某项验证没有执行，不要省略，直接写明“未执行”和原因。
 - 如果本次改动涉及 API、错误码、迁移、发布或观测方案，结果摘要中应明确写出是否已同步检查。
+- 如果本次改动属于 JDK 17 / Spring Boot 3 迁移、前端结构落地或模块边界调整，建议补写“基线对齐结果”。
 - 如果仍有已知风险，不要把它藏在备注里，应单独写入“未覆盖风险”。

@@ -15,49 +15,37 @@
         - HTTP 调用要统一 -> 禁止裸 RestTemplate / HttpURLConnection -> ArchUnit 自定义规则
         - Controller 要纯 -> Controller 不得直接调用 Mapper -> ArchUnit 分层规则
         - 依赖要构造器注入 -> 禁止字段级 @Autowired -> ArchUnit 注解检查
-        - 不要污染全局 -> 禁止 public static 非 final 字段 -> SpotBugs MS_* 规则族 / ArchUnit 字段规则
-        - 测试要充分 -> 行覆盖率 >= 80% -> JaCoCo coverage check
-        - 锁定构建工具版本 -> Maven = 3.6.3, JDK = 1.8 -> maven-enforcer-plugin
+        - 不要污染全局 -> 禁止 public static 非 final 字段 -> ArchUnit 字段规则
+        - 测试要充足 -> 行覆盖率 >= 80% -> JaCoCo coverage check
+        - 锁定构建工具版本 -> Maven = 3.9+, JDK = 17 -> maven-enforcer-plugin
     -->
 
-    <!-- 文件要短：单文件不超过 300 行 -->
     <module name="FileLength">
         <property name="max" value="300"/>
         <message key="maxLen.file"
-                 value="❌ 文件超过 300 行。
-✅ FIX: 拆分为更小的类，把辅助方法移至 *Helper 或 infrastructure。
-📖 See: docs/conventions/file-size.md"/>
+                 value="文件超过 300 行。请拆分为更小的类，并把辅助方法下沉到 helper 或 infrastructure。"/>
     </module>
 
     <module name="TreeWalker">
-        <!-- 方法要短：单方法不超过 50 行 -->
         <module name="MethodLength">
             <property name="max" value="50"/>
             <property name="countEmpty" value="false"/>
             <message key="maxLen.method"
-                     value="❌ 方法超过 50 行。
-✅ FIX: 抽取私有方法或将职责下沉到 Service / Domain。
-📖 See: docs/conventions/method-size.md"/>
+                     value="方法超过 50 行。请抽取私有方法，或将职责下沉到 service / domain。"/>
         </module>
 
-        <!-- 日志要规范：禁止 System.out.println -->
         <module name="RegexpSinglelineJava">
             <property name="format" value="System\.out\.println"/>
             <property name="ignoreComments" value="true"/>
             <property name="message"
-                      value="❌ 禁止 System.out.println。
-✅ FIX: private static final Logger log = LoggerFactory.getLogger(X.class);
-📖 See: docs/conventions/logging.md"/>
+                      value="禁止使用 System.out.println。请改用 SLF4J Logger。"/>
         </module>
 
-        <!-- 日志要规范：禁止 e.printStackTrace() -->
         <module name="RegexpSinglelineJava">
             <property name="format" value="\.printStackTrace\(\)"/>
             <property name="ignoreComments" value="true"/>
             <property name="message"
-                      value="❌ 禁止 e.printStackTrace()。
-✅ FIX: log.error(&quot;context message&quot;, e);
-📖 See: docs/conventions/logging.md"/>
+                      value="禁止使用 printStackTrace()。请改用 log.error(&quot;context&quot;, e)。"/>
         </module>
     </module>
 </module>

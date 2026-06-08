@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 需求评审输出模板，用于统一记录需求评审结论、问题与后续动作。
 ---
 
 # 需求评审输出模板
@@ -11,6 +12,7 @@ owner: "@PengKang"
 - [docs/reviews/requirement-review-checklist.md](../requirement-review-checklist.md)
 - [docs/design/README.md](../../design/README.md)
 - [docs/plans/README.md](../../plans/README.md)
+- [docs/architecture/target-technology-baseline.md](../../architecture/target-technology-baseline.md)
 - [docs/architecture/harness-engineering-adaptation.md](../../architecture/harness-engineering-adaptation.md)
 
 ```md
@@ -37,6 +39,7 @@ owner: "@PengKang"
 - 是否说明与现有功能的关系：
 - 是否涉及外部系统或外部数据：
 - 是否覆盖非功能性要求：
+- 是否与当前目标技术基线和目标结构不冲突：
 - 是否符合当前 Web MVP 主线：
 - 是否存在平台化范围偏航：
 

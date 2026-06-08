@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 需求评审清单，用于检查业务场景、流程、交互与外部依赖说明。
 ---
 
 # 需求评审清单

@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 命名规范，统一模块、类、方法、字段、接口与文档命名方式。
 ---
 
 # 命名规范
@@ -15,17 +16,17 @@ owner: "@PengKang"
 
 ## Java 包名
 
-包名使用小写英文，按职责分层组织：
+包名使用小写英文，按模块化单体职责组织：
 
 ```text
-com.example.hernessdemo.domain
-com.example.hernessdemo.config
-com.example.hernessdemo.mapper
-com.example.hernessdemo.service
-com.example.hernessdemo.controller
+com.example.projectpilot.shared
+com.example.projectpilot.project.domain
+com.example.projectpilot.project.application
+com.example.projectpilot.project.adapter.in.web
+com.example.projectpilot.project.adapter.out.persistence
 ```
 
-实际根包名以后端 Maven 项目为准，但分层命名必须保持清晰。
+实际根包名以后端 Maven 项目为准，但模块边界和层级命名必须保持清晰。
 
 ## Java 类名
 
@@ -33,8 +34,8 @@ com.example.hernessdemo.controller
 | --- | --- |
 | Controller | `ProjectController` |
 | Service 接口 | `ProjectService` |
-| Service 实现 | `ProjectServiceImpl` |
-| Mapper | `ProjectMapper` |
+| Application Service | `ProjectApplicationService` |
+| Persistence Adapter / Mapper | `ProjectMapper`、`ProjectPersistenceAdapter` |
 | 配置类 | `SecurityConfig` |
 | 请求对象 | `CreateProjectRequest` |
 | 响应对象 | `ProjectResponse` |
@@ -61,7 +62,7 @@ com.example.hernessdemo.controller
 - 更新时间使用 `updated_at`。
 - 逻辑删除字段使用 `deleted_at` 或 `deleted`，具体方案在落地时统一。
 
-MySQL 语法必须兼容 5.7。
+表结构与命名应服务 MySQL 8.x 主线，并与 Flyway migration 保持一致。
 
 ## API 命名
 
@@ -77,6 +78,14 @@ GET /api/v1/projects
 POST /api/v1/projects
 GET /api/v1/projects/{projectId}
 ```
+
+## 前端与共享包命名
+
+- 前端应用目录使用业务语义，例如 `projectpilot-web`。
+- 共享包使用职责语义，例如 `shared-ui`、`shared-api`、`config`。
+- Vue 组件名使用 PascalCase，例如 `ProjectListPage.vue`、`TaskStatusBadge.vue`。
+- 组合式函数使用 `use` 前缀，例如 `useProjectFilters`。
+- Pinia store 建议使用 `useXxxStore` 命名，例如 `useProjectStore`。
 
 ## 测试命名
 

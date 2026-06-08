@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 任务启动清单，帮助开发、评审、测试和发布任务快速找到联读文档。
 ---
 
 # 任务启动清单
@@ -18,8 +19,9 @@ owner: "@PengKang"
 
 1. 阅读 [AGENTS.md](../../AGENTS.md)
 2. 阅读 [docs/README.md](../README.md)
-3. 阅读 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)
-4. 根据任务类型跳到下方对应清单
+3. 阅读 [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+4. 阅读 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)
+5. 根据任务类型跳到下方对应清单
 
 ## 开发后端代码
 
@@ -27,15 +29,18 @@ owner: "@PengKang"
 
 1. [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)
 2. [docs/architecture/README.md](../architecture/README.md)
-3. [docs/conventions/README.md](README.md)
-4. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
-5. [docs/conventions/testing.md](testing.md)
+3. [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+4. [docs/plans/jdk17-springboot3-migration-roadmap.md](../plans/jdk17-springboot3-migration-roadmap.md)
+5. [docs/conventions/README.md](README.md)
+6. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
+7. [docs/conventions/testing.md](testing.md)
 
 动手时重点确认：
 
 - 当前改动是否直接服务 Web MVP 主线
-- 是否破坏分层依赖方向
+- 是否破坏模块化单体依赖方向
 - 是否涉及 API、错误码、Flyway migration 或发布影响
+- 是否继续沿用 `javax.*` 或旧版 Boot 2.7 心智
 
 结束前至少自检：
 
@@ -65,8 +70,9 @@ owner: "@PengKang"
 
 1. [docs/reviews/backend-design-review-checklist.md](../reviews/backend-design-review-checklist.md)
 2. [docs/architecture/README.md](../architecture/README.md)
-3. [docs/reference/README.md](../reference/README.md)
-4. [docs/conventions/error-handling.md](error-handling.md)
+3. [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+4. [docs/reference/README.md](../reference/README.md)
+5. [docs/conventions/error-handling.md](error-handling.md)
 
 输出结果时建议配合：
 
@@ -127,10 +133,10 @@ owner: "@PengKang"
 
 ## 前端相关任务
 
-- 当前仓库尚未正式启用 `web/` 前端应用。
-- 若当前任务已经进入前端设计阶段，先阅读 [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)、[docs/reviews/frontend-design-review-checklist.md](../reviews/frontend-design-review-checklist.md) 和 [docs/reviews/templates/frontend-design-review-template.md](../reviews/templates/frontend-design-review-template.md)。
-- 若当前任务已经进入前端代码评审或前端自检阶段，再补充阅读 [docs/reviews/frontend-code-review-checklist.md](../reviews/frontend-code-review-checklist.md) 和 [docs/reviews/templates/frontend-code-review-template.md](../reviews/templates/frontend-code-review-template.md)。
-- 若后续正式启用 `web/`，应再补齐前端编码规范与前端测试规范。
+- 当前仓库的 `web/` 主线已经明确，但目标工程仍需后续持续落地。
+- 若当前任务进入前端设计阶段，先阅读 [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)、[docs/architecture/callcenter-reference-adaptation.md](../architecture/callcenter-reference-adaptation.md)、[docs/reviews/frontend-design-review-checklist.md](../reviews/frontend-design-review-checklist.md) 和 [docs/reviews/templates/frontend-design-review-template.md](../reviews/templates/frontend-design-review-template.md)。
+- 若当前任务进入前端代码评审或前端自检阶段，再补充阅读 [docs/reviews/frontend-code-review-checklist.md](../reviews/frontend-code-review-checklist.md)、[docs/reviews/templates/frontend-code-review-template.md](../reviews/templates/frontend-code-review-template.md) 和 [docs/conventions/testing.md](testing.md)。
+- 若前端结构、路由、共享包或构建策略发生变化，必须同步更新 [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md) 与 [docs/README.md](../README.md)。
 
 ## 一句话准则
 

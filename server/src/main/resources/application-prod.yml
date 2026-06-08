@@ -1,6 +1,5 @@
 spring:
-  # 中文说明：prod 环境必须通过外部环境变量注入真实连接信息，
-  # 避免把任何生产配置或凭据固化到仓库中。
+  # prod 环境必须通过外部环境变量注入真实连接信息，避免把生产配置或凭据固化到仓库中。
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

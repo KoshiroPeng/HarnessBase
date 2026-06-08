@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 前端设计评审输出模板，用于统一记录前端交互、路由和接口设计评审结果。
 ---
 
 # 前端设计评审输出模板
@@ -11,6 +12,8 @@ owner: "@PengKang"
 - [docs/reviews/frontend-design-review-checklist.md](../frontend-design-review-checklist.md)
 - [docs/design/web-mvp-roadmap.md](../../design/web-mvp-roadmap.md)
 - [docs/design/README.md](../../design/README.md)
+- [docs/architecture/callcenter-reference-adaptation.md](../../architecture/callcenter-reference-adaptation.md)
+- [docs/architecture/target-technology-baseline.md](../../architecture/target-technology-baseline.md)
 - [docs/architecture/harness-engineering-adaptation.md](../../architecture/harness-engineering-adaptation.md)
 
 ```md
@@ -36,6 +39,7 @@ owner: "@PengKang"
 - 交互设计与表单校验是否合理：
 - 接口调用设计与异常提示是否完整：
 - 前端业务逻辑与数据流是否清晰：
+- 是否符合 Vue 3 / TypeScript / Vite 与 `apps / packages / tooling` 目标结构：
 - 是否符合当前 Web MVP 页面闭环：
 - 是否存在超前的前端平台化抽象：
 

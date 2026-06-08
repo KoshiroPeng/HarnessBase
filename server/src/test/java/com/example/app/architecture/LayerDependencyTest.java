@@ -108,7 +108,7 @@ public class LayerDependencyTest {
         .should().dependOnClassesThat().haveFullyQualifiedName("org.springframework.web.client.RestTemplate")
         .orShould().dependOnClassesThat().haveFullyQualifiedName("java.net.HttpURLConnection")
         .as(
-            "禁止裸 RestTemplate / HttpURLConnection。\n"
+            "禁止裸用 RestTemplate / HttpURLConnection。\n"
                 + "FIX: 统一通过 infrastructure.ApiClient 抽象发起外部 HTTP 调用。\n"
                 + "See: docs/architecture/boundaries.md"
         )

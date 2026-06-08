@@ -2,7 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
-description: ProjectPilot 评审清单目录入口，汇总需求、设计、代码与测试评审清单。
+description: ProjectPilot 评审清单目录入口，汇总需求、设计、代码、测试与迁移评审的统一检查入口。
 ---
 
 # 评审清单总览
@@ -30,6 +30,8 @@ description: ProjectPilot 评审清单目录入口，汇总需求、设计、代
 
 例如：
 
+- 目标技术基线：见 [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+- CallCenter 参考架构融合说明：见 [docs/architecture/callcenter-reference-adaptation.md](../architecture/callcenter-reference-adaptation.md)
 - Harness Engineering 纠偏：见 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)
 - 命名规范：见 [docs/conventions/naming.md](../conventions/naming.md)
 - 错误处理：见 [docs/conventions/error-handling.md](../conventions/error-handling.md)
@@ -54,10 +56,10 @@ description: ProjectPilot 评审清单目录入口，汇总需求、设计、代
 
 ## 当前项目适配说明
 
-- 当前仓库主线已经调整为 Web 产品研发优先，但后端实现仍是当前主要已落地部分，前端评审清单先作为预留能力。
-- 当前已预先补齐前端评审模板，等 `web/` 启用后即可直接进入设计评审和代码评审流程。
-- 后台设计评审应优先对齐 MySQL 5.7、Spring Boot 2.7、MyBatis-Plus、Flyway 和现有分层架构约束。
-- 涉及外部调用时，必须遵守 `ApiClient` 抽象和错误处理规范。
+- 当前仓库主线已经切到 Web 产品研发优先，后端与前端评审都应围绕这条主线收敛。
+- 后台设计评审应优先对齐 JDK 17、Spring Boot 3.x、MySQL 8.x、MyBatis-Plus、Flyway 和模块化单体约束。
+- 前端设计与代码评审应优先对齐 Vue 3、TypeScript、Vite、共享包边界和接口契约。
+- 涉及外部调用时，必须遵守 adapter 或 `ApiClient` 抽象和错误处理规范。
 - 评审时若发现方案明显偏向平台扩张，而不是服务当前 Web MVP，应明确记录为范围偏航风险。
 - 涉及发布、配置、回滚、上线验证或观测方案时，应同步参考 [deploy/release/README.md](../../deploy/release/README.md) 与 [deploy/observability/README.md](../../deploy/observability/README.md)。
 

@@ -48,10 +48,10 @@ description: ProjectPilot 后台设计评审清单，用于检查数据库、接
 
 ## 当前项目适配说明
 
-- 表结构与 SQL 必须兼容 MySQL 5.7。
+- 表结构与 SQL 应以 MySQL 8.x 作为当前目标主线，并评估索引、排序规则、时间字段和迁移兼容性。
 - 数据库结构变更必须通过 Flyway migration 管理。
-- 后端分层必须遵守 `domain -> config -> mapper -> service -> controller`。
-- 外部调用必须通过 `ApiClient` 抽象接入。
+- 后端分层必须遵守模块化单体目标结构与 [docs/architecture/boundaries.md](../architecture/boundaries.md) 中的依赖方向。
+- 外部调用必须通过 adapter 或 `ApiClient` 抽象接入。
 - 如果设计以 Harness Engineering 名义引入新平台层、通用流程层或超前抽象，应先对照 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md) 做偏航检查。
 - 设计评审中若已确认涉及发布、回滚、环境变量、上线验证或观测要求，应同步参考 [deploy/release/README.md](../../deploy/release/README.md) 与 [deploy/observability/README.md](../../deploy/observability/README.md)。
 - 命名、错误处理、测试策略分别参考：

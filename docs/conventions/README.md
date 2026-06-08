@@ -2,7 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
-description: ProjectPilot 工程规范目录入口，汇总编码、测试、日志、命名与任务启动规则。
+description: ProjectPilot 工程规范目录入口，汇总编码、测试、日志、命名、技术基线与任务启动规则。
 ---
 
 # 编码规范总览
@@ -30,21 +30,26 @@ description: ProjectPilot 工程规范目录入口，汇总编码、测试、日
 | 发布材料 | [deploy/release/README.md](../../deploy/release/README.md) |
 | 可观测性材料 | [deploy/observability/README.md](../../deploy/observability/README.md) |
 
-## 技术基线
+## 目标技术基线
 
-- Java 使用 JDK 1.8，禁止 Java 9+ 语法。
-- Spring Boot 使用 2.7.x。
-- Maven 使用 3.6.3。
-- MySQL 使用 5.7，字符集 `utf8mb4`。
-- 持久化使用 MyBatis-Plus 3.5.x + Flyway。
-- 测试使用 JUnit 5。
+- 后端使用 JDK 17 LTS。
+- Spring Boot 使用 3.x。
+- Maven 使用 3.9+。
+- MySQL 使用 8.x，字符集 `utf8mb4`。
+- 持久化使用 MyBatis-Plus Boot 3 + Flyway。
+- Web 使用 Vue 3 + TypeScript + Vite。
+- Node 使用 20 LTS+，推荐 `pnpm`。
+- 测试使用 JUnit 5 与 Vitest。
+
+详细说明见 [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)。
 
 ## 基本原则
 
 - 优先遵循项目已有模式。
 - 不为局部需求引入新框架或全局抽象。
-- 依赖方向保持 `domain -> config -> mapper -> service -> controller`。
+- 后端依赖方向保持 `bootstrap -> adapter -> application -> domain -> shared`。
 - 新增业务代码必须同步测试。
+- 外部系统接入必须通过 adapter 或 `ApiClient`。
 - 涉及 API、错误码、数据库结构、发布流程或架构边界的变更必须同步文档。
 
 ## 代码规模
@@ -53,11 +58,12 @@ description: ProjectPilot 工程规范目录入口，汇总编码、测试、日
 - 单个方法不超过 50 行。
 - 超限前优先拆分职责，而不是靠格式压缩规避限制。
 
-## 注入规范
+## 注入与命名空间规范
 
 - 禁止字段级 `@Autowired`。
 - 必须使用构造器注入。
 - 推荐 Lombok `@RequiredArgsConstructor`。
+- 新代码统一使用 `jakarta.*` 命名空间。
 - auth、log、telemetry、外部 API 客户端等横切能力必须通过 Spring 注入。
 
 ## 提交前自检
@@ -67,7 +73,7 @@ description: ProjectPilot 工程规范目录入口，汇总编码、测试、日
 - 代码可以编译。
 - 新增或变更业务逻辑有对应测试。
 - 没有 `System.out.println` 或 `e.printStackTrace()`。
-- 没有裸用 `RestTemplate` 或 `HttpURLConnection`。
+- 没有直接裸用第三方 HTTP 客户端绕过统一适配器。
 - 相关文档已经同步更新。
 
 如果需要按任务查看“开发前必读 + 开发后自检 + 评审清单”，统一入口见 [docs/README.md](../README.md)。
@@ -80,8 +86,9 @@ description: ProjectPilot 工程规范目录入口，汇总编码、测试、日
 
 1. [AGENTS.md](../../AGENTS.md)
 2. [docs/architecture/README.md](../architecture/README.md)
-3. [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)
-4. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
+3. [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+4. [docs/plans/jdk17-springboot3-migration-roadmap.md](../plans/jdk17-springboot3-migration-roadmap.md)
+5. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
 
 如果你现在要做开发后自检，建议至少同时对照：
 
@@ -89,4 +96,5 @@ description: ProjectPilot 工程规范目录入口，汇总编码、测试、日
 2. [docs/conventions/error-handling.md](error-handling.md)
 3. [docs/conventions/logging.md](logging.md)
 4. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
-5. [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md)
+5. [docs/reviews/frontend-code-review-checklist.md](../reviews/frontend-code-review-checklist.md)
+6. [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md)

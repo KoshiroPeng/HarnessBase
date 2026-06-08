@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 日志规范，统一日志框架、字段选择与敏感信息处理要求。
 ---
 
 # 日志规范

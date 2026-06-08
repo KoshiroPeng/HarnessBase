@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 文档链接规范，统一约束相对链接、绝对路径和导航文档中的链接写法。
 ---
 
 # 文档链接规范

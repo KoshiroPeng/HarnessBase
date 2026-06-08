@@ -1,109 +1,80 @@
 # ProjectPilot
 
-ProjectPilot 是一个面向中小企业的在线项目管理 Web 产品。当前仓库的主线目标不是继续扩展“交付平台化”能力，而是先完成登录、项目、任务、成员与权限这些核心协作场景的第一阶段 MVP。
+ProjectPilot 是一个面向中小企业的在线项目管理 Web 产品。当前仓库已经明确把主线切换到 `JDK 17 + Spring Boot 3.x + Vue 3 + TypeScript + Vite`，并吸收 `D:\dev\workspace\CallCenter` 中成熟的 Web 工程分区、模块化单体和部署支撑思路，用来重构本项目的目标架构。
 
-当前仓库已经具备后端工程骨架、基础架构约束、评审清单、测试规范、API 与错误码文档，以及一套可继续复用的发布与可观测性材料；真正还需要重点推进的是 `web/` 前端工程与前后端业务闭环。
+需要特别说明的是：当前仓库仍可能保留历史命名、目录结构和少量升级后待收敛内容。这里是在说明“当前仍有遗留”，不是在重申现行约束。`server/` 已经完成 `JDK 17 + Spring Boot 3.3.x` 的最小迁移验证，`compile`、`test` 和 `verify` 已在新基线下通过；更完整的结构收敛与 `web/` 落地仍需继续推进。迁移步骤见 [docs/plans/jdk17-springboot3-migration-roadmap.md](docs/plans/jdk17-springboot3-migration-roadmap.md)。
 
 命名上，文档、产品说明和接口标题统一使用 `ProjectPilot`；脚本、服务名、制品名和类名中的 `herness-demo`、`Harness-demo`、`HernessDemo` 暂视为历史技术标识保留。
 
 ## 快速入口
 
-- [AGENTS.md](AGENTS.md)：AI 协作规则与工程硬约束入口
+- [AGENTS.md](AGENTS.md)：AI 协作规则、目标技术基线与工程护栏入口
 - [docs/README.md](docs/README.md)：按任务场景组织的统一文档导航
+- [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)：新的技术基线定义
+- [docs/architecture/callcenter-reference-adaptation.md](docs/architecture/callcenter-reference-adaptation.md)：如何吸收 CallCenter 的工程结构参考
+- [docs/plans/jdk17-springboot3-migration-roadmap.md](docs/plans/jdk17-springboot3-migration-roadmap.md)：JDK 17 / Spring Boot 3 迁移路线
 - [docs/design/web-mvp-roadmap.md](docs/design/web-mvp-roadmap.md)：当前 Web MVP 主线
-- [docs/conventions/task-startup-checklist.md](docs/conventions/task-startup-checklist.md)：开发、评审、测试、发布任务启动清单
-- [docs/plans/task-status-template.md](docs/plans/task-status-template.md)：统一记录任务执行状态
-- [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md)：统一沉淀验证证据
-- [docs/architecture/harness-engineering-adaptation.md](docs/architecture/harness-engineering-adaptation.md)：Harness Engineering 在本项目中的正确用法
-- [docs/architecture/harness-engineering-reference.md](docs/architecture/harness-engineering-reference.md)：Harness Engineering 完整参考手册与当前 Codex 协作环境映射
-- [docs/plans/current-sprint.md](docs/plans/current-sprint.md)：当前迭代计划
 - [docs/reviews/README.md](docs/reviews/README.md)：需求、设计、代码、测试评审入口
-- [deploy/release/README.md](deploy/release/README.md)：发布与回滚材料入口
-- [deploy/observability/README.md](deploy/observability/README.md)：本地可观测性材料入口
+- [deploy/release/README.md](deploy/release/README.md)：发布与回滚支撑材料
+- [deploy/observability/README.md](deploy/observability/README.md)：可观测性支撑材料
+
+## 当前目标技术栈
+
+### 后端
+
+- JDK 17 LTS
+- Spring Boot 3.x
+- Maven 3.9+
+- MyBatis-Plus + Flyway
+- MySQL 8.x
+- SpringDoc / OpenAPI
+- Micrometer + Actuator
+
+### 前端
+
+- Vue 3
+- TypeScript
+- Vite
+- Vue Router
+- Pinia
+- Node 20 LTS+
+- `pnpm`
+
+### 部署
+
+- Docker Compose
+- Nginx
+- GitHub Actions + SSH 发布骨架
+- 渐进式观测与发布验证材料
+
+## 这次融合吸收了什么
+
+来自 `CallCenter` 的有效参考主要有三类：
+
+1. 顶层目录继续按 `docs / server / web / deploy` 分区，强化可导航性。
+2. 后端目标结构切到“模块化单体 + adapter 隔离”，避免继续围绕旧脚手架堆积。
+3. 前端明确采用现代 Web 工具链，并为 `apps / packages / tooling` 结构预留空间。
+
+对应说明见 [docs/architecture/callcenter-reference-adaptation.md](docs/architecture/callcenter-reference-adaptation.md)。
 
 ## 当前主线
 
-当前阶段优先完成以下产品闭环：
+当前阶段优先推进以下几件事：
 
-- 登录与会话校验
-- 项目列表与项目详情
-- 任务列表、创建、编辑与状态流转
-- 成员与角色的最小权限控制
-- 前后端联调与 MVP 验收路径
-
-工程方法上，继续参考 Harness Engineering，但只把它当作“工程约束、导航和验证方法”，不再把它当作当前产品范围本身。
-
-建议先阅读：
-
-- [docs/design/web-mvp-roadmap.md](docs/design/web-mvp-roadmap.md)
-- [docs/architecture/harness-engineering-adaptation.md](docs/architecture/harness-engineering-adaptation.md)
-- [docs/architecture/harness-engineering-reference.md](docs/architecture/harness-engineering-reference.md)
-- [docs/plans/task-status-template.md](docs/plans/task-status-template.md)
-- [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md)
-- [docs/design/README.md](docs/design/README.md)
-- [docs/plans/current-sprint.md](docs/plans/current-sprint.md)
-
-## 工程支撑材料
-
-如果当前任务是发布、回滚、主机初始化、环境变量准备或上线后验证，直接看：
-
-- [deploy/release/README.md](deploy/release/README.md)
-- [deploy/release/release-checklist.md](deploy/release/release-checklist.md)
-- [deploy/release/environment-variable-template.md](deploy/release/environment-variable-template.md)
-
-如果当前任务是本地观测、指标采集和日志采集，直接看：
-
-- [deploy/observability/README.md](deploy/observability/README.md)
-
-## 评审入口
-
-如果要在需求、设计、代码或测试阶段使用评审清单，直接看：
-
-- [docs/reviews/README.md](docs/reviews/README.md)
-
-如果要按“开发前读什么、开发后怎么自检、评审时看什么”快速导航，直接看：
-
-- [docs/README.md](docs/README.md)
-
-## 后端验证
-
-本机如果不是 JDK 1.8 + Maven 3.6.3，可临时跳过 Enforcer 做结构性验证：
-
-```bash
-cd server
-mvn -Denforcer.skip=true verify
-```
-
-标准开发环境与 CI 应使用项目基线：
-
-```bash
-cd server
-mvn verify
-```
-
-## 本地启动
-
-本地没有数据库时，可以使用 `local` profile 启动健康检查与指标端点：
-
-```bash
-cd server
-mvn spring-boot:run -Dspring-boot.run.profiles=local
-```
-
-启动后可访问：
-
-- `http://localhost:8080/actuator/health`
-- `http://localhost:8080/actuator/prometheus`
+- 完成文档主线从旧基线到新基线的统一切换
+- 明确后端模块化单体目标结构
+- 明确前端 `web/` 的目标工程形态
+- 为后续 JDK 17 / Spring Boot 3 代码迁移准备路线、边界和验证标准
+- 继续让 Harness Engineering 服务于“更稳地交付 Web 产品”，而不是把项目重新推回平台化主线
 
 ## 当前缺口
 
-当前最需要继续建设的是：
+当前最需要继续推进的是：
 
-- `web/` 前端工程
-- 核心业务模块实现
-- 页面、路由与交互结构
-- 前后端联调能力
-- MVP 验收路径
+- `server/` 从“已完成基线升级”继续收敛到目标模块化单体结构
+- `web/` 目标工程初始化与页面主链路落地
+- 前后端联调闭环
+- 发布、联调、观测材料与新基线对齐
 
 ## 可观测性
 

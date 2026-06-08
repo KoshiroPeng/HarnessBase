@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 测试用例评审输出模板，用于统一记录测试覆盖、缺口与回归安排。
 ---
 
 # 测试用例评审输出模板
@@ -10,6 +11,7 @@ owner: "@PengKang"
 
 - [docs/reviews/testcase-review-checklist.md](../testcase-review-checklist.md)
 - [docs/conventions/testing.md](../../conventions/testing.md)
+- [docs/architecture/target-technology-baseline.md](../../architecture/target-technology-baseline.md)
 - [deploy/release/release-checklist.md](../../../deploy/release/release-checklist.md)
 - [docs/architecture/harness-engineering-adaptation.md](../../architecture/harness-engineering-adaptation.md)
 
@@ -36,6 +38,7 @@ owner: "@PengKang"
 - 测试步骤是否清晰：
 - 前置条件、异常场景和数据量是否覆盖：
 - 集成测试和核心回归是否覆盖：
+- 是否覆盖本次基线迁移或结构调整带来的新增风险：
 - 是否优先覆盖当前 Web MVP 主链路：
 - 是否被次要平台流程分散重点：
 

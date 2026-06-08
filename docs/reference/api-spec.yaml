@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot API 基线文档，统一维护对外 HTTP 接口契约与版本信息。
 ---
 
 openapi: 3.0.3

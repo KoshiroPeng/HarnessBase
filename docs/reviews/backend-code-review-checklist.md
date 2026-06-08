@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 后端代码评审清单，用于检查编码规范、异常处理、性能与迁移风险。
 ---
 
 # 后台代码评审清单
@@ -49,5 +50,5 @@ owner: "@PengKang"
 - [docs/conventions/logging.md](../conventions/logging.md)
 - [docs/conventions/file-size.md](../conventions/file-size.md)
 - [docs/conventions/method-size.md](../conventions/method-size.md)
-- 外部调用必须检查是否通过 `ApiClient` 抽象接入。
+- 外部调用必须检查是否通过 adapter 或 `ApiClient` 抽象接入。
 - 数据库变更必须检查是否已配套 Flyway migration。

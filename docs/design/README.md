@@ -2,7 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
-description: ProjectPilot 设计文档目录入口，汇总业务功能设计与 Web MVP 路线图。
+description: ProjectPilot 设计文档目录入口，汇总业务功能设计、Web MVP 路线图与前后端结构方向。
 ---
 
 # 设计文档总览
@@ -16,7 +16,8 @@ description: ProjectPilot 设计文档目录入口，汇总业务功能设计与
 如果你现在要理解当前产品主线，优先阅读：
 
 - [docs/design/web-mvp-roadmap.md](web-mvp-roadmap.md)
-- [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)
+- [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+- [docs/architecture/callcenter-reference-adaptation.md](../architecture/callcenter-reference-adaptation.md)
 
 如果你现在在做需求评审，优先阅读：
 
@@ -44,6 +45,7 @@ description: ProjectPilot 设计文档目录入口，汇总业务功能设计与
 
 - 新功能若已有相近业务方向，应先复用或扩展现有设计文档，而不是另起一套术语。
 - 若当前阶段需要决定“先做什么页面、先打通什么前后端链路”，优先以 `web-mvp-roadmap.md` 为主。
+- 若讨论中提到 CallCenter 参考架构，应先确认吸收的是工程结构经验，而不是呼叫中心业务范围。
 - 若讨论中提到 Harness Engineering，应先确认它是在帮助当前设计收敛，而不是把设计目标偏向平台建设。
 - 若设计会影响 API、错误码、发布流程或运行手册，应同步更新对应目录文档。
 - 若当前设计还处于草稿阶段，也应先在本目录落一个最小设计说明，避免信息只停留在对话中。
