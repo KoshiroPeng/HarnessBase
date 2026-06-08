@@ -126,5 +126,5 @@ description: HarnessBase 响应码与错误消息文档，统一说明 R、Table
 
 - 新增或修改错误消息时，同步默认、中文和英文 i18n 文件。
 - 新增异常映射时，同步检查 [docs/conventions/error-handling.md](../conventions/error-handling.md)。
-- 不要把旧 ProjectPilot 的 `PROJECT_NOT_FOUND`、`TASK_STATUS_INVALID`、`BILLING_*` 等错误码当成当前事实。
+- 不要把历史过渡产品中的 `PROJECT_NOT_FOUND`、`TASK_STATUS_INVALID`、`BILLING_*` 等错误码当成当前事实。
 - 对外响应不得暴露堆栈、SQL、密钥或内部配置。

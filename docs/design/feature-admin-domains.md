@@ -9,7 +9,7 @@ description: HarnessBase 后台功能域设计图谱，对齐当前 system、mon
 
 ## 目标
 
-本文档把 HarnessBase 当前后台功能域收敛到真实代码入口，避免继续沿用旧 ProjectPilot、CallCenter 或不存在的前端 monorepo 设想。
+本文档把 HarnessBase 当前后台功能域收敛到真实代码入口，避免继续沿用历史过渡产品、旧行业业务或不存在的前端 monorepo 设想。
 
 本文档只做功能域级设计导航；具体接口事实以 [docs/reference/api-spec.yaml](../reference/api-spec.yaml) 和运行时 SpringDoc 为准。
 
@@ -190,9 +190,9 @@ flowchart TD
 
 本文档不描述：
 
-- ProjectPilot 项目管理、搜索或计费模型。
-- CallCenter 业务流程或交付结构。
-- 不存在的 `web/apps/projectpilot-web`、`server/bootstrap`、`server/shared` 目标目录。
+- 历史过渡产品的项目管理、搜索或计费模型。
+- 旧行业业务流程或交付结构。
+- 不存在的旧前端应用目录、`server/bootstrap`、`server/shared` 目标目录。
 - Flyway migration 引入方案。
 
 ## 推荐联读

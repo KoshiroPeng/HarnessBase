@@ -27,8 +27,8 @@ description: HarnessBase 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 ## 当前收敛重点
 
 1. 让文档、API、响应码、SQL 脚本和发布材料匹配当前功能域。
-2. 清理旧 `ProjectPilot` 项目管理、搜索、计费、CallCenter 路线描述。
-3. 防止 `.github/workflows` 回退到旧 `services/callcenter-*` 路径。
+2. 清理历史过渡产品、搜索、计费和旧行业业务路线描述。
+3. 防止 `.github/workflows` 回退到旧源码路径。
 4. 将 Harness Engineering 从概念文档收敛为代码地图、检查清单、验证证据和自动化校验。
 5. 后续新增功能优先接入现有 `system`、`workflow`、`tool/gen` 等功能域，而不是另起一套不匹配的目录结构。
 
@@ -49,7 +49,7 @@ description: HarnessBase 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 
 - 独立项目管理 MVP 叙事。
 - 搜索平台、计费平台、交付平台等未落地业务方向。
-- 与当前代码无关的 CallCenter 业务模型。
+- 与当前代码无关的旧行业业务模型。
 - 不指向真实目录的 `apps/packages` 前端目标结构。
 
 ## 推荐联读

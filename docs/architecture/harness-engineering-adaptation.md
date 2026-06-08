@@ -29,7 +29,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 - [server/script/sql](../../server/script/sql)
 - [.github/workflows](../../.github/workflows)
 
-旧文档中关于 `ProjectPilot`、`CallCenter`、`services/callcenter-server` 的说法，只能作为历史背景，不能作为当前事实。
+旧文档中关于历史过渡产品、旧行业业务系统和旧源码路径的说法，只能作为历史背景，不能作为当前事实。
 
 ### 2. 文档即导航
 
@@ -71,7 +71,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 
 1. Markdown 元数据完整性。
 2. Markdown 链接有效性。
-3. `ProjectPilot`、`CallCenter`、`services/callcenter-server` 等历史事实误用扫描。
+3. 历史过渡产品、旧行业业务系统、旧源码路径等历史事实误用扫描。
 4. workflow 中源码路径是否存在。
 5. SQL 脚本变更是否触发发布与数据文档检查。
 
@@ -88,7 +88,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 
 应谨慎的改动通常具备：
 
-- 继续扩写 ProjectPilot/CallCenter 过渡叙事。
+- 继续扩写历史过渡产品或旧行业业务叙事。
 - 新增很多目录或模板，但没有真实使用路径。
 - 把发布治理、平台治理写成比当前系统本身更大的主线。
 - 用未来目标结构替代当前代码事实。

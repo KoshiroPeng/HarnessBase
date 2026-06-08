@@ -5,7 +5,7 @@ info:
   description: |
     本文件是当前 RuoYi-Vue-Plus 后台管理系统的仓库级 API 摘要，不替代运行时 SpringDoc 生成的完整接口文档。
     摘要只列真实 Controller 中已经核对过的代表性入口，完整接口应以后端 Controller、SpringDoc 输出和前端 web/src/api 为准。
-    不要把旧 ProjectPilot、CallCenter 或前端残留但后端不存在的接口写入本摘要。
+    不要把历史过渡产品、旧行业业务系统或前端残留但后端不存在的接口写入本摘要。
 servers:
   - url: /
     description: 当前后端 context-path

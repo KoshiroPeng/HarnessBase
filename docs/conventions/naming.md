@@ -42,7 +42,7 @@ org.dromara.demo.*
 | 实体 | `SysUser` |
 | 配置类 | `RedisConfig`、`I18nConfig` |
 
-不要在同一功能域里混入 `ProjectController`、`TaskService` 这类旧 ProjectPilot 语义。
+不要在同一功能域里混入 `ProjectController`、`TaskService` 这类历史过渡产品语义。
 
 ## 方法名
 
