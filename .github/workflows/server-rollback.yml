@@ -29,7 +29,7 @@ permissions:
   contents: read
 
 concurrency:
-  # 中文说明：同一环境的回滚必须串行，避免多次回滚互相覆盖。
+  # 中文说明：同一环境的回滚必须串行；该流程用于保护当前主线交付稳定性。
   group: server-rollback-${{ inputs.target_environment }}
   cancel-in-progress: false
 
@@ -46,6 +46,7 @@ jobs:
           echo "回滚制品：${{ inputs.rollback_artifact }}"
           echo "回滚原因：${{ inputs.rollback_reason }}"
           echo "Dry Run：${{ inputs.dry_run }}"
+          echo "说明：回滚流程属于交付支撑层，用于保护当前 Web MVP 主线。"
 
   rollback-server:
     name: 执行远端回滚
@@ -86,8 +87,7 @@ jobs:
             echo ""
             echo "- deploy/release/rollback-via-ssh.sh"
             echo "- deploy/release/release-checklist.md"
-            echo "- docs/operations/release-verification.md"
-            echo "- docs/operations/rollback-runbook.md"
+            echo "- deploy/release/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
 
   verify-rollback:

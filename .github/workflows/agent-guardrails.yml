@@ -1,7 +1,7 @@
 name: Server CI
 
 on:
-  # 中文说明：PR 阶段执行质量门禁，阻止不符合基线的改动进入主线。
+  # 中文说明：PR 阶段执行质量门禁，目的是稳定当前 Web MVP 主线交付。
   pull_request:
     paths:
       - ".github/workflows/**"
@@ -10,7 +10,7 @@ on:
       - "AGENTS.md"
       - ".editorconfig"
       - ".gitattributes"
-  # 中文说明：主分支合并后再次执行 CI，并产出可追溯的构建制品元数据。
+  # 中文说明：主分支合并后再次执行 CI，并产出可追溯的构建制品元数据，服务后续发布支撑。
   push:
     branches:
       - main
@@ -21,14 +21,14 @@ on:
       - "AGENTS.md"
       - ".editorconfig"
       - ".gitattributes"
-  # 中文说明：允许手工触发，便于在未改动代码时验证流水线配置。
+  # 中文说明：允许手工触发，便于在未改动代码时验证支撑流程本身。
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  # 中文说明：同一分支上的 CI 仅保留最新一次，减少重复排队和资源浪费。
+  # 中文说明：同一分支上的 CI 仅保留最新一次，减少重复排队和资源浪费，让主线反馈更快。
   group: server-ci-${{ github.ref }}
   cancel-in-progress: true
 
@@ -71,6 +71,10 @@ jobs:
         working-directory: server
         run: mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
 
+      - name: 执行 Flyway 迁移规则检查
+        working-directory: server
+        run: mvn -B test -Dtest='FlywayMigrationConventionTest'
+
       - name: 执行文件行数检查
         run: |
           find server/src/main/java -name '*.java' | while read -r f; do
@@ -98,6 +102,16 @@ jobs:
               echo "⚠️ $f 已 ${days_old} 天未更新，可能已过期"
             fi
           done
+
+      - name: 输出主线说明
+        run: |
+          {
+            echo "## 当前说明"
+            echo ""
+            echo "- 当前 CI 的目标是稳定 Web MVP 主线交付。"
+            echo "- Harness Engineering 在本仓库中只作为工程护栏与验证方法使用。"
+            echo "- 参考文档：docs/architecture/harness-engineering-adaptation.md"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 生成构建元数据
         run: |

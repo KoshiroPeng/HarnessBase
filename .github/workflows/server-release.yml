@@ -25,7 +25,7 @@ permissions:
   contents: read
 
 concurrency:
-  # 中文说明：同一环境的发布编排串行化，避免多人同时对同一环境发版。
+  # 中文说明：同一环境的发布编排串行化；该流程服务当前 Web MVP 交付，不是另一条建设主线。
   group: server-release-${{ inputs.target_environment }}
   cancel-in-progress: false
 
@@ -115,13 +115,15 @@ jobs:
           cat release-output/release-plan.md >> "$GITHUB_STEP_SUMMARY"
           {
             echo ""
-            echo "## 治理文档入口"
+            echo "## 工程材料入口"
             echo ""
-            echo "- docs/delivery/github-environments.md"
-            echo "- docs/operations/github-environment-setup.md"
+            echo "- 当前发布流程定位为交付支撑层。"
+            echo "- 如需判断范围是否偏航，先看 docs/architecture/harness-engineering-adaptation.md"
+            echo "- docs/design/web-mvp-roadmap.md"
+            echo "- deploy/release/README.md"
             echo "- deploy/release/environment-variable-template.md"
             echo "- deploy/release/release-checklist.md"
-            echo "- docs/governance/release-governance.md"
+            echo "- deploy/observability/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
 
   deploy-release-candidate:
@@ -176,6 +178,7 @@ jobs:
           echo "目标环境：${{ inputs.target_environment }}"
           echo "发布版本：${{ inputs.release_version }}"
           echo "说明：如仓库配置了 GitHub Environment 审批规则，此处会自动生效。"
+          echo "说明：当前发布流程属于 Web MVP 交付支撑层。"
           echo "请对照 deploy/release/release-checklist.md 完成审批前检查。"
 
   verify-release-candidate:
@@ -207,6 +210,6 @@ jobs:
             echo "## 发布后验证入口"
             echo ""
             echo "- deploy/release/verify-release.sh"
-            echo "- docs/operations/release-verification.md"
-            echo "- docs/operations/runbooks.md"
+            echo "- deploy/release/release-checklist.md"
+            echo "- deploy/release/README.md"
           } >> "$GITHUB_STEP_SUMMARY"

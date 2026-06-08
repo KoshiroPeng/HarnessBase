@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 concurrency:
-  # 中文说明：同一环境的主机初始化必须串行，避免多个初始化任务相互覆盖。
+  # 中文说明：同一环境的主机初始化必须串行；该流程属于交付支撑层，不是产品主线本身。
   group: remote-bootstrap-${{ inputs.target_environment }}
   cancel-in-progress: false
 
@@ -68,8 +68,9 @@ jobs:
           {
             echo "## 远端主机初始化入口"
             echo ""
+            echo "- 该流程用于支撑当前 Web MVP 交付，不代表平台化建设优先级提升。"
             echo "- deploy/release/bootstrap-remote-host.sh"
             echo "- deploy/release/herness-demo.service.template"
-            echo "- docs/operations/remote-host-bootstrap.md"
-            echo "- docs/operations/github-environment-setup.md"
+            echo "- deploy/release/environment-variable-template.md"
+            echo "- deploy/release/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
