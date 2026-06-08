@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
@@ -8,13 +8,13 @@ owner: "@PengKang"
 
 ## 依赖方向
 
-项目后端依赖方向固定为：
+项目后端业务主链路依赖方向固定为：
 
 ```text
-domain -> config -> mapper -> service -> controller
+domain/config/mapper -> service -> controller
 ```
 
-该方向表示右侧可以依赖左侧已经暴露的能力，左侧不得反向依赖右侧。
+该方向表示右侧可以依赖左侧已经暴露的能力，左侧不得反向依赖右侧。`infrastructure` 是横切基础设施层，不属于业务主链路：它只能由 `config` 装配、由 `service` 使用，不能被 `controller` 绕过调用。
 
 ## 分层职责
 
@@ -30,11 +30,11 @@ domain -> config -> mapper -> service -> controller
 ## 允许的依赖
 
 - `controller` 可以依赖 `service`。
-- `service` 可以依赖 `mapper`、`domain` 和通过 Spring 注入的 `infrastructure` Bean。
+- `service` 可以依赖 `mapper`、`domain`、`config` 暴露的配置对象，以及通过 Spring 注入的 `infrastructure` Bean。
 - `mapper` 可以依赖 `domain` 中的数据模型或查询对象。
 - `config` 可以装配跨层 Bean，但不承载业务分支。
 - `domain` 应保持轻量，优先不依赖 Spring。
-- `infrastructure` 可以依赖 `config` 暴露的配置属性和第三方 SDK，但对业务层只暴露稳定抽象。
+- `infrastructure` 可以依赖 `domain` 中的基础 DTO、`config` 暴露的配置属性和第三方 SDK，但对业务层只暴露稳定抽象。
 
 ## 禁止的依赖
 
@@ -46,6 +46,20 @@ domain -> config -> mapper -> service -> controller
 - 业务代码禁止用 `new` 创建 auth、log、telemetry 等横切对象。
 - 业务代码禁止裸用 `RestTemplate` 或 `HttpURLConnection`。
 - 禁止为了方便在任意层访问 Spring 上下文。
+
+## 自动化校验
+
+当前边界由 `server/src/test/java/com/example/app/architecture/LayerDependencyTest.java` 执行 ArchUnit 校验，覆盖以下规则：
+
+- 分层依赖单向。
+- Controller 不得直接依赖 Mapper。
+- Controller 不得直接依赖 `infrastructure`。
+- Mapper 不得依赖 Service。
+- Domain 不得依赖 Controller、Service、Mapper、Infrastructure 或 Spring MVC。
+- 非 `infrastructure` 包禁止裸用 `RestTemplate` 或 `HttpURLConnection`。
+- 禁止字段级 `@Autowired`。
+- Controller、Service、Infrastructure 中的协作者字段应为 `final`。
+- 禁止 `public static` 非 `final` 字段污染全局状态。
 
 ## 横切关注点
 
@@ -71,6 +85,7 @@ domain -> config -> mapper -> service -> controller
 新增模块前必须确认：
 
 - 模块职责能用一句话说清。
-- 新模块没有破坏 `domain -> config -> mapper -> service -> controller` 依赖方向。
+- 新模块没有破坏 `domain/config/mapper -> service -> controller` 主链路。
+- 横切能力没有绕过 `service` 被 `controller` 直接调用。
 - 所需配置、数据迁移、API、错误码和测试文档已经同步。
 - 新增 `.java` 文件和方法长度符合 `AGENTS.md`。

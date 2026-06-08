@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
@@ -13,6 +13,42 @@ owner: "@PengKang"
 - 修复缺陷时，先补充能复现问题的回归测试，再修复实现。
 - 测试不能依赖真实外部服务。
 
+## 当前测试入口
+
+根 `server` 标准验证命令：
+
+```bash
+cd server
+mvn -B clean verify
+```
+
+该命令会执行单元测试、ArchUnit 架构测试、Checkstyle、SpotBugs、JaCoCo 覆盖率检查和 Maven Enforcer。CI 使用同一入口，任何合并前验收都应以该命令为准。
+
+如只想单独查看架构规则日志，可执行：
+
+```bash
+cd server
+mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
+```
+
+本机临时环境如果不是 JDK 1.8 + Maven 3.6.3，可以在排查工程骨架时临时跳过 Enforcer，但不能作为最终验收：
+
+```bash
+cd server
+mvn -Denforcer.skip=true verify
+```
+
+CallCenter Service 使用独立验证入口：
+
+```bash
+cd services/callcenter-server
+mvn -DskipTests package
+
+cd services/callcenter-web
+pnpm install
+pnpm build:prod
+```
+
 ## 测试分层
 
 | 类型 | 目标 | 示例 |
@@ -21,6 +57,8 @@ owner: "@PengKang"
 | Mapper 测试 | 验证 SQL、映射和 MySQL 兼容性 | MyBatis-Plus 查询 |
 | Controller 测试 | 验证 HTTP 入参出参和状态码 | REST API |
 | 集成测试 | 验证关键链路协同 | 创建项目完整流程 |
+
+当前仓库已有应用启动测试和架构规则测试。新增业务模块后，应按实际风险补齐 Service、Controller、Mapper 或集成测试。
 
 ## 推荐测试策略
 

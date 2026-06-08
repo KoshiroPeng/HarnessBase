@@ -98,14 +98,24 @@ owner: "@PengKang"
 - 发布窗口、风险说明和回滚条件明确。
 - 发布验证指标和观察时长明确。
 
-## 当前落地建议
+## 当前落地状态
 
-当前仓库尚未完整实现多环境部署，建议先落地以下最小能力：
+当前仓库已经为 `server` 提供最小 profile 配置：
 
-1. 为 `server` 明确 `application-local.yml`、`application-test.yml`、`application-staging.yml` 和生产配置来源。
-2. 为数据库、外部 API、日志级别和指标开关建立环境差异表。
-3. 在流水线中把 `dev -> test -> staging -> prod` 作为显式阶段。
-4. 在发布文档中绑定每个环境的负责人和准入条件。
+| Profile | 文件 | 当前用途 |
+| --- | --- | --- |
+| 默认 | `server/src/main/resources/application.yml` | 定义应用名、Actuator 暴露范围、日志文件位置 |
+| local | `server/src/main/resources/application-local.yml` | 排除 DataSource 和 Flyway，便于无数据库时启动健康检查和指标端点 |
+| test | `server/src/main/resources/application-test.yml` | 通过环境变量注入数据库连接，保留本地默认值便于集成测试 |
+| staging | `server/src/main/resources/application-staging.yml` | 通过环境变量注入数据库连接，尽量贴近生产约束 |
+| prod | `server/src/main/resources/application-prod.yml` | 必须通过外部环境变量提供数据库连接和凭据 |
+
+仍需继续补齐：
+
+1. 为数据库、外部 API、日志级别和指标开关建立更完整的环境差异表。
+2. 在真实 GitHub Environments 中配置负责人、审批人、变量和密钥。
+3. 为 `services/callcenter-server` 和 `services/callcenter-web` 补齐环境差异表。
+4. 在真实 test/staging/prod 主机上演练发布、验证和回滚。
 
 ## GitHub Environment 映射
 

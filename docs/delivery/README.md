@@ -4,42 +4,23 @@ status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
 
-# 交付文档总览
+# 交付文档
 
-## 目标
+本目录按 Harness Engineering 的对象模型组织交付文档：先定义 `Service`、`Environment`、`Infrastructure`、`Artifact` 和 `Pipeline`，再说明发布、回滚、验证和治理规则。
 
-本目录沉淀 HernessDemo 的交付模型、环境治理、流水线、部署策略和制品治理规则，帮助开发、测试和运维在发布相关任务中快速找到正确文档。
+## 核心入口
 
-## 推荐入口
-
-如果你现在是按任务查找文档，优先阅读：
-
-- [docs/README.md](../README.md)
-
-如果你现在是做发布、回滚、环境初始化或交付排障，优先阅读：
-
-- [docs/delivery/delivery-operations-map.md](delivery-operations-map.md)
-
-## 文档索引
-
-| 主题 | 文档 |
+| 对象或任务 | 文档 |
 | --- | --- |
-| 交付总览与任务入口 | [docs/delivery/delivery-operations-map.md](delivery-operations-map.md) |
-| 交付模型 | [docs/delivery/delivery-model.md](delivery-model.md) |
-| 环境治理 | [docs/delivery/environments.md](environments.md) |
-| GitHub Environment 映射 | [docs/delivery/github-environments.md](github-environments.md) |
-| 流水线设计 | [docs/delivery/pipelines.md](pipelines.md) |
-| 部署策略 | [docs/delivery/deployment-strategies.md](deployment-strategies.md) |
-| 制品治理 | [docs/delivery/artifact-policy.md](artifact-policy.md) |
-| 功能开关 | [docs/delivery/feature-flags.md](feature-flags.md) |
-
-## 使用建议
-
-- 做需求或设计评审时，若涉及发布、回滚、环境或制品策略，应同步参考本目录。
-- 做开发时，若改动会影响部署方式、环境变量、发布步骤或回滚路径，应同步更新本目录文档。
-- 做测试时，若需要验证发布后行为，应与 [docs/operations/release-verification.md](../operations/release-verification.md) 联动阅读。
+| 交付总入口 | [delivery-operations-map.md](delivery-operations-map.md) |
+| 对象模型 | [delivery-model.md](delivery-model.md) |
+| 环境与基础设施 | [environments.md](environments.md)、[github-environments.md](github-environments.md) |
+| 流水线 | [pipelines.md](pipelines.md) |
+| 制品 | [artifact-policy.md](artifact-policy.md) |
+| 部署策略 | [deployment-strategies.md](deployment-strategies.md) |
+| 特性开关 | [feature-flags.md](feature-flags.md) |
 
 ## 维护规则
 
-- 新增交付相关文档后，必须同步更新本文档。
-- 若新增文档会影响开发、测试、评审或交付主路径，还必须同步更新 [docs/README.md](../README.md)。
+- 本目录只维护交付对象和交付流程，不重复编码规范、评审清单或运行手册。
+- 新增可部署单元、环境、制品类型或流水线阶段时，必须同步更新对应对象文档。

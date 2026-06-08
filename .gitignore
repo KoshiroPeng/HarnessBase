@@ -2,6 +2,16 @@
 target/
 **/target/
 
+# Node / frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.output/
+**/.output/
+.turbo/
+**/.turbo/
+
 # Logs
 *.log
 server/logs/*

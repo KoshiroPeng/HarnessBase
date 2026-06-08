@@ -1,34 +1,24 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
 
-# 编码规范总览
+# 编码规范
 
-本目录记录 HernessDemo 的工程规范。根规则以 `AGENTS.md` 为准，本文档负责把日常开发细则拆分到可维护的位置。
+本目录只记录代码层面的工程规范。根规则以 [AGENTS.md](../../AGENTS.md) 为准，交付、运维、治理和评审入口统一从 [docs/README.md](../README.md) 进入。
 
-## 文档索引
+## 当前文档
 
 | 主题 | 文档 |
 | --- | --- |
-| 命名规范 | [docs/conventions/naming.md](naming.md) |
-| 错误处理 | [docs/conventions/error-handling.md](error-handling.md) |
-| 测试规范 | [docs/conventions/testing.md](testing.md) |
-| 日志规范 | [docs/conventions/logging.md](logging.md) |
-| 文件规模 | [docs/conventions/file-size.md](file-size.md) |
-| 方法规模 | [docs/conventions/method-size.md](method-size.md) |
-| 文档链接规范 | [docs/conventions/document-links.md](document-links.md) |
-| 交付模型 | [docs/delivery/delivery-model.md](../delivery/delivery-model.md) |
-| 环境治理 | [docs/delivery/environments.md](../delivery/environments.md) |
-| 流水线设计 | [docs/delivery/pipelines.md](../delivery/pipelines.md) |
-| 部署策略 | [docs/delivery/deployment-strategies.md](../delivery/deployment-strategies.md) |
-| 发布验证 | [docs/operations/release-verification.md](../operations/release-verification.md) |
-| 配置与密钥 | [docs/operations/config-and-secrets.md](../operations/config-and-secrets.md) |
-| 发布治理 | [docs/governance/release-governance.md](../governance/release-governance.md) |
-| 评审清单总览 | [docs/reviews/README.md](../reviews/README.md) |
-| API 规范 | [docs/reference/api-spec.yaml](../reference/api-spec.yaml) |
-| 错误码 | [docs/reference/error-codes.md](../reference/error-codes.md) |
+| 命名 | [naming.md](naming.md) |
+| 错误处理 | [error-handling.md](error-handling.md) |
+| 测试 | [testing.md](testing.md) |
+| 日志 | [logging.md](logging.md) |
+| 文件规模 | [file-size.md](file-size.md) |
+| 方法规模 | [method-size.md](method-size.md) |
+| 文档链接 | [document-links.md](document-links.md) |
 
 ## 技术基线
 
@@ -43,9 +33,9 @@ owner: "@PengKang"
 
 - 优先遵循项目已有模式。
 - 不为局部需求引入新框架或全局抽象。
-- 依赖方向保持 `domain -> config -> mapper -> service -> controller`。
+- 业务主链路保持 `domain/config/mapper -> service -> controller`，`infrastructure` 只作为横切基础设施由 `config` 装配、由 `service` 使用。
 - 新增业务代码必须同步测试。
-- 涉及 API、错误码、数据库结构或架构边界的变更必须同步文档。
+- 涉及 API、错误码、数据库结构或架构边界的变更必须同步对应文档。
 
 ## 代码规模
 
@@ -64,7 +54,7 @@ owner: "@PengKang"
 
 提交前至少确认：
 
-- 代码可以编译。
+- 在标准环境执行 `cd server && mvn -B clean verify` 通过。
 - 新增或变更业务逻辑有对应测试。
 - 没有 `System.out.println` 或 `e.printStackTrace()`。
 - 没有裸用 `RestTemplate` 或 `HttpURLConnection`。

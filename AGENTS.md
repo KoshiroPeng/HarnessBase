@@ -11,11 +11,11 @@
 
 ## 项目简介
 
-HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spring Boot 2.7、Java 1.8 和 MySQL 5.7 构建。
+HernessDemo 是一个面向中小企业的在线项目管理平台。当前仓库包含根目录 `server/` 的 Java 8 + Spring Boot 2.7 后端骨架，以及从 CallCenter 合并进来的 `services/callcenter-server` 和 `services/callcenter-web` 两个独立 Service。交付文档按 Harness Engineering 的 Application、Service、Environment、Artifact、Pipeline、Verification 和 Rollback 对象模型组织。
 
 ## 技术栈基线
 
-以下技术栈是项目兼容性基线，不允许擅自升级：
+以下技术栈是根目录 `server/` 的兼容性基线，不允许擅自升级：
 
 - JDK: 1.8，禁止使用 Java 9+ 语法，例如 `record`、`var`、text blocks。
 - Spring Boot: 2.7.x，禁止升级到 3.x，因为 Spring 6 要求 JDK 17。
@@ -24,6 +24,12 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 - 持久化: MyBatis-Plus 3.5.x，基于 MyBatis 3.5。
 - 数据库迁移: Flyway，包含 `flyway-mysql` 子模块。
 - 禁止引入 JPA 或 Hibernate。
+
+从 CallCenter 合并进来的 Service 使用独立基线：
+
+- `services/callcenter-server`: Java 17 + Spring Boot 3.5.14 + RuoYi-Vue-Plus 裁剪版。
+- `services/callcenter-web`: Node >= 20.19.0 + pnpm 11.5.2 + Vue 3 + TypeScript + Vite。
+- 修改这些 Service 时，优先遵循其自身 `README.md`、`pom.xml`、`package.json` 和锁文件，不要套用根 `server/` 的 Java 8 限制。
 
 ## 快速导航
 
@@ -53,22 +59,23 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 
 ## 代码结构规则
 
-- 推荐顶层目录保持清晰：`docs/` 放文档，`server/` 放后端服务，`web/` 放前端应用，`deploy/` 放部署材料。
+- 推荐顶层目录保持清晰：`docs/` 放文档，`server/` 放 HernessDemo 后端骨架，`services/` 放独立可交付 Service，`deploy/` 放部署材料。
+- `services/callcenter-server` 和 `services/callcenter-web` 是从 CallCenter 合并进来的独立 Service，不要覆盖或混入根 `server/`。
 - 根目录只保留项目入口文件、构建入口、仓库说明和必要配置。
 - 不要同时保留多个 agent 规则文件；本仓库只使用 `AGENTS.md`。
 - 新增模块前，先检查 [docs/architecture/boundaries.md](docs/architecture/boundaries.md) 中的模块边界和依赖方向。
 
 ## 硬性规则
 
-以下规则必须遵守。若 CI、静态检查或验证脚本尚未覆盖，应先按本文件人工执行，并在合适时补齐自动化校验。
+以下规则默认约束根目录 `server/` 和后续新增 HernessDemo 业务代码。`services/callcenter-server` 与 `services/callcenter-web` 是迁入的既有工程，合并当下不做大规模机械重构；后续修改这些 Service 时，应优先遵守其自身工程约定，并逐步补齐对应 CI、测试和发布门禁。
 
-1. 依赖方向必须保持为 `domain -> config -> mapper -> service -> controller`，禁止反向依赖或跨层绕行。
+1. 根 `server/` 的依赖方向必须保持单向：主业务链路为 `domain/config/mapper -> service -> controller`，`infrastructure` 仅作为横切基础设施由 `config` 装配、由 `service` 使用，禁止被 `controller` 绕过调用。
 2. 横切关注点，例如 auth、log、telemetry，只能通过 Spring 注入，禁止用 `new` 手动实例化。
-3. 单个 `.java` 文件不超过 300 行，单个方法不超过 50 行。
+3. 根 `server/` 新增 `.java` 文件不超过 300 行，单个方法不超过 50 行。
 4. 禁止使用 `System.out.println` 和 `e.printStackTrace()`，统一使用 SLF4J `Logger`。
 5. 禁止裸用 `RestTemplate` 或 `HttpURLConnection`，外部调用必须通过 `ApiClient` 抽象。
 6. 禁止字段级 `@Autowired`，必须使用构造器注入，推荐 Lombok `@RequiredArgsConstructor`。
-7. 新增业务代码必须有对应 JUnit 5 测试，行覆盖率不低于 80%。
+7. 根 `server/` 新增业务代码必须有对应 JUnit 5 测试，行覆盖率不低于 80%；CallCenter Service 按自身测试体系逐步补齐。
 8. 禁止为了绕过测试或编译错误而降低校验标准、删除断言或跳过必要测试。
 
 ## 开发流程
@@ -87,8 +94,8 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 
 ## 测试要求
 
-- 新增代码默认使用 JUnit 5 编写测试。
-- 业务服务、Mapper、Controller 和外部接口适配器都应有与风险匹配的测试覆盖。
+- 根 `server/` 新增代码默认使用 JUnit 5 编写测试。
+- 业务服务、Mapper、Controller 和外部接口适配器都应有与风险匹配的测试覆盖；CallCenter Service 按其自身 Maven / pnpm 测试入口逐步纳入。
 - 修复缺陷时，必须先补充能复现问题的回归测试，再修复实现。
 - 不要使用真实外部服务作为单元测试依赖；需要外部交互时应使用 mock、stub 或测试容器。
 
@@ -111,4 +118,3 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 - `refactor`: 重构
 - `docs`: 文档
 - `test`: 测试
-

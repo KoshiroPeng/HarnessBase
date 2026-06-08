@@ -52,7 +52,7 @@ owner: "@PengKang"
 
 结合当前仓库现状，使用这些清单时需注意：
 
-- 当前仓库以后端与交付治理为主，前端评审清单先作为预留能力。
+- 当前仓库已包含 `services/callcenter-web` 前端 Service，前端评审清单可用于该 Service 的代码与设计评审。
 - 后台设计评审应优先对齐 MySQL 5.7、Spring Boot 2.7、MyBatis-Plus、Flyway 和现有分层架构约束。
 - 涉及外部调用时，必须遵守 `ApiClient` 抽象和错误处理规范。
 - 涉及交付、配置、发布、回滚时，应同步参考 [docs/delivery/](../delivery/) 与 [docs/operations/](../operations/)。

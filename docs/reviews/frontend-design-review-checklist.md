@@ -14,7 +14,7 @@ owner: "@PengKang"
 
 ## 适用范围
 
-- `web/` 前端应用启用后的详细设计评审
+- `services/callcenter-web` 前端应用的详细设计评审
 
 ## 清单
 
@@ -37,5 +37,5 @@ owner: "@PengKang"
 
 ## 当前项目适配说明
 
-- 当前仓库尚未启用 `web/` 前端应用，本清单先作为预留能力。
+- 当前仓库已合并 `services/callcenter-web`，本清单适用于该前端 Service。
 - 后续前端启用后，应结合组件库、路由规范和交互规范再进一步细化。

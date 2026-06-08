@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
@@ -8,13 +8,23 @@ owner: "@PengKang"
 
 ## P0：工程基线
 
+已完成：
+
 - 创建后端 Maven 项目，锁定 JDK 1.8、Spring Boot 2.7.x 和 Maven 3.6.3。
 - 配置 Maven Enforcer，防止版本漂移。
 - 接入 MyBatis-Plus 3.5.x。
 - 接入 Flyway 和 `flyway-mysql`。
-- 建立统一异常处理和错误响应模型。
 - 建立 SLF4J 日志配置。
 - 建立 JUnit 5 测试基础设施。
+- 接入 Checkstyle、SpotBugs、JaCoCo 和 ArchUnit。
+- 建立 GitHub Actions CI、发布、回滚和远端主机初始化骨架。
+
+待补齐：
+
+- 建立统一异常处理和错误响应模型。
+- 建立首批真实 Controller、Service、Mapper、Entity 和 DTO。
+- 建立首批 Flyway migration。
+- 在真实 test/staging/prod 环境演练发布、验证和回滚。
 
 ## P1：核心业务
 

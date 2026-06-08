@@ -4,13 +4,13 @@ status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
 
-# 流水线设计
+# Pipeline 设计
 
 ## 目标
 
-本文档定义 HernessDemo 的标准交付流水线，参考 Harness 的阶段化交付思想，把构建、验证、发布和验收串成可重复执行的流程。
+本文档定义 HernessDemo 的 Pipeline 设计。按 Harness Engineering 思想，Pipeline 由 stages 和 steps 组成，每条发布链路都必须明确 Service、Environment、Artifact、Infrastructure、Secrets/Connectors、Verification 和 Rollback。
 
-## 流水线分层
+## Pipeline 分层
 
 建议把流水线拆分为三类：
 
@@ -20,7 +20,19 @@ owner: "@PengKang"
 
 三类流水线必须共享统一的版本号、变更说明和审计记录。
 
-## 标准阶段
+## Harness 对象映射
+
+| Pipeline 维度 | 当前映射 |
+| --- | --- |
+| Service | `server`、`callcenter-server`、`callcenter-web` |
+| Environment | `test`、`staging`、`prod`，由 workflow input 选择 |
+| Artifact | `server/target/*.jar`、`services/callcenter-server/**/target/*.jar`、`services/callcenter-web/dist/**`、`release-output/*`、`deploy/release/**` |
+| Infrastructure | SSH 远端主机 + systemd 服务 |
+| Secrets/Connectors | GitHub Environment variables/secrets |
+| Verification | `deploy/release/verify-release.sh` |
+| Rollback | `.github/workflows/server-rollback.yml` + `rollback-via-ssh.sh` |
+
+## 标准 Stages
 
 ### 1. Source
 
@@ -41,11 +53,12 @@ owner: "@PengKang"
 - 生成可部署制品。
 - 输出版本号和构建元数据。
 
-当前 `server` 最小要求：
+当前 Service 最小要求：
 
-- 使用 Maven 3.6.3。
-- 使用 JDK 1.8。
-- 生成唯一可追溯的后端构建产物。
+- `server`: JDK 1.8 + Maven 3.6.3。
+- `callcenter-server`: JDK 17 + Maven。
+- `callcenter-web`: Node >= 20.19.0 + pnpm 11.5.2。
+- 每个 Service 生成唯一可追溯的构建产物。
 
 ### 3. Test
 
@@ -84,6 +97,8 @@ owner: "@PengKang"
 部署阶段负责：
 
 - 选择目标环境。
+- 绑定目标 Service 和 Artifact。
+- 解析目标 Infrastructure。
 - 注入对应配置与密钥。
 - 执行数据库迁移。
 - 发布应用实例。
@@ -100,6 +115,8 @@ owner: "@PengKang"
 - 验证核心业务探针。
 - 给出通过、观察中或回滚建议。
 
+Verification 不是可选动作。`DRY_RUN=false` 发布时，必须至少验证健康检查和指标端点；业务模块落地后再补业务探针。
+
 ### 8. Rollback / Close
 
 收尾阶段负责：
@@ -113,14 +130,17 @@ owner: "@PengKang"
 
 当前已有能力：
 
-- GitHub Actions 中的质量门禁。
-- `agent-guardrails.yml` 中的 CI 校验与制品归档。
+- GitHub Actions 中的质量门禁，workflow 名称为 `Multi-Service CI`。
+- `agent-guardrails.yml` 中的多 Service CI 校验、构建元数据生成和制品归档。
 - `bootstrap-remote-host.yml` 中的远端主机初始化编排。
-- `server-release.yml` 中的手工发布编排、环境审批门禁和发布后验证入口。
+- `server-release.yml` 中的手工发布编排、环境审批门禁、发布包生成和发布后验证入口。
+- `server-rollback.yml` 中的独立回滚编排和回滚后验证入口。
 - `deploy-via-ssh.sh` 中的最小远端部署骨架。
 - Maven `verify`、Checkstyle、SpotBugs、JaCoCo。
 - ArchUnit 架构规则测试。
 - Spring Boot Actuator 与 Prometheus 指标暴露。
+- `callcenter-server` 已有 Maven 聚合构建入口。
+- `callcenter-web` 已有 pnpm 锁文件和 Vite 构建入口。
 
 当前缺失能力：
 
@@ -128,6 +148,9 @@ owner: "@PengKang"
 - 更成熟的部署平台适配，例如容器编排、滚动发布或 GitOps。
 - 更自动化的回滚制品发现与选择机制。
 - 更强的密钥管理系统接入，例如 Vault 或云原生密钥服务。
+- 依赖漏洞扫描和密钥泄露扫描。
+- Harness 原生连接器、服务目录和环境定义尚未接入；当前用 GitHub Actions 原生能力模拟最小模型。
+- `callcenter-server` 和 `callcenter-web` 尚未接入独立发布、回滚和发布后验证 workflow。
 
 ## 最小落地顺序
 
@@ -140,7 +163,7 @@ owner: "@PengKang"
 
 ## 当前文件映射
 
-- `.github/workflows/agent-guardrails.yml`：CI Pipeline，实现质量门禁、构建和制品归档。
+- `.github/workflows/agent-guardrails.yml`：CI Pipeline，实现多 Service 质量门禁、构建和制品归档。
 - `.github/workflows/bootstrap-remote-host.yml`：首次接入远端主机时的初始化工作流。
 - `.github/workflows/server-release.yml`：手工触发的发布编排入口，串联构建、审批和验证。
 - `.github/workflows/server-rollback.yml`：独立回滚工作流，串联审批、回滚和回滚后验证。

@@ -1,10 +1,14 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
 
 # 数据流说明
+
+## 当前状态
+
+当前仓库尚未实现具体业务接口。本文档描述后续新增业务模块时必须遵守的目标数据流，用于约束 Controller、Service、Mapper、Domain、Infrastructure 和 MySQL 之间的职责边界。
 
 ## 请求处理主流程
 
@@ -28,6 +32,24 @@ Client
 - Service 负责业务规则、事务和用例编排。
 - Mapper 负责数据访问。
 - Domain 承载领域模型、枚举和值对象。
+
+```mermaid
+sequenceDiagram
+    participant Client as Client
+    participant Controller as Controller
+    participant Service as Service
+    participant Mapper as Mapper
+    participant DB as MySQL 5.7
+
+    Client->>Controller: HTTP Request
+    Controller->>Service: 调用业务用例
+    Service->>Mapper: 访问数据
+    Mapper->>DB: 执行 SQL
+    DB-->>Mapper: 返回记录
+    Mapper-->>Service: 返回模型
+    Service-->>Controller: 返回业务结果
+    Controller-->>Client: HTTP Response
+```
 
 ## 写入数据流
 
@@ -66,6 +88,8 @@ Request
 
 Controller 不应自行解析复杂认证逻辑。Service 在执行业务用例时必须基于当前用户、组织或角色做权限校验。
 
+当前认证模块尚未实现，设计边界见 [docs/design/feature-auth.md](../design/feature-auth.md)。
+
 ## 外部 API 数据流
 
 外部 API 调用统一通过 `ApiClient` 抽象：
@@ -75,6 +99,8 @@ Service -> ApiClient -> External System
 ```
 
 禁止在 Service 或 Controller 中裸用 `RestTemplate`、`HttpURLConnection` 或自行创建 HTTP 客户端。
+
+`ApiClient` 应放在 `infrastructure`，由 `config` 装配为 Spring Bean，再由 `service` 通过构造器注入使用。
 
 ## 错误数据流
 

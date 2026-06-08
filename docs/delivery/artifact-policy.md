@@ -15,7 +15,10 @@ owner: "@PengKang"
 当前阶段至少应治理以下制品：
 
 - `server` 的可部署 Jar 包或等价运行制品。
-- 后续 `web` 的前端静态构建产物。
+- `callcenter-server` 的可部署 Jar 包。
+- `callcenter-web` 的前端静态构建产物。
+- CI 构建元数据。
+- 发布 workflow 上传的 release bundle。
 - 数据库迁移脚本版本集合。
 - 部署描述文件和环境配置模板。
 
@@ -37,6 +40,19 @@ owner: "@PengKang"
 - 服务名称。
 - 语义版本或发布批次号。
 
+## 当前制品映射
+
+| 制品 | 来源 | 用途 |
+| --- | --- | --- |
+| `server/target/herness-demo-server-*.jar` | Maven `verify` / release workflow | 部署到远端主机的应用制品 |
+| `services/callcenter-server/**/target/*.jar` | CallCenter Maven 构建 | CallCenter 后端发布候选制品 |
+| `services/callcenter-web/dist/**` | pnpm + Vite 构建 | CallCenter 前端发布候选制品 |
+| `artifacts/build-metadata.txt` | `agent-guardrails.yml` | CI 构建追踪 |
+| `release-output/release-metadata.txt` | `server-release.yml` | 发布批次追踪 |
+| `release-output/release-plan.md` | `render-release-plan.sh` | 发布计划与审批摘要 |
+| `release-output/server-artifact.sha256` | `server-release.yml` | Jar 完整性校验 |
+| `deploy/release/**` | 仓库脚本 | 发布、回滚、验证执行材料 |
+
 ## 制品发布要求
 
 - 构建成功后统一发布到受控制品仓库。
@@ -48,10 +64,10 @@ owner: "@PengKang"
 
 当前仓库已有 Maven 构建入口，但尚未定义：
 
-- 统一版本号生成规则。
 - 制品仓库目标位置。
 - 发布批次与提交记录的映射方式。
-- 前后端分离后的多制品管理方式。
+- 多 Service 场景下的制品仓库分区、版本命名和保留策略。
+- 回滚候选制品的自动发现和保留策略。
 
 ## 最小落地建议
 

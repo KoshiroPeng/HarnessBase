@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-07
+last_updated: 2026-06-08
 status: active         # active | deprecated | draft
 owner: "@PengKang"
 ---
@@ -10,18 +10,22 @@ owner: "@PengKang"
 
 建立 HernessDemo 的第一版工程与交付基线，让后续开发能够围绕统一的架构、规范、设计、交付治理和参考文档推进。
 
+## 当前状态
+
+本迭代的工程与文档骨架已经基本完成。当前重点从“生成基础材料”切换为“让文档与真实仓库状态对齐”，确保后续业务模块开发时不会被过期路径、泛化规则或未说明的占位能力误导。
+
 ## 本迭代范围
 
-| 优先级 | 事项 | 产出 |
-| --- | --- | --- |
-| P0 | 建立项目协作规则 | `AGENTS.md` |
-| P0 | 建立架构文档 | `docs/architecture/` |
-| P0 | 建立编码规范 | `docs/conventions/` |
-| P1 | 建立功能设计占位 | `docs/design/` |
-| P1 | 建立 API 与错误码参考 | `docs/reference/` |
-| P1 | 建立交付治理文档 | `docs/delivery/`、`docs/operations/`、`docs/governance/` |
-| P1 | 建立 GitHub Actions 交付骨架 | `.github/workflows/` |
-| P1 | 建立远端主机初始化、发布与回滚脚本 | `deploy/release/` |
+| 优先级 | 事项 | 产出 | 状态 |
+| --- | --- | --- | --- |
+| P0 | 建立项目协作规则 | `AGENTS.md` | 已完成 |
+| P0 | 建立架构文档 | `docs/architecture/` | 已完成，持续校准 |
+| P0 | 建立编码规范 | `docs/conventions/` | 已完成，持续校准 |
+| P1 | 建立功能设计占位 | `docs/design/` | 已完成，业务实现前需细化 |
+| P1 | 建立 API 与错误码参考 | `docs/reference/` | 已完成，随接口实现持续同步 |
+| P1 | 建立交付治理文档 | `docs/delivery/`、`docs/operations/`、`docs/governance/` | 已完成，真实环境接入后继续校准 |
+| P1 | 建立 GitHub Actions 交付骨架 | `.github/workflows/` | 已完成 |
+| P1 | 建立远端主机初始化、发布与回滚脚本 | `deploy/release/` | 已完成骨架 |
 
 ## 开发约束
 
