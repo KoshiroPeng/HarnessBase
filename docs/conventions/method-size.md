@@ -1,7 +1,8 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
+description: ProjectPilot 方法规模规范，约束单方法长度与复杂度收敛方式。
 ---
 
 # 方法规模规范

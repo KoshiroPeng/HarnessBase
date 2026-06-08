@@ -2,153 +2,159 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 系统架构总览，说明目标基线、目标结构、当前现状与关键约束。
 ---
 
 # 系统架构概览
 
 ## 项目定位
 
-CallCenter 是面向客户本地机房私有化部署的企业级呼叫中心 Web 平台。当前第一阶段采用 RuoYi-Vue-Plus 裁剪版后端、plus-ui 裁剪版前端和模块化单体优先的技术路线。
+ProjectPilot 是一个面向中小企业的在线项目管理 Web 产品，核心目标是支撑项目、任务、成员、权限、搜索和计费等协作场景。
 
-当前项目不是通用后台系统；业务核心是电话、坐席、CTI、实时通道、聊天、录音、质检、AI 和报表。
+当前阶段的建设主线是 Web 产品 MVP，而不是继续扩展交付平台能力。发布、回滚、环境与可观测性材料仍然保留，但在当前阶段属于支撑层。
 
-## 当前工程入口
+## 目标基线
 
-| 入口 | 路径 | 定位 |
-| --- | --- | --- |
-| 后端 | [services/callcenter-server/](../../services/callcenter-server/) | 当前项目完整后台 |
-| 前端 | [services/callcenter-web/](../../services/callcenter-web/) | 当前项目前端 |
-| 规格 | [docs/specs/](../specs/) | 需求、架构和工程结构事实来源 |
-| 部署 | [deploy/](../../deploy/) | Compose、本地运维、发布脚本和可观测性 |
-| 历史骨架 | [server/](../../server/) | 兼容保留，不再承载新的 CallCenter 业务 |
+当前项目目标基线由 [docs/architecture/target-technology-baseline.md](target-technology-baseline.md) 定义：
 
-## 技术栈
-
-### 后端
-
-- Java 17+
+- JDK 17 LTS
 - Spring Boot 3.x
-- RuoYi-Vue-Plus 5.X 裁剪版
-- Sa-Token
-- MyBatis-Plus
-- dynamic-datasource
-- Redis / Redisson
-- MinIO / OSS
-- SpringDoc OpenAPI
-- WebSocket
-- SSE
+- Maven 3.9+
+- MySQL 8.x，字符集 `utf8mb4`
+- MyBatis-Plus Boot 3 + Flyway
+- Vue 3 + TypeScript + Vite
+- Node 20 LTS+ + `pnpm`
 
-### 前端
+## 当前现状说明
 
-- Vue 3
-- TypeScript
-- Vite
-- Element Plus
-- Pinia
-- Vue Router
-- plus-ui 裁剪版
+当前仓库文档主线已经切到新基线，后端最小可运行基线也已完成验证，但整体工程仍处于迁移收敛阶段：
 
-### 部署与运行
+- `server/` 已在 `JDK 17 + Spring Boot 3.3.x` 下完成 `compile`、`test` 和 `verify` 验证，但模块结构仍是过渡态。
+- `web/` 目标工程尚未完整建立。
+- 部署脚本与工作流仍带有历史命名。
 
-- Docker Compose
-- Nginx
-- MySQL 8
-- Redis
-- MinIO
-- GitHub Actions / SSH 发布骨架
-- Prometheus / Loki / Grafana 本地观测栈
+因此，当前架构工作分成两层：
 
-## 顶层目录结构
+1. 文档与入口先统一目标方向。
+2. 后端继续从“版本升级完成”收敛到“结构目标完成”。
+3. 前端与交付链路再按迁移路线逐步补齐。
+
+迁移步骤见 [docs/plans/jdk17-springboot3-migration-roadmap.md](../plans/jdk17-springboot3-migration-roadmap.md)。
+
+## 推荐目录结构
 
 ```text
 .
 ├── AGENTS.md
 ├── README.md
-├── .github/workflows/
 ├── docs/
-│   └── specs/
-├── services/
-│   ├── callcenter-server/
-│   └── callcenter-web/
 ├── server/
+├── web/
 └── deploy/
 ```
 
-- `docs/specs/`: CallCenter 产品范围、规模、部署约束、技术方案和工程结构事实来源。
-- `services/callcenter-server/`: 当前项目完整 Java 后端。
-- `services/callcenter-web/`: 当前项目 Vue 前端。
-- `deploy/`: Docker Compose、发布脚本、可观测性和运维入口。
-- `server/`: 历史后端骨架，仅兼容保留。
+- `docs/`：架构、规范、设计、计划、参考与评审文档。
+- `server/`：后端服务与后端迁移主目录。
+- `web/`：Web 前端应用与共享包。
+- `deploy/`：发布、回滚、环境变量、可观测性等支撑材料。
 
-## 后端架构原则
+## 目标后端结构
 
-当前后端仍保留 RuoYi-Vue-Plus 裁剪后的聚合结构：
+结合 CallCenter 的工程结构经验，ProjectPilot 的目标后端形态是轻量化模块化单体：
 
 ```text
-services/callcenter-server/
-├── ruoyi-admin/
-├── ruoyi-common/
-├── ruoyi-modules/
+server/
+├── bootstrap/
+├── shared/
+├── modules/
+│   ├── auth/
+│   ├── organization/
+│   ├── project/
+│   ├── task/
+│   └── billing/
+├── integration/
 └── script/
 ```
 
-第一阶段采用模块化单体，不预设微服务拆分。新增呼叫中心业务时，应优先沿真实领域边界落地，而不是把业务长期塞进 `ruoyi-system`。
+- `bootstrap/`：Spring Boot 启动、装配、统一配置入口。
+- `shared/`：稳定的共享基础能力与公共契约。
+- `modules/`：按业务边界组织的模块。
+- `integration/`：第三方系统、对象存储、消息、支付等外围集成。
+- `script/`：迁移、数据处理和运维辅助脚本。
 
-核心原则：
+## 目标前端结构
 
-- 外部系统必须走 adapter 或 integration 边界。
-- CTI 回调、通话事件和坐席状态必须转换成系统内部标准模型。
-- 后端实例必须避免本地业务状态，支持多实例部署。
-- WebSocket / SSE 等实时能力必须考虑多实例场景。
-- 录音处理、语音转写、AI 质检和报表应通过异步链路承载。
-- 报表链路与核心业务读写链路需要分开演进。
-
-## 前端架构原则
-
-当前前端仍是 plus-ui 裁剪后的单应用结构：
+ProjectPilot 的 Web 工程吸收 CallCenter 的前端工程化思路，但按当前规模做轻量化启动：
 
 ```text
-services/callcenter-web/
-├── src/api/
-├── src/views/
-├── src/components/
-├── src/router/
-├── src/store/
-└── public/
+web/
+├── apps/
+│   └── projectpilot-web/
+├── packages/
+│   ├── shared-ui/
+│   ├── shared-api/
+│   └── config/
+└── tooling/
 ```
 
-后续坐席工作台、话务条、来电弹屏、聊天界面、主管工作台和质检工作台应形成清晰视图区，不和系统管理页面混写。实时交互相关代码必须明确连接状态、重连策略、错误提示和降级路径。
+- `apps/`：具体前端应用入口。
+- `packages/shared-ui/`：共享 UI 组件与设计约束。
+- `packages/shared-api/`：接口客户端、类型定义和请求适配。
+- `packages/config/`：ESLint、TSConfig、构建共享配置。
+- `tooling/`：脚本、生成器和本地开发辅助能力。
 
-## 数据与集成
+## 后端模块内部结构
 
-当前部署目标以客户本地机房私有化交付为主，采用单客户独立部署，不做运行时 SaaS 多租户。
+单个模块建议按以下方式组织：
 
-外部系统约束：
-
-- 华为 CTI 或其他电话系统不得直接耦合业务模块，必须通过适配层隔离。
-- CRM、工单、客户资料系统的主数据边界、弹屏查询、通话小结写回和聊天记录回写需要在实现前明确。
-- 多数据源能力应服务于真实集成边界，不作为随意拆库的理由。
-
-## 质量与交付
-
-当前 CI 覆盖：
-
-- `services/callcenter-server`: JDK 17 + Maven 构建校验。
-- `services/callcenter-web`: Node 22 + pnpm 11.5.2 + Vite 构建校验。
-- `server`: 历史骨架兼容校验。
-
-本地常用验证：
-
-```bash
-(cd services/callcenter-server && mvn -DskipTests package)
-(cd services/callcenter-web && pnpm install && pnpm build:prod)
-./deploy/ops start
-./deploy/ops health
+```text
+modules/project/
+├── domain/
+├── application/
+└── adapter/
+    ├── in/web/
+    └── out/persistence/
 ```
 
-## 文档维护规则
+- `domain/`：领域模型、值对象、核心规则。
+- `application/`：业务用例、事务边界、跨对象编排。
+- `adapter/in/web/`：HTTP 输入适配。
+- `adapter/out/persistence/`：数据库访问、Mapper 与持久化适配。
 
-- 业务范围、规模、部署约束、技术路线或工程结构变化，同步更新 [docs/specs/](../specs/)。
-- 模块边界、依赖方向或数据流变化，同步更新 [docs/architecture/](./)。
-- 发布、环境、制品、流水线、验证或回滚变化，同步更新 [docs/delivery/](../delivery/) 或 [docs/operations/](../operations/)。
-- 新增呼叫中心领域能力时，先明确领域模型，再实现代码。
+更细的依赖规则见 [docs/architecture/boundaries.md](boundaries.md)。
+
+## 数据与迁移
+
+数据库主线切换到 MySQL 8.x，所有结构变更必须通过 Flyway migration 管理。业务代码、实体和 SQL 片段不能替代数据库迁移脚本。
+
+迁移脚本应满足：
+
+- 可以在空库上顺序执行。
+- 可以在测试环境重复验证。
+- 优先使用项目主线允许的 MySQL 8 语法，但需评估索引、兼容性和回滚风险。
+- 涉及兼容性风险时，在文档中说明回滚方案或补偿方案。
+
+## 外部交互
+
+外部系统调用必须通过 adapter 或 `ApiClient` 抽象接入，禁止在业务代码中裸用 HTTP 客户端或把第三方 SDK 直接扩散到核心模块。
+
+认证、日志、审计、telemetry、cache 等横切能力必须通过 Spring 注入，不允许手动 `new` 实例化。
+
+## 质量门禁
+
+新增业务代码必须满足：
+
+- 使用构造器注入，禁止字段级 `@Autowired`。
+- 新代码统一使用 `jakarta.*` 命名空间。
+- 单个 `.java` 文件不超过 300 行。
+- 单个方法不超过 50 行。
+- 使用 SLF4J `Logger`，禁止 `System.out.println` 和 `e.printStackTrace()`。
+- 有对应测试；后端默认 JUnit 5，前端默认 Vitest。
+
+## 相关入口
+
+- [docs/architecture/target-technology-baseline.md](target-technology-baseline.md)
+- [docs/architecture/callcenter-reference-adaptation.md](callcenter-reference-adaptation.md)
+- [docs/architecture/harness-engineering-adaptation.md](harness-engineering-adaptation.md)
+- [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)
+- [docs/plans/jdk17-springboot3-migration-roadmap.md](../plans/jdk17-springboot3-migration-roadmap.md)

@@ -2,65 +2,68 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 后续待办列表，覆盖 Web 主线、基线迁移、业务增强与工程硬化事项。
 ---
 
 # Backlog
 
-## P0：CallCenter 主项目收敛
+## 使用说明
 
-已完成：
+- 当某个 backlog 项准备进入开发时，先回看 [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md) 判断它是否仍符合当前主线。
+- 如果任务涉及架构、规范、评审或发布影响，回到 [docs/README.md](../README.md) 按场景补齐联读材料。
+- 如果某项建设更像平台扩张而不是当前产品推进，先参考 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md) 做范围判断。
 
-- 将 `services/callcenter-server` 作为当前项目完整后台。
-- 将 `services/callcenter-web` 作为当前项目前端。
-- 将 CallCenter 规格文档接入 `docs/specs/`。
-- 将 `AGENTS.md` 改为 CallCenter 协作规则。
-- 迁入 `deploy/compose.yml`、`deploy/compose.app.yml` 和 `deploy/ops`。
+## P0：基线迁移与结构收敛
 
-待补齐：
+- 将 `server/` 实际代码迁移到 JDK 17。
+- 将 `server/` 实际依赖迁移到 Spring Boot 3.x。
+- 完成 `javax.* -> jakarta.*` 代码与依赖迁移。
+- 将数据库运行基线切换到 MySQL 8.x。
+- 收敛后端目录结构到模块化单体目标形态。
 
-- 为 `callcenter-server` 和 `callcenter-web` 建立独立发布、回滚和发布后验证 workflow。
-- 为真实 test/staging/prod 环境配置 GitHub Environments、变量、密钥和审批人。
-- 为 CallCenter 后端、前端和镜像制品定义统一版本命名与制品仓库策略。
+## P1：Web MVP 主线
 
-## P1：呼叫中心核心领域
+- 建立 `web/` 前端工程与基础路由。
+- 建立登录页与会话校验流程。
+- 建立项目列表页与项目详情页。
+- 建立任务列表页、任务创建与状态流转。
+- 打通前后端联调链路。
 
-- 坐席领域模型：坐席、技能组、状态、签入签出、忙闲状态。
-- 通话领域模型：呼入、外呼、接听、挂断、转接、保持、通话记录。
-- CTI adapter：华为 CTI 或其他电话系统事件接入与标准事件转换。
-- 实时通道：WebSocket / SSE 连接管理、重连、广播和多实例策略。
-- 来电弹屏：客户资料查询、弹屏上下文、权限与降级。
-- 话务条：坐席端通话控制入口和状态同步。
+## P2：核心业务增强
 
-## P2：客户沟通与记录
+- 组织管理。
+- 成员与角色管理。
+- 项目与任务搜索。
+- 用户注册、登录、登出和会话校验增强能力。
 
-- 文字聊天会话。
-- 通话小结。
-- 客户沟通记录。
-- 录音元数据管理。
-- 录音下载权限与审计。
-- CRM / 工单 / 客户资料系统集成边界。
+## P3：商业化能力
 
-## P3：质检、AI 与报表
+- 套餐管理。
+- 订阅管理。
+- 用量统计。
+- 账单查询。
+- 支付渠道适配抽象。
 
-- 人工质检评分。
-- 语音转写异步任务。
-- AI 质检任务与结果归档。
-- 转写和 AI 成本控制。
-- T+1 报表链路。
-- 坐席、通话、质检和客户服务指标。
+## P4：运营与质量支撑
 
-## P4：交付与运维平台化
+- API 文档持续维护。
+- 错误码治理。
+- 审计日志。
+- 指标和 telemetry。
+- 发布文档与运行手册。
+- 性能基准测试。
 
-- 建立 CallCenter 专用发布 workflow。
-- 建立 CallCenter 专用回滚 workflow。
-- 建立 CTI、坐席状态、来电弹屏和实时通道业务探针。
-- 补齐依赖漏洞扫描和密钥泄露扫描。
-- 建立生产级日志、指标和告警规则。
-- 按客户机房约束确认高可用部署方案。
+## P5：渐进式工程硬化
+
+- 将 Harness Engineering 纠偏说明持续映射到导航、评审和验证材料。
+- 只保留对 Web MVP 交付有直接帮助的工程护栏。
+- 在真实主链路稳定后，再评估是否需要新增更重的平台化能力。
 
 ## Backlog 维护规则
 
 - 每个任务进入迭代前必须有明确验收标准。
-- 涉及业务边界变化的任务必须同步 `docs/specs/` 或对应领域设计文档。
-- 涉及架构或边界变化的任务必须同步 `docs/architecture/`。
-- 涉及交付、环境、验证或回滚的任务必须同步 `docs/delivery/` 或 `docs/operations/`。
+- 涉及架构或边界变化的任务必须同步 [docs/architecture/README.md](../architecture/README.md) 与对应文档。
+- 涉及 API 的任务必须同步 [docs/reference/api-spec.yaml](../reference/api-spec.yaml)。
+- 涉及错误码的任务必须同步 [docs/reference/error-codes.md](../reference/error-codes.md)。
+- 产品研发主线优先于平台治理主线，除非当前任务明确属于发布、运维或观测支撑建设。
+- 如果某项建设无法直接帮助当前主线推进，应先放回 backlog，而不是立即扩张为独立体系。

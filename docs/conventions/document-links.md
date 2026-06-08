@@ -1,14 +1,15 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
+description: ProjectPilot 文档链接规范，统一约束相对链接、绝对路径和导航文档中的链接写法。
 ---
 
 # 文档链接规范
 
 ## 目标
 
-本文档用于统一 CallCenter 仓库中文档路径的写法，提升人类读者与 AI 协作者的可导航性、可理解性和维护体验。
+本文档用于统一 ProjectPilot 仓库中文档路径的写法，提升人类读者与 AI 协作者的可导航性、可理解性和维护体验。
 
 ## 基本原则
 
@@ -23,15 +24,15 @@ owner: "@PengKang"
 - `README.md`
 - `AGENTS.md`
 - 各类总览页、索引页、导航页
-- 各目录的 `README.md` 或等价索引页
-- 交付与运维手册
+- 各目录下的 `README.md` 或等价索引页
+- 发布与回滚手册
 - 运行手册
 
 以下场景允许使用纯文本路径：
 
-- 解释目录结构时的简短说明。
-- 代码块中的示例路径。
-- 非关键上下文中的一次性目录提及。
+- 解释目录结构时的简短说明
+- 代码块中的示例路径
+- 非关键上下文中的一次性目录提及
 
 ## 推荐写法
 
@@ -39,11 +40,13 @@ owner: "@PengKang"
 
 推荐：
 
-- `[docs/delivery/delivery-operations-map.md](../delivery/delivery-operations-map.md)`
+- `[docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)`
+- `[deploy/release/README.md](../../deploy/release/README.md)`
 
 不推荐：
 
-- `` `docs/delivery/delivery-operations-map.md` ``
+- `` `docs/design/web-mvp-roadmap.md` ``
+- `` `deploy/release/README.md` ``
 
 ### 关键 workflow
 

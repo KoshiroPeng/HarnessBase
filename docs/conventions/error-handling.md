@@ -1,7 +1,8 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
+description: ProjectPilot 错误处理规范，约束异常分类、错误码映射与对外响应方式。
 ---
 
 # 错误处理规范
@@ -20,17 +21,17 @@ HTTP API 使用统一错误响应：
 
 ```json
 {
-  "code": "AGENT_NOT_FOUND",
-  "message": "坐席不存在",
+  "code": "PROJECT_NOT_FOUND",
+  "message": "项目不存在",
   "traceId": "req-20260607-000001"
 }
 ```
 
 字段说明：
 
-- `code`: 稳定错误码，登记在 `docs/reference/error-codes.md`。
-- `message`: 面向用户或调用方的简短说明。
-- `traceId`: 请求追踪 ID，用于排查问题。
+- `code`：稳定错误码，登记在 [docs/reference/error-codes.md](../reference/error-codes.md)。
+- `message`：面向用户或调用方的简短说明。
+- `traceId`：请求追踪 ID，用于排查问题。
 
 ## 异常分类
 
@@ -39,7 +40,7 @@ HTTP API 使用统一错误响应：
 | 参数错误 | 请求字段缺失、格式不合法 | 400 |
 | 认证失败 | 未登录、令牌无效 | 401 |
 | 权限不足 | 无权访问资源 | 403 |
-| 资源不存在 | 坐席、通话、客户资料不存在 | 404 |
+| 资源不存在 | 项目、任务、成员不存在 | 404 |
 | 冲突错误 | 重复创建、状态冲突 | 409 |
 | 业务规则错误 | 不满足业务约束 | 422 |
 | 系统错误 | 未预期异常 | 500 |
@@ -60,7 +61,7 @@ HTTP API 使用统一错误响应：
 
 ## 错误码维护
 
-新增、删除或变更错误码时，必须同步更新 `docs/reference/error-codes.md`。
+新增、删除或变更错误码时，必须同步更新 [docs/reference/error-codes.md](../reference/error-codes.md)。
 
 错误码命名建议：
 
@@ -70,6 +71,6 @@ MODULE_REASON
 
 示例：
 
-- `AGENT_NOT_FOUND`
-- `CALL_EVENT_DUPLICATED`
+- `PROJECT_NOT_FOUND`
+- `TASK_STATUS_INVALID`
 - `AUTH_TOKEN_EXPIRED`

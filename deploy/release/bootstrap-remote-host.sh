@@ -9,10 +9,10 @@ target_host="${APP_DEPLOY_HOST:-}"
 target_user="${APP_DEPLOY_USER:-}"
 target_key="${APP_DEPLOY_KEY:-}"
 target_port="${APP_DEPLOY_PORT:-22}"
-target_dir="${APP_DEPLOY_DIR:-/opt/callcenter}"
+target_dir="${APP_DEPLOY_DIR:-/opt/herness-demo}"
 app_profile="${APP_PROFILE:-}"
 java_opts="${JAVA_OPTS:--Xms256m -Xmx512m}"
-service_name="${APP_SERVICE_NAME:-callcenter}"
+service_name="${APP_SERVICE_NAME:-herness-demo}"
 deploy_strategy="${APP_DEPLOY_STRATEGY:-systemd}"
 dry_run="${DRY_RUN:-true}"
 
@@ -68,7 +68,7 @@ sed \
   -e "s#{{DB_URL}}#${db_url}#g" \
   -e "s#{{DB_USERNAME}}#${db_username}#g" \
   -e "s#{{DB_PASSWORD}}#${db_password}#g" \
-  "deploy/release/callcenter.service.template" > "${service_file}"
+  "deploy/release/herness-demo.service.template" > "${service_file}"
 
 echo "初始化远端目录"
 ssh -i "${key_file}" -p "${target_port}" -o StrictHostKeyChecking=no "${target_user}@${target_host}" \

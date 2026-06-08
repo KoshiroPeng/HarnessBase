@@ -1,16 +1,17 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
+description: ProjectPilot 评审清单目录入口，汇总需求、设计、代码、测试与迁移评审的统一检查入口。
 ---
 
 # 评审清单总览
 
 ## 目标
 
-本目录用于沉淀 CallCenter 在需求、设计、代码和测试阶段的评审清单，作为项目交付过程中的统一检查入口。
+本目录用于沉淀 ProjectPilot 在需求、设计、代码和测试阶段的评审清单，作为项目研发过程中的统一检查入口。
 
-这些清单的目标不是替代需求文档、详细设计文档、测试用例或代码规范，而是帮助评审人员在关键阶段快速检查高风险遗漏项。
+这些清单不是替代需求文档、详细设计文档、测试用例或代码规范，而是帮助评审人员在关键阶段快速检查高风险遗漏项。
 
 ## 使用原则
 
@@ -21,6 +22,7 @@ owner: "@PengKang"
 - 前端代码评审使用前端代码评审清单。
 - 测试用例评审使用测试用例评审清单。
 - 需要输出评审结论时，优先使用 [docs/reviews/templates/README.md](templates/README.md) 中的统一模板。
+- 需要沉淀验证证据时，优先使用 [docs/reviews/templates/verification-evidence-template.md](templates/verification-evidence-template.md)。
 
 ## 与现有文档的关系
 
@@ -28,13 +30,16 @@ owner: "@PengKang"
 
 例如：
 
+- 目标技术基线：见 [docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
+- CallCenter 参考架构融合说明：见 [docs/architecture/callcenter-reference-adaptation.md](../architecture/callcenter-reference-adaptation.md)
+- Harness Engineering 纠偏：见 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)
 - 命名规范：见 [docs/conventions/naming.md](../conventions/naming.md)
 - 错误处理：见 [docs/conventions/error-handling.md](../conventions/error-handling.md)
 - 测试规范：见 [docs/conventions/testing.md](../conventions/testing.md)
-- 交付流程：见 [docs/delivery/](../delivery/)
-- 配置与密钥：见 [docs/operations/config-and-secrets.md](../operations/config-and-secrets.md)
+- 发布与回滚材料：见 [deploy/release/README.md](../../deploy/release/README.md)
+- 可观测性材料：见 [deploy/observability/README.md](../../deploy/observability/README.md)
 
-因此，清单中涉及这些主题时，优先引用已有规范，不重复发明另一套规则。
+因此，清单中涉及这些主题时，优先引用已有规范，而不是重复定义另一套规则。
 
 ## 目录索引
 
@@ -47,18 +52,19 @@ owner: "@PengKang"
 | 前端代码评审 | [docs/reviews/frontend-code-review-checklist.md](frontend-code-review-checklist.md) |
 | 测试用例评审 | [docs/reviews/testcase-review-checklist.md](testcase-review-checklist.md) |
 | 评审输出模板 | [docs/reviews/templates/README.md](templates/README.md) |
+| 验证证据模板 | [docs/reviews/templates/verification-evidence-template.md](templates/verification-evidence-template.md) |
 
 ## 当前项目适配说明
 
-结合当前仓库现状，使用这些清单时需注意：
-
-- 当前仓库已包含 `services/callcenter-server` 和 `services/callcenter-web`，评审清单适用于 CallCenter 主前后台。
-- 后台设计评审应优先对齐 Java 17、Spring Boot 3.x、RuoYi-Vue-Plus 裁剪版和呼叫中心领域边界。
-- 涉及外部调用时，必须遵守 adapter / integration 隔离和错误处理规范。
-- 涉及交付、配置、发布、回滚时，应同步参考 [docs/delivery/](../delivery/) 与 [docs/operations/](../operations/)。
+- 当前仓库主线已经切到 Web 产品研发优先，后端与前端评审都应围绕这条主线收敛。
+- 后台设计评审应优先对齐 JDK 17、Spring Boot 3.x、MySQL 8.x、MyBatis-Plus、Flyway 和模块化单体约束。
+- 前端设计与代码评审应优先对齐 Vue 3、TypeScript、Vite、共享包边界和接口契约。
+- 涉及外部调用时，必须遵守 adapter 或 `ApiClient` 抽象和错误处理规范。
+- 评审时若发现方案明显偏向平台扩张，而不是服务当前 Web MVP，应明确记录为范围偏航风险。
+- 涉及发布、配置、回滚、上线验证或观测方案时，应同步参考 [deploy/release/README.md](../../deploy/release/README.md) 与 [deploy/observability/README.md](../../deploy/observability/README.md)。
 
 ## 维护规则
 
 - 新增评审阶段时，在本目录补充对应清单。
-- 若项目已有规范已覆盖某项检查，评审清单应引用规范而不是重复定义。
+- 若项目已有规范已经覆盖某项检查，评审清单应引用规范而不是重复定义。
 - 若评审中反复暴露同一问题，应考虑把该项上升为强制规范或自动化检查。

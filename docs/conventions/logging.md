@@ -1,7 +1,8 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
+description: ProjectPilot 日志规范，统一日志框架、字段选择与敏感信息处理要求。
 ---
 
 # 日志规范
@@ -17,7 +18,7 @@ owner: "@PengKang"
 
 | 级别 | 使用场景 |
 | --- | --- |
-| `trace` | 极细粒度诊断，默认不启用 |
+| `trace` | 极细粒度诊断，默认不开启 |
 | `debug` | 开发和排查问题所需的内部状态 |
 | `info` | 关键业务动作、启动完成、任务完成 |
 | `warn` | 可恢复异常、降级、重试、疑似风险 |
@@ -28,13 +29,13 @@ owner: "@PengKang"
 使用参数化日志：
 
 ```java
-log.info("接收通话事件成功 callId={} eventId={}", callId, eventId);
+log.info("创建项目成功 projectId={} ownerId={}", projectId, ownerId);
 ```
 
 不要使用字符串拼接：
 
 ```java
-log.info("接收通话事件成功 callId=" + callId);
+log.info("创建项目成功 projectId=" + projectId);
 ```
 
 ## 敏感信息
@@ -56,7 +57,7 @@ log.info("接收通话事件成功 callId=" + callId);
 记录异常时必须包含上下文：
 
 ```java
-log.error("处理通话事件失败 callId={} eventId={}", callId, eventId, ex);
+log.error("创建项目失败 ownerId={} projectName={}", ownerId, projectName, ex);
 ```
 
 不要只记录异常消息：
@@ -71,8 +72,8 @@ log.error(ex.getMessage());
 
 - `traceId`
 - `userId`
-- `agentId`
-- `callId`
-- `eventId`
+- `organizationId`
+- `projectId`
+- `taskId`
 
 这些字段用于跨服务、跨请求或跨模块定位问题。

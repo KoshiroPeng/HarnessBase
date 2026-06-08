@@ -1,6 +1,15 @@
+---
+last_updated: 2026-06-08
+status: active
+owner: "@PengKang"
+description: ProjectPilot 环境变量模板，统一维护部署、运行和发布所需变量与密钥清单。
+---
+
 # 环境变量与密钥模板
 
-本文件用于沉淀 CallCenter 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
+本文件用于沉淀 ProjectPilot 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
+
+本文档属于发布支撑材料，目标是减少环境准备的不确定性，而不是扩张新的平台范围。
 
 ## 公共变量
 
@@ -11,19 +20,20 @@
 | `OBSERVATION_MINUTES` | variable | 否 | `15` | 发布后观察窗口分钟数 |
 | `RELEASE_OWNER` | variable | 否 | `backend-team` | 发布负责人 |
 | `ONCALL_CONTACT` | variable | 否 | `oncall@example.com` | 值班联系人 |
-| `APP_DEPLOY_DIR` | variable | 否 | `/opt/callcenter` | 远端部署目录 |
+| `APP_DEPLOY_DIR` | variable | 否 | `/opt/projectpilot` | 远端部署目录 |
 | `APP_DEPLOY_PORT` | variable | 否 | `22` | SSH 端口 |
 | `APP_DEPLOY_STRATEGY` | variable | 否 | `systemd` | 远端启动策略，支持 `systemd` 或 `nohup` |
-| `APP_SERVICE_NAME` | variable | 否 | `callcenter` | systemd 服务名 |
+| `APP_SERVICE_NAME` | variable | 否 | `projectpilot` | systemd 服务名 |
 
 ## 后端部署变量
 
 | 名称 | 类型 | 是否敏感 | 示例 | 说明 |
 | --- | --- | --- | --- | --- |
 | `SERVER_PORT` | variable | 否 | `8080` | 服务端口 |
-| `JAVA_OPTS` | variable | 否 | `-Xms256m -Xmx512m` | JVM 运行参数 |
+| `JAVA_OPTS` | variable | 否 | `-Xms512m -Xmx1024m` | JVM 运行参数 |
 | `LOG_LEVEL_ROOT` | variable | 否 | `INFO` | 根日志级别 |
 | `APP_PROFILE` | variable | 否 | `staging` | 目标环境使用的 Spring profile |
+| `JDK_VERSION` | variable | 否 | `17` | 目标运行时 JDK 主版本 |
 
 ## 后端密钥
 
@@ -54,14 +64,17 @@
 
 - 所有敏感信息必须来自受控 secrets。
 - 严禁使用临时人工口头分发的凭据。
+- 若环境仍保留历史 Java 8 / Boot 2.7 运行时，应先记录为迁移残留，不要继续当作新环境默认值。
 
 ## 维护规则
 
 - 新增配置项时，同步补充到本模板。
 - 删除配置项时，同步清理对应环境中的遗留变量和密钥。
+- 如果某项变量暂时不直接服务当前 Web MVP 发布链路，应谨慎新增，避免配置面持续膨胀。
 
 ## 配套脚本
 
-- 主机初始化：`deploy/release/bootstrap-remote-host.sh`
-- 远端部署：`deploy/release/deploy-via-ssh.sh`
-- 发布后验证：`deploy/release/verify-release.sh`
+- 主机初始化：[deploy/release/bootstrap-remote-host.sh](bootstrap-remote-host.sh)
+- 远端部署：[deploy/release/deploy-via-ssh.sh](deploy-via-ssh.sh)
+- 发布后验证：[deploy/release/verify-release.sh](verify-release.sh)
+- 发布前后检查：[deploy/release/release-checklist.md](release-checklist.md)

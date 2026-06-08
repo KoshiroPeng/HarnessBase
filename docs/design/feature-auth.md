@@ -1,18 +1,19 @@
 ---
 last_updated: 2026-06-08
-status: deprecated     # active | deprecated | draft
+status: active
 owner: "@PengKang"
+description: ProjectPilot 认证与授权功能设计，定义登录、会话与最小权限边界。
 ---
 
 # 功能设计：认证与授权
-
-> 历史设计草稿，仅保留参考。CallCenter 当前权限模型应结合坐席、主管、质检、管理员和客户现场系统重新校准。
 
 ## 背景
 
 在线项目管理平台需要识别当前用户，并按组织、项目和角色控制访问范围。
 
 本设计是第一版功能边界，实际实现前需要结合产品需求和安全评审细化。
+
+在当前项目阶段，本专题属于 Web MVP 主线能力，应优先于平台化建设推进。若讨论中引用 Harness Engineering，应把它理解为帮助认证能力更稳落地的工程方法，而不是额外扩张认证平台范围。
 
 ## 目标
 
@@ -26,6 +27,7 @@ owner: "@PengKang"
 - 暂不设计第三方单点登录。
 - 暂不设计多因素认证。
 - 暂不设计复杂 IAM 策略语言。
+- 暂不为了“通用平台化”提前抽象独立认证平台层。
 
 ## 核心概念
 
@@ -56,7 +58,7 @@ Client
 
 ## 错误码
 
-相关错误码登记在 `docs/reference/error-codes.md`：
+相关错误码登记在 [docs/reference/error-codes.md](../reference/error-codes.md)：
 
 - `AUTH_REQUIRED`
 - `AUTH_TOKEN_EXPIRED`
@@ -74,3 +76,9 @@ Client
 - 会话采用服务端 session 还是 token。
 - 组织角色和项目角色是否需要分离。
 - 是否需要支持邀请链接和成员审批。
+
+## 当前阶段判断
+
+- 优先级：高，属于当前 Web MVP 主线。
+- 实现策略：先满足登录、会话校验、最小权限判断，再逐步增强。
+- 纠偏提醒：如果设计开始明显转向复杂统一身份平台，应回到 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md) 重新判断范围。
