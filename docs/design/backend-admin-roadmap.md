@@ -26,7 +26,7 @@ description: HernessDemo 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 
 1. 让文档、API、响应码、SQL 脚本和发布材料匹配当前功能域。
 2. 清理旧 `ProjectPilot` 项目管理、搜索、计费、CallCenter 路线描述。
-3. 修正 `.github/workflows` 中仍指向 `services/callcenter-server` 的历史路径。
+3. 防止 `.github/workflows` 回退到旧 `services/callcenter-*` 路径。
 4. 将 Harness Engineering 从概念文档收敛为代码地图、检查清单、验证证据和自动化校验。
 5. 后续新增功能优先接入现有 `system`、`workflow`、`tool/gen` 等功能域，而不是另起一套不匹配的目录结构。
 

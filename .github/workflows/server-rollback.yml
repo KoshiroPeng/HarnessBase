@@ -8,7 +8,7 @@ on:
         required: true
         type: environment
       rollback_artifact:
-        description: "目标回滚制品名称，例如 callcenter-admin.jar"
+        description: "目标回滚制品名称，例如 ruoyi-admin.jar"
         required: true
         type: string
       rollback_reason:
@@ -86,8 +86,8 @@ jobs:
             echo ""
             echo "- deploy/release/rollback-via-ssh.sh"
             echo "- deploy/release/release-checklist.md"
-            echo "- docs/operations/release-verification.md"
-            echo "- docs/operations/rollback-runbook.md"
+            echo "- deploy/release/verify-release.sh"
+            echo "- deploy/observability/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
 
   verify-rollback:

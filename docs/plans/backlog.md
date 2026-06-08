@@ -9,9 +9,8 @@ description: HernessDemo 后续待办列表，覆盖文档代码对齐、workflo
 
 ## P0：历史残留清理
 
-- 修正 `.github/workflows` 中 `services/callcenter-server` 路径，改为真实 [server](../../server) 构建入口。
-- 清理或删除空的 [services](../../services) 历史目录。
-- 统一发布脚本中的 `herness-demo`、`callcenter`、`ruoyi-admin` 服务名和制品名语境。
+- 持续防止 `.github/workflows` 回退到旧 `services/callcenter-*` 路径。
+- 统一发布脚本中的 `herness-demo`、`ruoyi-admin` 服务名和制品名语境。
 - 持续扫描并清理文档中残留的 ProjectPilot 项目管理、搜索、计费和 CallCenter 事实误用。
 
 ## P1：文档事实同步

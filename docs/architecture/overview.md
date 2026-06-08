@@ -117,7 +117,7 @@ flowchart TD
 
 - 发布支撑材料位于 [deploy/release](../../deploy/release)。
 - 本地观测材料位于 [deploy/observability](../../deploy/observability)。
-- 当前 `.github/workflows` 中仍有 `services/callcenter-server` 历史引用，不能直接视为可用 CI/CD 事实。
+- GitHub Actions 位于 [.github/workflows](../../.github/workflows)，当前应指向真实 [server](../../server)、[web](../../web) 与 [deploy](../../deploy) 路径。
 
 ## 质量门禁
 

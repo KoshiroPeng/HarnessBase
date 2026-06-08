@@ -63,6 +63,6 @@ docker compose -f deploy/observability/docker-compose.yml up -d
 ## 当前重点
 
 - 让文档、代码事实、发布材料和 Harness Engineering 护栏对齐。
-- 继续清理历史 `ProjectPilot`、`CallCenter`、空目录 `services/callcenter-server` 和错误 workflow 路径带来的误导。
+- 继续防止历史 `ProjectPilot`、`CallCenter`、旧 `services/callcenter-*` 路径和错误 workflow 口径回流。
 - 保留 RuoYi-Vue-Plus 既有模块边界，新增能力优先按现有 `ruoyi-*` 模块体系扩展。
 - 把高频规则沉淀为可执行检查，而不是继续堆叠新概念文档。

@@ -62,10 +62,10 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: maven
-          cache-dependency-path: services/callcenter-server/pom.xml
+          cache-dependency-path: server/pom.xml
 
       - name: 执行发布前全量校验
-        working-directory: services/callcenter-server
+        working-directory: server
         run: mvn -B -DskipTests package
 
       - name: 生成发布计划与元数据
@@ -73,9 +73,13 @@ jobs:
         run: |
           chmod +x deploy/release/render-release-plan.sh
           mkdir -p release-output
-          jar_path="$(find services/callcenter-server/ruoyi-admin/target -maxdepth 1 -name 'callcenter-admin.jar' | head -n 1)"
+          jar_path="$(find server/ruoyi-admin/target -maxdepth 1 -name 'ruoyi-admin.jar' | head -n 1)"
+          if [[ -z "${jar_path}" ]]; then
+            echo "未找到发布 Jar：server/ruoyi-admin/target/ruoyi-admin.jar" >&2
+            exit 1
+          fi
           jar_name="$(basename "${jar_path}")"
-          artifact_name="callcenter-server-release-${{ inputs.release_version }}-${{ github.run_number }}"
+          artifact_name="herness-server-release-${{ inputs.release_version }}-${{ github.run_number }}"
           echo "artifact_name=${artifact_name}" >> "$GITHUB_OUTPUT"
           echo "jar_name=${jar_name}" >> "$GITHUB_OUTPUT"
           RELEASE_VERSION='${{ inputs.release_version }}' \
@@ -101,7 +105,7 @@ jobs:
           name: ${{ steps.bundle_meta.outputs.artifact_name }}
           if-no-files-found: error
           path: |
-            services/callcenter-server/ruoyi-admin/target/callcenter-admin.jar
+            server/ruoyi-admin/target/ruoyi-admin.jar
             release-output/**
             deploy/release/**
 
@@ -112,11 +116,9 @@ jobs:
             echo ""
             echo "## 治理文档入口"
             echo ""
-            echo "- docs/delivery/github-environments.md"
-            echo "- docs/operations/github-environment-setup.md"
             echo "- deploy/release/environment-variable-template.md"
             echo "- deploy/release/release-checklist.md"
-            echo "- docs/governance/release-governance.md"
+            echo "- deploy/observability/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
 
   deploy-release-candidate:
@@ -154,7 +156,7 @@ jobs:
           APP_DEPLOY_KEY: ${{ secrets.APP_DEPLOY_KEY }}
           DRY_RUN: ${{ inputs.dry_run }}
           RELEASE_VERSION: ${{ inputs.release_version }}
-          ARTIFACT_PATH: release-bundle/services/callcenter-server/ruoyi-admin/target/${{ needs.build-release-bundle.outputs.jar_name }}
+          ARTIFACT_PATH: release-bundle/server/ruoyi-admin/target/${{ needs.build-release-bundle.outputs.jar_name }}
         run: |
           chmod +x deploy/release/deploy-via-ssh.sh
           bash deploy/release/deploy-via-ssh.sh
@@ -202,6 +204,6 @@ jobs:
             echo "## 发布后验证入口"
             echo ""
             echo "- deploy/release/verify-release.sh"
-            echo "- docs/operations/release-verification.md"
-            echo "- docs/operations/runbooks.md"
+            echo "- deploy/release/release-checklist.md"
+            echo "- deploy/observability/README.md"
           } >> "$GITHUB_STEP_SUMMARY"
