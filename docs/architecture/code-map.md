@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 当前代码地图，记录真实目录、模块、入口、依赖和已知历史残留。
+description: HarnessBase 当前代码地图，记录真实目录、模块、入口、依赖和已知历史残留。
 ---
 
 # 当前代码地图
 
 ## 目标
 
-本文档是 HernessDemo 的事实锚点，用于防止文档继续偏离当前代码。凡是架构、设计、评审或发布文档与本文冲突，应先回到真实代码核对。
+本文档是 HarnessBase 的事实锚点，用于防止文档继续偏离当前代码。凡是架构、设计、评审或发布文档与本文冲突，应先回到真实代码核对。
 
 ## 顶层结构
 
@@ -150,7 +150,7 @@ web/
 
 - 旧 `services/callcenter-*` 路径已经不是当前源码入口，后续 workflow 和文档不能重新引用为事实。
 - [.github/workflows](../../.github/workflows) 当前应使用 `server/`、`web/`、`deploy/` 作为真实入口。
-- [deploy/release](../../deploy/release) 中 systemd 模板仍使用 `herness-demo` 作为部署服务名语境，修改服务名时必须同步 workflow、脚本和发布文档。
+- [deploy/release](../../deploy/release) 中 systemd 模板仍使用 `harness-base` 作为部署服务名语境，修改服务名时必须同步 workflow、脚本和发布文档。
 - [server/README.md](../../server/README.md) 和 [web/README.md](../../web/README.md) 保留上游 RuoYi-Vue-Plus 说明，可作为脚手架参考，但仓库级约束以 [AGENTS.md](../../AGENTS.md) 和 [docs/README.md](../README.md) 为准。
 
 ## 维护规则

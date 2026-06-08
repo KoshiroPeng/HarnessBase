@@ -2,7 +2,7 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 任务启动清单，帮助开发、评审、测试、发布和文档治理任务快速找到联读文档。
+description: HarnessBase 任务启动清单，帮助开发、评审、测试、发布和文档治理任务快速找到联读文档。
 ---
 
 # 任务启动清单

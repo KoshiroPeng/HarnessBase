@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 系统架构总览，说明 RuoYi-Vue-Plus 代码事实、模块结构、数据脚本与工程护栏。
+description: HarnessBase 系统架构总览，说明 RuoYi-Vue-Plus 代码事实、模块结构、数据脚本与工程护栏。
 ---
 
 # 系统架构概览
 
 ## 项目定位
 
-HernessDemo 当前是基于 `RuoYi-Vue-Plus 5.6.1` 的多租户后台管理系统重构工作区。当前建设重点不是从零实现项目管理 MVP，而是让现有 RuoYi-Vue-Plus 后台体系、文档、发布材料和 Harness Engineering 护栏对齐。
+HarnessBase 当前是基于 `RuoYi-Vue-Plus 5.6.1` 的多租户后台管理系统重构工作区。当前建设重点不是从零实现项目管理 MVP，而是让现有 RuoYi-Vue-Plus 后台体系、文档、发布材料和 Harness Engineering 护栏对齐。
 
 详细代码地图见 [docs/architecture/code-map.md](code-map.md)。
 

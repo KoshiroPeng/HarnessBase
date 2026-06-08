@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 验证证据输出模板，用于统一记录验证方式、结果与剩余风险。
+description: HarnessBase 验证证据输出模板，用于统一记录验证方式、结果与剩余风险。
 ---
 
 # 验证证据输出模板

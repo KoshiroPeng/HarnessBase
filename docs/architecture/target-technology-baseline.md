@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 技术基线文档，记录当前 RuoYi-Vue-Plus 后端、前端、数据库脚本和部署支撑事实。
+description: HarnessBase 技术基线文档，记录当前 RuoYi-Vue-Plus 后端、前端、数据库脚本和部署支撑事实。
 ---
 
 # 技术基线
 
 ## 目标
 
-本文档记录 HernessDemo 当前已经落地的技术基线，以及后续新增代码和文档必须遵守的约束。它不是迁移设想，而是以当前 [server/pom.xml](../../server/pom.xml) 和 [web/package.json](../../web/package.json) 为事实来源。
+本文档记录 HarnessBase 当前已经落地的技术基线，以及后续新增代码和文档必须遵守的约束。它不是迁移设想，而是以当前 [server/pom.xml](../../server/pom.xml) 和 [web/package.json](../../web/package.json) 为事实来源。
 
 ## 后端基线
 

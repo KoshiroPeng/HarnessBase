@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 评审清单目录入口，汇总需求、设计、代码、测试与验证证据的统一检查入口。
+description: HarnessBase 评审清单目录入口，汇总需求、设计、代码、测试与验证证据的统一检查入口。
 ---
 
 # 评审清单总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 在需求、设计、代码和测试阶段的评审清单。评审重点是确认变更是否匹配当前 RuoYi-Vue-Plus 代码事实、模块边界、SQL 脚本、API 摘要和发布支撑材料。
+本目录沉淀 HarnessBase 在需求、设计、代码和测试阶段的评审清单。评审重点是确认变更是否匹配当前 RuoYi-Vue-Plus 代码事实、模块边界、SQL 脚本、API 摘要和发布支撑材料。
 
 ## 使用原则
 

@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 文档治理收尾验证证据，记录文档代码对齐、链接、元数据、编码、API 摘要和剩余风险。
+description: HarnessBase 文档治理收尾验证证据，记录文档代码对齐、链接、元数据、编码、API 摘要和剩余风险。
 ---
 
 # 验证证据：文档治理收尾
 
 ## 基本信息
 
-- 任务名称：HernessDemo 文档与当前代码事实收敛
+- 任务名称：HarnessBase 文档与当前代码事实收敛
 - 验证时间：2026-06-08
 - 验证人：Codex
 - 任务类型：文档治理

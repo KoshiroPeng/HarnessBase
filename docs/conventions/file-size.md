@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 文件规模规范，约束单文件大小并提示超限时的拆分方式。
+description: HarnessBase 文件规模规范，约束单文件大小并提示超限时的拆分方式。
 ---
 
 # 文件规模规范

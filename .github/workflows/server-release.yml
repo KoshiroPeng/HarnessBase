@@ -79,7 +79,7 @@ jobs:
             exit 1
           fi
           jar_name="$(basename "${jar_path}")"
-          artifact_name="herness-server-release-${{ inputs.release_version }}-${{ github.run_number }}"
+          artifact_name="harness-base-server-release-${{ inputs.release_version }}-${{ github.run_number }}"
           echo "artifact_name=${artifact_name}" >> "$GITHUB_OUTPUT"
           echo "jar_name=${jar_name}" >> "$GITHUB_OUTPUT"
           RELEASE_VERSION='${{ inputs.release_version }}' \

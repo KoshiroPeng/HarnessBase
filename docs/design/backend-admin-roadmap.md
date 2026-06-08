@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后台管理功能路线图，围绕当前 RuoYi-Vue-Plus system、monitor、tool、workflow、demo 能力组织。
+description: HarnessBase 后台管理功能路线图，围绕当前 RuoYi-Vue-Plus system、monitor、tool、workflow、demo 能力组织。
 ---
 
 # 后台管理功能路线图

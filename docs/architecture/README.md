@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 架构文档目录入口，汇总代码地图、技术基线、模块边界、数据流与 Harness 护栏。
+description: HarnessBase 架构文档目录入口，汇总代码地图、技术基线、模块边界、数据流与 Harness 护栏。
 ---
 
 # 架构文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 的真实代码地图、技术基线、模块边界、数据流与 Harness Engineering 护栏。架构文档必须解释当前 RuoYi-Vue-Plus 工程，而不是延续 ProjectPilot、CallCenter 或其他过渡设想。
+本目录沉淀 HarnessBase 的真实代码地图、技术基线、模块边界、数据流与 Harness Engineering 护栏。架构文档必须解释当前 RuoYi-Vue-Plus 工程，而不是延续 ProjectPilot、CallCenter 或其他过渡设想。
 
 ## 推荐阅读顺序
 

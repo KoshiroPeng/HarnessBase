@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 文档链接规范，统一约束相对链接、绝对路径和导航文档中的链接写法。
+description: HarnessBase 文档链接规范，统一约束相对链接、绝对路径和导航文档中的链接写法。
 ---
 
 # 文档链接规范
 
 ## 目标
 
-本文档用于统一 HernessDemo 仓库中文档路径的写法，提升人类读者与 AI 协作者的可导航性、可理解性和维护体验。
+本文档用于统一 HarnessBase 仓库中文档路径的写法，提升人类读者与 AI 协作者的可导航性、可理解性和维护体验。
 
 ## 基本原则
 

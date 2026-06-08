@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 命名规范，统一 RuoYi-Vue-Plus 模块、Java、前端、SQL、API 与文档命名方式。
+description: HarnessBase 命名规范，统一 RuoYi-Vue-Plus 模块、Java、前端、SQL、API 与文档命名方式。
 ---
 
 # 命名规范

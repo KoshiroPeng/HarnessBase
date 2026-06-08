@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 数据流说明，描述 RuoYi-Vue-Plus 请求、认证、业务、持久化、异常与前端接口流转。
+description: HarnessBase 数据流说明，描述 RuoYi-Vue-Plus 请求、认证、业务、持久化、异常与前端接口流转。
 ---
 
 # 数据流说明

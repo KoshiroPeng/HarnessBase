@@ -3,10 +3,10 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: herness-demo-server
+  - job_name: harness-base-server
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
           - host.docker.internal:8080
         labels:
-          application: herness-demo-server
+          application: harness-base-server

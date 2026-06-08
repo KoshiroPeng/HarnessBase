@@ -2,7 +2,7 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 认证、会话、租户与权限设计说明，对齐当前 Sa-Token、客户端授权类型和租户能力。
+description: HarnessBase 认证、会话、租户与权限设计说明，对齐当前 Sa-Token、客户端授权类型和租户能力。
 ---
 
 # 功能设计：认证、会话、租户与权限

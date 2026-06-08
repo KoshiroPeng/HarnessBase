@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后台功能域设计图谱，对齐当前 system、monitor、tool/gen、workflow、demo 的真实代码入口、菜单权限和维护边界。
+description: HarnessBase 后台功能域设计图谱，对齐当前 system、monitor、tool/gen、workflow、demo 的真实代码入口、菜单权限和维护边界。
 ---
 
 # 功能设计：后台功能域图谱
 
 ## 目标
 
-本文档把 HernessDemo 当前后台功能域收敛到真实代码入口，避免继续沿用旧 ProjectPilot、CallCenter 或不存在的前端 monorepo 设想。
+本文档把 HarnessBase 当前后台功能域收敛到真实代码入口，避免继续沿用旧 ProjectPilot、CallCenter 或不存在的前端 monorepo 设想。
 
 本文档只做功能域级设计导航；具体接口事实以 [docs/reference/api-spec.yaml](../reference/api-spec.yaml) 和运行时 SpringDoc 为准。
 

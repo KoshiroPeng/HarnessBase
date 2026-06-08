@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 需求评审输出模板，用于统一记录需求评审结论、问题与后续动作。
+description: HarnessBase 需求评审输出模板，用于统一记录需求评审结论、问题与后续动作。
 ---
 
 # 需求评审输出模板

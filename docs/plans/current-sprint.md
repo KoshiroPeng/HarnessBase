@@ -2,14 +2,14 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 当前迭代计划，聚焦文档代码对齐、历史残留清理、reference 收敛、workflow 路径修正与 Harness 护栏落地。
+description: HarnessBase 当前迭代计划，聚焦文档代码对齐、历史残留清理、reference 收敛、workflow 路径修正与 Harness 护栏落地。
 ---
 
 # 当前迭代计划
 
 ## 迭代目标
 
-把 HernessDemo 从“重构后文档与代码大量不一致”的状态，收敛为“代码地图清楚、文档入口可信、发布路径可核对、Harness 护栏可执行”的状态。
+把 HarnessBase 从“重构后文档与代码大量不一致”的状态，收敛为“代码地图清楚、文档入口可信、发布路径可核对、Harness 护栏可执行”的状态。
 
 ## 本迭代范围
 

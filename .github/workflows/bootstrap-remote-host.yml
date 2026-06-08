@@ -69,7 +69,7 @@ jobs:
             echo "## 远端主机初始化入口"
             echo ""
             echo "- deploy/release/bootstrap-remote-host.sh"
-            echo "- deploy/release/herness-demo.service.template"
+            echo "- deploy/release/harness-base.service.template"
             echo "- deploy/release/environment-variable-template.md"
             echo "- deploy/release/release-checklist.md"
           } >> "$GITHUB_STEP_SUMMARY"

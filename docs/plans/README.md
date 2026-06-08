@@ -2,14 +2,14 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 计划文档目录入口，汇总当前迭代、后续待办与任务状态模板。
+description: HarnessBase 计划文档目录入口，汇总当前迭代、后续待办与任务状态模板。
 ---
 
 # 计划文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 当前文档与工程收敛计划，帮助协作者理解现在要修正什么、下一步准备做什么。
+本目录沉淀 HarnessBase 当前文档与工程收敛计划，帮助协作者理解现在要修正什么、下一步准备做什么。
 
 ## 文档索引
 

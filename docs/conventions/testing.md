@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 测试规范，约束单元测试、回归测试与验证范围。
+description: HarnessBase 测试规范，约束单元测试、回归测试与验证范围。
 ---
 
 # 测试规范

@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 测试用例评审清单，用于检查需求覆盖、步骤清晰度与回归范围。
+description: HarnessBase 测试用例评审清单，用于检查需求覆盖、步骤清晰度与回归范围。
 ---
 
 # 测试用例评审清单

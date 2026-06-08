@@ -2,12 +2,12 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 工程规范目录入口，汇总编码、测试、日志、命名、文档治理与任务启动规则。
+description: HarnessBase 工程规范目录入口，汇总编码、测试、日志、命名、文档治理与任务启动规则。
 ---
 
 # 工程规范总览
 
-本目录记录 HernessDemo 的工程规范。根规则以 [AGENTS.md](../../AGENTS.md) 为准，本文档负责把日常开发细则拆分到可维护的位置。
+本目录记录 HarnessBase 的工程规范。根规则以 [AGENTS.md](../../AGENTS.md) 为准，本文档负责把日常开发细则拆分到可维护的位置。
 
 ## 文档索引
 

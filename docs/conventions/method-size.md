@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 方法规模规范，约束单方法长度与复杂度收敛方式。
+description: HarnessBase 方法规模规范，约束单方法长度与复杂度收敛方式。
 ---
 
 # 方法规模规范

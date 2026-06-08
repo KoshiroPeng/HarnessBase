@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后台设计评审清单，用于检查数据库、接口、模块边界与后端逻辑设计。
+description: HarnessBase 后台设计评审清单，用于检查数据库、接口、模块边界与后端逻辑设计。
 ---
 
 # 后台设计评审清单

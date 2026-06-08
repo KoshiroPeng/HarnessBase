@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 参考文档目录入口，汇总当前 API 摘要、响应码、错误消息与共享事实资料。
+description: HarnessBase 参考文档目录入口，汇总当前 API 摘要、响应码、错误消息与共享事实资料。
 ---
 
 # 参考文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 的接口、响应码、错误消息和共享事实资料。当前系统的完整接口文档主要由 SpringDoc 从后端代码生成；本目录只维护仓库级摘要、响应模型和人工协作时必须核对的事实。
+本目录沉淀 HarnessBase 的接口、响应码、错误消息和共享事实资料。当前系统的完整接口文档主要由 SpringDoc 从后端代码生成；本目录只维护仓库级摘要、响应模型和人工协作时必须核对的事实。
 
 ## 文档索引
 

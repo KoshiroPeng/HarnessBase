@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 评审输出模板目录入口，汇总各阶段评审与验证证据模板。
+description: HarnessBase 评审输出模板目录入口，汇总各阶段评审与验证证据模板。
 ---
 
 # 评审输出模板总览
 
 ## 目标
 
-本目录提供 HernessDemo 在需求评审、设计评审、代码评审和测试用例评审中的统一输出模板，帮助 AI 与人工评审都按同一结构记录结论、问题和后续动作。
+本目录提供 HarnessBase 在需求评审、设计评审、代码评审和测试用例评审中的统一输出模板，帮助 AI 与人工评审都按同一结构记录结论、问题和后续动作。
 
 ## 使用原则
 

@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 设计文档目录入口，汇总后台管理功能路线、功能域图谱、认证权限设计与真实模块说明。
+description: HarnessBase 设计文档目录入口，汇总后台管理功能路线、功能域图谱、认证权限设计与真实模块说明。
 ---
 
 # 设计文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 当前后台管理系统的功能设计入口。设计文档必须围绕 RuoYi-Vue-Plus 已有功能域展开，不能继续维护 ProjectPilot 搜索、计费或项目管理 MVP 这类无代码事实支撑的路线。
+本目录沉淀 HarnessBase 当前后台管理系统的功能设计入口。设计文档必须围绕 RuoYi-Vue-Plus 已有功能域展开，不能继续维护 ProjectPilot 搜索、计费或项目管理 MVP 这类无代码事实支撑的路线。
 
 ## 推荐入口
 

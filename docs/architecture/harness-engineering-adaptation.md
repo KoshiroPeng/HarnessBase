@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: 说明 Harness Engineering 在 HernessDemo 中的落地方向：真实代码地图、规则护栏、验证证据与自动化检查。
+description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真实代码地图、规则护栏、验证证据与自动化检查。
 ---
 
 # Harness Engineering 落地说明
 
 ## 目标
 
-本文档说明 Harness Engineering 在 HernessDemo 中的正确用法。它不是新业务范围，也不是大而全平台建设，而是一组让 AI 和人工协作者更稳定完成工程任务的支架。
+本文档说明 Harness Engineering 在 HarnessBase 中的正确用法。它不是新业务范围，也不是大而全平台建设，而是一组让 AI 和人工协作者更稳定完成工程任务的支架。
 
 ## 当前结论
 
@@ -95,4 +95,4 @@ description: 说明 Harness Engineering 在 HernessDemo 中的落地方向：真
 
 ## 一句话准则
 
-在 HernessDemo 里，Harness Engineering 的正确方向不是“多写文档”，而是“让代码事实、协作规则和验证路径持续对齐”。
+在 HarnessBase 里，Harness Engineering 的正确方向不是“多写文档”，而是“让代码事实、协作规则和验证路径持续对齐”。

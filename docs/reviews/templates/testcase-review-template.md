@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 测试用例评审输出模板，用于统一记录测试覆盖、缺口与回归安排。
+description: HarnessBase 测试用例评审输出模板，用于统一记录测试覆盖、缺口与回归安排。
 ---
 
 # 测试用例评审输出模板

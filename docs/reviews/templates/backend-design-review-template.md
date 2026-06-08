@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后端设计评审输出模板，用于统一记录数据库、接口和逻辑设计评审结果。
+description: HarnessBase 后端设计评审输出模板，用于统一记录数据库、接口和逻辑设计评审结果。
 ---
 
 # 后台设计评审输出模板

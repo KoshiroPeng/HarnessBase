@@ -2,14 +2,14 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 文档导航总入口，按任务场景组织架构、开发、评审、测试、发布与文档治理材料。
+description: HarnessBase 文档导航总入口，按任务场景组织架构、开发、评审、测试、发布与文档治理材料。
 ---
 
 # 文档导航总入口
 
 ## 目标
 
-本文档是 HernessDemo 的统一文档入口。当前仓库的真实代码主线是 RuoYi-Vue-Plus 多租户后台管理系统，文档必须围绕现有 `server/`、`web/`、`deploy/` 和 `.github/workflows/` 事实组织。
+本文档是 HarnessBase 的统一文档入口。当前仓库的真实代码主线是 RuoYi-Vue-Plus 多租户后台管理系统，文档必须围绕现有 `server/`、`web/`、`deploy/` 和 `.github/workflows/` 事实组织。
 
 ## 推荐阅读顺序
 

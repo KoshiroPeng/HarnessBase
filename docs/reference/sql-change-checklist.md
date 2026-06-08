@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo SQL 脚本变更模板与验证清单，用于约束初始化脚本、升级脚本、多数据库兼容和发布检查。
+description: HarnessBase SQL 脚本变更模板与验证清单，用于约束初始化脚本、升级脚本、多数据库兼容和发布检查。
 ---
 
 # SQL 脚本变更清单
 
 ## 目标
 
-本文档用于约束 HernessDemo 的数据库脚本变更。当前仓库没有 Flyway migration，数据库结构事实入口是 [server/script/sql](../../server/script/sql)，因此任何表结构、初始化数据、字典、菜单、权限和工作流数据变更，都必须明确同步初始化脚本和升级脚本。
+本文档用于约束 HarnessBase 的数据库脚本变更。当前仓库没有 Flyway migration，数据库结构事实入口是 [server/script/sql](../../server/script/sql)，因此任何表结构、初始化数据、字典、菜单、权限和工作流数据变更，都必须明确同步初始化脚本和升级脚本。
 
 ## 当前脚本入口
 

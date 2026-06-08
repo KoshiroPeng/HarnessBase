@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: HernessDemo Admin API 摘要
+  title: HarnessBase Admin API 摘要
   version: 0.1.0
   description: |
     本文件是当前 RuoYi-Vue-Plus 后台管理系统的仓库级 API 摘要，不替代运行时 SpringDoc 生成的完整接口文档。

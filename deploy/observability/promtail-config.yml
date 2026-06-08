@@ -9,11 +9,11 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: herness-demo-server
+  - job_name: harness-base-server
     static_configs:
       - targets:
           - localhost
         labels:
-          job: herness-demo-server
-          application: herness-demo-server
+          job: harness-base-server
+          application: harness-base-server
           __path__: /var/log/app/*.log

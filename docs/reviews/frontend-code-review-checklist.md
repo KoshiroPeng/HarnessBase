@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 前端代码评审清单，用于检查代码规范、结构合理性与前端逻辑安全性。
+description: HarnessBase 前端代码评审清单，用于检查代码规范、结构合理性与前端逻辑安全性。
 ---
 
 # 前端代码评审清单

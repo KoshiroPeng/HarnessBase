@@ -1,15 +1,15 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 模块边界和依赖规则，约束 RuoYi-Vue-Plus 多模块结构下的扩展方式。
+description: HarnessBase 模块边界和依赖规则，约束 RuoYi-Vue-Plus 多模块结构下的扩展方式。
 ---
 
 # 模块边界和依赖规则
 
 ## 目标
 
-本文档约束 HernessDemo 在当前 RuoYi-Vue-Plus 多模块结构下如何继续扩展，避免文档写一套、代码走另一套。
+本文档约束 HarnessBase 在当前 RuoYi-Vue-Plus 多模块结构下如何继续扩展，避免文档写一套、代码走另一套。
 
 ## 当前模块边界
 

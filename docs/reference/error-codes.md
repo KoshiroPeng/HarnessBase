@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 响应码与错误消息文档，统一说明 R、TableDataInfo、HttpStatus、GlobalExceptionHandler、SaTokenExceptionHandler 和 i18n 消息语义。
+description: HarnessBase 响应码与错误消息文档，统一说明 R、TableDataInfo、HttpStatus、GlobalExceptionHandler、SaTokenExceptionHandler 和 i18n 消息语义。
 ---
 
 # 响应码与错误消息

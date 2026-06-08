@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 错误处理规范，约束 R、TableDataInfo、HttpStatus、GlobalExceptionHandler、SaTokenExceptionHandler、i18n 消息与对外响应方式。
+description: HarnessBase 错误处理规范，约束 R、TableDataInfo、HttpStatus、GlobalExceptionHandler、SaTokenExceptionHandler、i18n 消息与对外响应方式。
 ---
 
 # 错误处理规范

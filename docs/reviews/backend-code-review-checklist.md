@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后端代码评审清单，用于检查编码规范、异常处理、性能、SQL 脚本与模块边界风险。
+description: HarnessBase 后端代码评审清单，用于检查编码规范、异常处理、性能、SQL 脚本与模块边界风险。
 ---
 
 # 后台代码评审清单

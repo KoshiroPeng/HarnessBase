@@ -1,4 +1,4 @@
-name: HernessDemo CI
+name: HarnessBase CI
 
 on:
   # 中文说明：PR 阶段执行质量门禁，阻止不符合基线的改动进入主线。
@@ -37,12 +37,12 @@ permissions:
 
 concurrency:
   # 中文说明：同一分支上的 CI 仅保留最新一次，减少重复排队和资源浪费。
-  group: hernessdemo-ci-${{ github.ref }}
+  group: harnessbase-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   server:
-    name: HernessDemo 后端构建校验
+    name: HarnessBase 后端构建校验
     runs-on: ubuntu-latest
 
     defaults:
@@ -66,7 +66,7 @@ jobs:
           java -version
           mvn -v
 
-      - name: 构建 HernessDemo 后端
+      - name: 构建 HarnessBase 后端
         working-directory: server
         run: mvn -B -DskipTests package
 
@@ -87,7 +87,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: herness-server-ci-${{ github.run_number }}
+          name: harness-base-server-ci-${{ github.run_number }}
           if-no-files-found: ignore
           path: |
             artifacts/**
@@ -95,7 +95,7 @@ jobs:
             server/**/target/surefire-reports/**
 
   web:
-    name: HernessDemo 前端构建校验
+    name: HarnessBase 前端构建校验
     runs-on: ubuntu-latest
 
     defaults:
@@ -122,14 +122,14 @@ jobs:
         working-directory: web
         run: pnpm install --frozen-lockfile
 
-      - name: 构建 HernessDemo 前端
+      - name: 构建 HarnessBase 前端
         working-directory: web
         run: pnpm build:prod
 
-      - name: 上传 HernessDemo 前端制品
+      - name: 上传 HarnessBase 前端制品
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: herness-web-ci-${{ github.run_number }}
+          name: harness-base-web-ci-${{ github.run_number }}
           if-no-files-found: ignore
           path: web/dist/**

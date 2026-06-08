@@ -1,13 +1,13 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 发布检查清单，用于统一发布前、发布中、发布后和回滚前后的最小验证步骤。
+description: HarnessBase 发布检查清单，用于统一发布前、发布中、发布后和回滚前后的最小验证步骤。
 ---
 
 # 发布检查清单
 
-本清单用于服务当前 HernessDemo 后台管理系统交付，不用于把发布流程扩张成新的平台主线。
+本清单用于服务当前 HarnessBase 后台管理系统交付，不用于把发布流程扩张成新的平台主线。
 
 配套文档：
 

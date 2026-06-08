@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 前端设计评审输出模板，用于统一记录前端交互、路由和接口设计评审结果。
+description: HarnessBase 前端设计评审输出模板，用于统一记录前端交互、路由和接口设计评审结果。
 ---
 
 # 前端设计评审输出模板

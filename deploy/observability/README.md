@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 本地可观测性目录入口，汇总指标、日志与观测支撑材料。
+description: HarnessBase 本地可观测性目录入口，汇总指标、日志与观测支撑材料。
 ---
 
 # 本地可观测性

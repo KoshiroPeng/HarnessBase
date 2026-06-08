@@ -1,8 +1,8 @@
 ---
-last_updated: 2026-06-08
+last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 前端设计评审清单，用于检查交互设计、接口调用、路由权限与前端业务逻辑设计。
+description: HarnessBase 前端设计评审清单，用于检查交互设计、接口调用、路由权限与前端业务逻辑设计。
 ---
 
 # 前端设计评审清单

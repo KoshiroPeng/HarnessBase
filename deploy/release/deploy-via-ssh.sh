@@ -14,11 +14,11 @@ target_host="${APP_DEPLOY_HOST:-}"
 target_user="${APP_DEPLOY_USER:-}"
 target_key="${APP_DEPLOY_KEY:-}"
 target_port="${APP_DEPLOY_PORT:-22}"
-target_dir="${APP_DEPLOY_DIR:-/opt/herness-demo}"
+target_dir="${APP_DEPLOY_DIR:-/opt/harness-base}"
 app_profile="${APP_PROFILE:-}"
 java_opts="${JAVA_OPTS:--Xms256m -Xmx512m}"
 deploy_strategy="${APP_DEPLOY_STRATEGY:-nohup}"
-service_name="${APP_SERVICE_NAME:-herness-demo}"
+service_name="${APP_SERVICE_NAME:-harness-base}"
 dry_run="${DRY_RUN:-true}"
 release_version="${RELEASE_VERSION:-unknown}"
 
@@ -72,7 +72,7 @@ if [[ "${deploy_strategy}" == "systemd" ]]; then
   sudo systemctl restart "${service_name}"
   sudo systemctl status "${service_name}" --no-pager
 else
-  pkill -f 'herness-demo-server' || true
+  pkill -f 'harness-base-server' || true
   nohup java ${java_opts} \
     -Dspring.profiles.active="${app_profile}" \
     -jar "${target_dir}/current.jar" \

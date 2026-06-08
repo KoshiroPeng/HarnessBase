@@ -2,7 +2,7 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 前后端接口差异修复任务说明，聚焦 workflow definition XML 路径和 monitor cache 前端残留。
+description: HarnessBase 前后端接口差异修复任务说明，聚焦 workflow definition XML 路径和 monitor cache 前端残留。
 ---
 
 # 前后端接口差异修复任务说明

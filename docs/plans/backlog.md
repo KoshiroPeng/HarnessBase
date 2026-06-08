@@ -2,7 +2,7 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HernessDemo 后续待办列表，覆盖文档代码对齐、workflow 修正、SQL 治理、发布支撑与 Harness 自动化。
+description: HarnessBase 后续待办列表，覆盖文档代码对齐、workflow 修正、SQL 治理、发布支撑与 Harness 自动化。
 ---
 
 # Backlog
@@ -10,7 +10,7 @@ description: HernessDemo 后续待办列表，覆盖文档代码对齐、workflo
 ## P0：历史残留清理
 
 - 持续防止 `.github/workflows` 回退到旧 `services/callcenter-*` 路径。
-- 统一发布脚本中的 `herness-demo`、`ruoyi-admin` 服务名和制品名语境。
+- 统一发布脚本中的 `harness-base`、`ruoyi-admin` 服务名和制品名语境。
 - 持续扫描并清理文档中残留的 ProjectPilot 项目管理、搜索、计费和 CallCenter 事实误用。
 
 ## P1：文档事实同步
