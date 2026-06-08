@@ -6,10 +6,10 @@ owner: "@PengKang"
 
 openapi: 3.0.3
 info:
-  title: HernessDemo API
+  title: ProjectPilot API
   version: 0.1.0
   description: |
-    HernessDemo 在线项目管理平台 API 基线文档。
+    ProjectPilot 在线项目管理平台 API 基线文档。
     当前文件定义第一版接口约定，实际实现时必须保持同步更新。
     当前 API 文档以 Web MVP 主线为优先，超出当前阶段的接口仅作为边界预留，不代表已经进入当前迭代实现范围。
 servers:

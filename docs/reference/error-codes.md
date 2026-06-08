@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 错误码基线文档，统一维护错误响应编号与语义。
 ---
 
 # 错误码

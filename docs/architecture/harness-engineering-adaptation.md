@@ -2,13 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: 说明 Harness Engineering 在 ProjectPilot 中的正确落地方向与范围边界。
 ---
 
 # Harness Engineering 纠偏说明
 
 ## 目标
 
-本文档用于说明 Harness Engineering 思想在 HernessDemo 中的正确用法，避免把它误解为“继续建设交付平台本体”。
+本文档用于说明 Harness Engineering 思想在 ProjectPilot 中的正确用法，避免把它误解为“继续建设交付平台本体”。
 
 在当前仓库中，Harness Engineering 不是产品范围，不是独立业务模块，也不是优先级高于 Web MVP 的建设目标。它应被理解为一种工程方法，用来帮助我们更稳定、更可追踪、更可验证地交付 Web 产品。
 
@@ -130,4 +131,4 @@ Harness Engineering 适合做“先有最小闭环，再逐步硬化”。
 
 ## 一句话准则
 
-在 HernessDemo 里，Harness Engineering 的正确用法不是“多做平台”，而是“让 Web 产品研发更稳、更清楚、更可验证”。
+在 ProjectPilot 里，Harness Engineering 的正确用法不是“多做平台”，而是“让 Web 产品研发更稳、更清楚、更可验证”。

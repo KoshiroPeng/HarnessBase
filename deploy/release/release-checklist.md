@@ -1,3 +1,9 @@
+---
+last_updated: 2026-06-08
+status: active
+owner: "@PengKang"
+---
+
 # 发布检查清单
 
 本清单用于服务当前 Web 产品交付，不用于把发布流程扩张成新的项目主线。

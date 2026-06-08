@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 验证证据输出模板，用于统一记录验证方式、结果与剩余风险。
 ---
 
 # 验证证据输出模板

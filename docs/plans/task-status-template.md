@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 任务状态模板，用于统一记录目标、进展、验证与阻塞。
 ---
 
 # 任务状态模板

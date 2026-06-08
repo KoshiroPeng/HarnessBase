@@ -2,13 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot Web MVP 路线图，定义当前阶段的页面、能力与交付主线。
 ---
 
 # Web MVP 路线图
 
 ## 目标
 
-本文档用于把 HernessDemo 从“工程与交付骨架”纠偏为“Web 产品研发主线”，明确第一阶段真正要交付的前后端能力、页面结构和联调闭环。
+本文档用于把 ProjectPilot 从“工程与交付骨架”纠偏为“Web 产品研发主线”，明确第一阶段真正要交付的前后端能力、页面结构和联调闭环。
 
 如果需要判断 Harness Engineering 在这条主线里应如何发挥作用，参见 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)。
 

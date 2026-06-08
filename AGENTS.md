@@ -1,6 +1,13 @@
+---
+last_updated: 2026-06-08
+status: active
+owner: "@PengKang"
+description: ProjectPilot 仓库级 AI 协作规则、工程护栏与文档治理入口。
+---
+
 # AGENTS.md
 
-本文件是 HernessDemo 仓库唯一的 AI 协作规则入口。所有 agent 在读取或修改本仓库前，必须先阅读并遵守本文档。
+本文件是 ProjectPilot 项目仓库唯一的 AI 协作规则入口。所有 agent 在读取或修改本仓库前，必须先阅读并遵守本文档。
 
 ## 回复与编码
 
@@ -11,7 +18,7 @@
 
 ## 项目简介
 
-HernessDemo 是一个面向中小企业的在线项目管理 Web 产品，基于 Spring Boot 2.7、Java 1.8 和 MySQL 5.7 构建。
+ProjectPilot 是一个面向中小企业的在线项目管理 Web 产品，基于 Spring Boot 2.7、Java 1.8 和 MySQL 5.7 构建。
 
 当前项目主线是 Web 产品研发，不是继续扩展交付平台能力。发布、回滚、环境与可观测性材料属于支撑层，用来服务产品交付，不应反客为主。
 
@@ -19,8 +26,8 @@ Harness Engineering 在本仓库中只作为工程方法使用，用于加强导
 
 项目命名口径说明：
 
-- 对外文档和仓库说明统一使用 `HernessDemo`。
-- 部署名、服务名、日志名、制品名中的 `herness-demo` 视为既有技术标识，当前阶段保留，不在本轮文档纠偏中强行改动。
+- 对外文档、产品说明和接口标题统一使用 `ProjectPilot`。
+- 仓库目录名、部署名、服务名、日志名、制品名、脚本名和类名中的 `herness-demo`、`Harness-demo`、`HernessDemo` 视为历史技术标识，当前阶段保留，不在本轮文档纠偏中强行改动。
 
 ## 技术栈基线
 
@@ -48,6 +55,7 @@ Harness Engineering 在本仓库中只作为工程方法使用，用于加强导
 | 执行开发任务启动清单 | [docs/conventions/task-startup-checklist.md](docs/conventions/task-startup-checklist.md) |
 | 统一记录任务执行状态 | [docs/plans/task-status-template.md](docs/plans/task-status-template.md) |
 | 统一沉淀验证证据 | [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) |
+| 了解文档链接规范 | [docs/conventions/document-links.md](docs/conventions/document-links.md) |
 | 开发后端代码并做自检 | [docs/README.md](docs/README.md) |
 | 做后端代码评审 | [docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md) |
 | 了解模块边界和依赖规则 | [docs/architecture/boundaries.md](docs/architecture/boundaries.md) |
@@ -81,6 +89,34 @@ Harness Engineering 在本仓库中只作为工程方法使用，用于加强导
 6. 禁止字段级 `@Autowired`，必须使用构造器注入，推荐 Lombok `@RequiredArgsConstructor`。
 7. 新增业务代码必须有对应 JUnit 5 测试，行覆盖率不低于 80%。
 8. 禁止为了绕过测试或编译错误而降低校验标准、删除断言或跳过必要测试。
+9. 导航型文档、目录索引页和关键流程说明必须使用可点击 Markdown 链接，不要只保留纯文本路径。
+10. 任何会影响“开发、测试、评审、发布”主路径的文档变更，都必须同步更新 [docs/README.md](docs/README.md) 或对应目录 `README.md`。
+11. 新增内部 Markdown 文档时，必须在文件头部增加统一元数据标头：`last_updated`、`status`、`owner`、`description`；根目录 [README.md](README.md) 可作为对外入口文档豁免此要求。
+12. 修改带有元数据标头的 Markdown 文档时，必须同步更新该文档标头中的 `last_updated` 日期；若修改根目录 [README.md](README.md)，优先保证其人类可读性与入口清晰度。
+13. 目录级 `README.md` 如果承担目录导航、规则索引、场景分流或模板入口职责，应保留元数据标头；如果主要承担对外展示或 GitHub 首页说明职责，则不强制保留标头。
+
+## Harness 闭环要求
+
+为避免只做“文档堆积”而没有形成工程闭环，执行任务时默认遵守以下最小 Harness 流程：
+
+1. 开始前先完成统一入口阅读：`AGENTS.md` -> [docs/README.md](docs/README.md) -> [docs/architecture/harness-engineering-adaptation.md](docs/architecture/harness-engineering-adaptation.md) -> 对应任务场景文档。
+2. 执行中如果任务跨多个文档、模块或阶段，优先使用 [docs/plans/task-status-template.md](docs/plans/task-status-template.md) 记录目标、进展、风险和待补文档。
+3. 完成前如果任务涉及功能、缺陷、评审、测试、发布或重要文档治理，优先使用 [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) 记录验证方式、结果和未覆盖风险。
+4. 新增规范、清单、模板或导航页后，必须让它能够从 [docs/README.md](docs/README.md) 或目录索引页直接进入，避免知识只停留在对话里。
+
+## 任务场景联读要求
+
+以下组合用于把 Harness Engineering 落到“做这类任务时必须一起看哪些文档”。
+
+| 任务场景 | 至少联读这些文档 |
+| --- | --- |
+| 后端功能开发 | [docs/design/web-mvp-roadmap.md](docs/design/web-mvp-roadmap.md)、[docs/conventions/README.md](docs/conventions/README.md)、[docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md)、[docs/conventions/testing.md](docs/conventions/testing.md) |
+| 需求评审 | [docs/reviews/requirement-review-checklist.md](docs/reviews/requirement-review-checklist.md)、[docs/design/README.md](docs/design/README.md)、[docs/plans/README.md](docs/plans/README.md) |
+| 后端设计评审 | [docs/reviews/backend-design-review-checklist.md](docs/reviews/backend-design-review-checklist.md)、[docs/architecture/boundaries.md](docs/architecture/boundaries.md)、[docs/reference/api-spec.yaml](docs/reference/api-spec.yaml)、[docs/reference/error-codes.md](docs/reference/error-codes.md) |
+| 代码评审或开发后自检 | [docs/conventions/README.md](docs/conventions/README.md)、[docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md)、[docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) |
+| 测试设计、补测试或用例评审 | [docs/conventions/testing.md](docs/conventions/testing.md)、[docs/reviews/testcase-review-checklist.md](docs/reviews/testcase-review-checklist.md)、[docs/reference/error-codes.md](docs/reference/error-codes.md) |
+| 发布、回滚或上线验证 | [deploy/release/README.md](deploy/release/README.md)、[deploy/release/release-checklist.md](deploy/release/release-checklist.md)、[deploy/observability/README.md](deploy/observability/README.md) |
+| 文档整理或规则治理 | [docs/README.md](docs/README.md)、[docs/conventions/document-links.md](docs/conventions/document-links.md)、[docs/plans/task-status-template.md](docs/plans/task-status-template.md)、[docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) |
 
 ## 开发流程
 

@@ -2,13 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 设计文档目录入口，汇总业务功能设计与 Web MVP 路线图。
 ---
 
 # 设计文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 的功能设计文档，帮助需求评审、详细设计评审和开发实现快速找到对应业务方向的设计材料。
+本目录沉淀 ProjectPilot 的功能设计文档，帮助需求评审、详细设计评审和开发实现快速找到对应业务方向的设计材料。
 
 ## 推荐入口
 

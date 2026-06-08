@@ -1,6 +1,12 @@
+---
+last_updated: 2026-06-08
+status: active
+owner: "@PengKang"
+---
+
 # 环境变量与密钥模板
 
-本文件用于沉淀 HernessDemo 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
+本文件用于沉淀 ProjectPilot 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
 
 本文档属于发布支撑材料，目标是减少环境准备的不确定性，而不是扩张新的平台范围。
 

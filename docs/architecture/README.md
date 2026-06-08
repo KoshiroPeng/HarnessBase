@@ -2,13 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 架构文档目录入口，汇总架构基线、边界、数据流与 Harness 纠偏文档。
 ---
 
 # 架构文档总览
 
 ## 目标
 
-本目录沉淀 HernessDemo 的架构基线、模块边界、数据流与 Harness Engineering 纠偏说明，帮助开发、设计、评审与测试在开始工作前快速建立共同上下文。
+本目录沉淀 ProjectPilot 的架构基线、模块边界、数据流与 Harness Engineering 纠偏说明，帮助开发、设计、评审与测试在开始工作前快速建立共同上下文。
 
 当前阶段的架构主线仍然服务于 Web MVP 交付，不单独扩张为新的平台建设体系。
 

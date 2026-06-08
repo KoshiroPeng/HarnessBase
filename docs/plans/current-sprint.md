@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 迭代目标
 
-把 HernessDemo 从“工程与交付骨架优先”纠偏为“Web 产品研发优先”，完成第一阶段 MVP 的前置准备和最小功能闭环。
+把 ProjectPilot 从“工程与交付骨架优先”纠偏为“Web 产品研发优先”，完成第一阶段 MVP 的前置准备和最小功能闭环。
 
 纠偏时继续参考 Harness Engineering，但仅把它作为工程方法，而不是当前产品范围本身。相关说明见 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md)。
 

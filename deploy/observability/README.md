@@ -1,3 +1,10 @@
+---
+last_updated: 2026-06-08
+status: active
+owner: "@PengKang"
+description: ProjectPilot 本地可观测性目录入口，汇总指标、日志与观测支撑材料。
+---
+
 # 本地可观测性
 
 本目录提供轻量级本地可观测性堆栈：

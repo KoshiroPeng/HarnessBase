@@ -2,6 +2,7 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
+description: ProjectPilot 后台设计评审清单，用于检查数据库、接口与后端逻辑设计。
 ---
 
 # 后台设计评审清单
