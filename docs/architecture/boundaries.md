@@ -1,76 +1,79 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
+description: HernessDemo 模块边界和依赖规则，约束 RuoYi-Vue-Plus 多模块结构下的扩展方式。
 ---
 
 # 模块边界和依赖规则
 
-## 依赖方向
+## 目标
 
-项目后端依赖方向固定为：
+本文档约束 HernessDemo 在当前 RuoYi-Vue-Plus 多模块结构下如何继续扩展，避免文档写一套、代码走另一套。
+
+## 当前模块边界
 
 ```text
-domain -> config -> mapper -> service -> controller
+ruoyi-admin
+  -> ruoyi-modules/*
+  -> ruoyi-common/*
+ruoyi-modules/*
+  -> ruoyi-common/*
+ruoyi-extend/*
+  -> 按独立服务或运维扩展管理
+web/src/views
+  -> web/src/api
+  -> 后端 HTTP API
 ```
 
-该方向表示右侧可以依赖左侧已经暴露的能力，左侧不得反向依赖右侧。
-
-## 分层职责
-
-| 层级 | 主要职责 | 禁止事项 |
+| 层级 | 当前路径 | 主要职责 |
 | --- | --- | --- |
-| `domain` | 领域模型、枚举、值对象、领域常量 | 禁止依赖 Spring MVC、Mapper、Controller |
-| `config` | Bean 装配、配置属性、横切能力接入 | 禁止承载业务流程 |
-| `mapper` | MyBatis-Plus Mapper、SQL 映射、数据访问 | 禁止编排跨聚合业务流程 |
-| `service` | 业务用例、事务边界、规则编排 | 禁止直接处理 HTTP 协议细节 |
-| `controller` | HTTP 入参校验、响应封装、状态码映射 | 禁止写复杂业务逻辑 |
-| `infrastructure` | ApiClient、日志、指标、安全、审计、外部系统适配器 | 禁止承载业务用例或被 Controller 绕过调用 |
+| 启动聚合 | [server/ruoyi-admin](../../server/ruoyi-admin) | 启动类、Web 服务入口、认证控制器、应用配置、最终 Jar |
+| 公共能力 | [server/ruoyi-common](../../server/ruoyi-common) | core、web、mybatis、redis、satoken、tenant、security、oss、log、excel、sse、websocket 等 |
+| 业务模块 | [server/ruoyi-modules](../../server/ruoyi-modules) | system、generator、job、workflow、demo |
+| 运维扩展 | [server/ruoyi-extend](../../server/ruoyi-extend) | monitor admin、SnailJob server |
+| 前端接口 | [web/src/api](../../web/src/api) | 按功能域封装接口请求与类型 |
+| 前端页面 | [web/src/views](../../web/src/views) | 按 system、monitor、tool、workflow、demo 等功能域组织页面 |
 
-## 允许的依赖
+## 新增后端能力放置规则
 
-- `controller` 可以依赖 `service`。
-- `service` 可以依赖 `mapper`、`domain` 和通过 Spring 注入的 `infrastructure` Bean。
-- `mapper` 可以依赖 `domain` 中的数据模型或查询对象。
-- `config` 可以装配跨层 Bean，但不承载业务分支。
-- `domain` 应保持轻量，优先不依赖 Spring。
-- `infrastructure` 可以依赖 `config` 暴露的配置属性和第三方 SDK，但对业务层只暴露稳定抽象。
+- 新增后台管理业务能力，优先评估是否属于 `ruoyi-system`。
+- 新增代码生成能力，优先放入 `ruoyi-generator`。
+- 新增工作流能力，优先放入 `ruoyi-workflow`。
+- 新增任务调度客户端能力，优先放入 `ruoyi-job` 或对应 common job 能力。
+- 新增通用基础设施能力，优先放入对应 `ruoyi-common-*`；没有合适模块时再新增 common 子模块。
+- 新增独立运行的运维服务，才考虑 `ruoyi-extend`。
+- `ruoyi-admin` 只做启动、装配、配置和少量 Web 入口聚合，不承载大段业务规则。
 
-## 禁止的依赖
+## 新增前端能力放置规则
 
-- `domain` 禁止依赖 `controller`、`service`、`mapper`。
-- `mapper` 禁止调用 `service`。
-- `controller` 禁止直接调用 `mapper`。
-- `controller` 禁止直接调用外部 ApiClient 或基础设施适配器。
-- `infrastructure` 禁止反向调用 `controller` 或编排业务流程。
-- 业务代码禁止用 `new` 创建 auth、log、telemetry 等横切对象。
-- 业务代码禁止裸用 `RestTemplate` 或 `HttpURLConnection`。
-- 禁止为了方便在任意层访问 Spring 上下文。
+- API 请求封装放在 [web/src/api](../../web/src/api) 对应功能域下。
+- 页面放在 [web/src/views](../../web/src/views) 对应功能域下。
+- 跨页面共享组件放在 [web/src/components](../../web/src/components)。
+- 路由接入按现有 [web/src/router](../../web/src/router) 模式处理。
+- 状态管理按现有 [web/src/store](../../web/src/store) Pinia 模块处理。
 
-## 横切关注点
+## 禁止事项
 
-认证、授权、日志、审计、telemetry、外部 API 客户端都属于横切关注点，必须通过 Spring Bean 注入。
+- 禁止把不存在的 `bootstrap/shared/modules` 目标结构当成当前落地事实。
+- 禁止新增业务绕过 Service，直接在 Controller 中堆叠复杂规则。
+- 禁止跨模块直接调用其他模块 Controller。
+- 禁止业务代码直接散落第三方 SDK 初始化逻辑；应进入 common、adapter 或明确封装类。
+- 禁止新增 `javax.*` 命名空间。
+- 禁止新增字段级 `@Autowired`。
 
-推荐方式：
+## 数据边界
 
-- 配置类负责创建基础设施 Bean。
-- Service 通过构造器注入使用。
-- Controller 只负责调用业务用例，不直接拼装横切能力。
-
-## 事务边界
-
-事务边界应放在 `service` 层。
-
-- 单个业务用例对应一个明确事务边界。
-- 查询接口默认不创建写事务。
-- Controller 不声明事务。
-- Mapper 不承载事务编排。
+- 当前数据库结构由 [server/script/sql](../../server/script/sql) 维护。
+- 表结构调整必须同步初始化 SQL 与升级 SQL。
+- Mapper、实体和 XML 不能替代数据库脚本。
+- 多数据源能力通过 dynamic-datasource 和既有配置接入，不能在业务代码中临时创建裸数据源。
 
 ## 新增模块检查清单
 
 新增模块前必须确认：
 
-- 模块职责能用一句话说清。
-- 新模块没有破坏 `domain -> config -> mapper -> service -> controller` 依赖方向。
-- 所需配置、数据迁移、API、错误码和测试文档已经同步。
-- 新增 `.java` 文件和方法长度符合 `AGENTS.md`。
+- 是否已有 `ruoyi-common-*` 或 `ruoyi-modules/*` 能承载该能力。
+- 是否需要同步前端 `web/src/api` 与 `web/src/views`。
+- 是否需要同步 SQL 脚本、API 文档、响应码文档和测试。
+- 是否会影响 [docs/architecture/code-map.md](code-map.md)。

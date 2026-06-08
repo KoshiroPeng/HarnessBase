@@ -1,4 +1,4 @@
-name: Server CI
+name: Multi-Service CI
 
 on:
   # 中文说明：PR 阶段执行质量门禁，阻止不符合基线的改动进入主线。
@@ -6,10 +6,12 @@ on:
     paths:
       - ".github/workflows/**"
       - "server/**"
+      - "services/**"
       - "docs/**"
       - "AGENTS.md"
       - ".editorconfig"
       - ".gitattributes"
+      - ".gitignore"
   # 中文说明：主分支合并后再次执行 CI，并产出可追溯的构建制品元数据。
   push:
     branches:
@@ -17,10 +19,12 @@ on:
     paths:
       - ".github/workflows/**"
       - "server/**"
+      - "services/**"
       - "docs/**"
       - "AGENTS.md"
       - ".editorconfig"
       - ".gitattributes"
+      - ".gitignore"
   # 中文说明：允许手工触发，便于在未改动代码时验证流水线配置。
   workflow_dispatch:
 
@@ -29,12 +33,105 @@ permissions:
 
 concurrency:
   # 中文说明：同一分支上的 CI 仅保留最新一次，减少重复排队和资源浪费。
-  group: server-ci-${{ github.ref }}
+  group: multi-service-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  quality-gates:
-    name: 质量门禁与制品准备
+  callcenter-server:
+    name: CallCenter Server 构建校验
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+          cache-dependency-path: services/callcenter-server/pom.xml
+
+      - name: 校验 Java 与 Maven
+        run: |
+          java -version
+          mvn -v
+
+      - name: 构建 CallCenter 后端
+        working-directory: services/callcenter-server
+        run: mvn -B -DskipTests package
+
+      - name: 生成构建元数据
+        run: |
+          mkdir -p artifacts
+          {
+            echo "service=callcenter-server"
+            echo "git_sha=${GITHUB_SHA}"
+            echo "git_ref=${GITHUB_REF}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_number=${GITHUB_RUN_NUMBER}"
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > artifacts/build-metadata.txt
+
+      - name: 上传构建产物与报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: callcenter-server-ci-${{ github.run_number }}
+          if-no-files-found: ignore
+          path: |
+            artifacts/**
+            services/callcenter-server/**/target/*.jar
+            services/callcenter-server/**/target/surefire-reports/**
+
+  callcenter-web:
+    name: CallCenter Web 构建校验
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: services/callcenter-web/pnpm-lock.yaml
+
+      - name: 安装前端依赖
+        working-directory: services/callcenter-web
+        run: pnpm install --frozen-lockfile
+
+      - name: 构建 CallCenter 前端
+        working-directory: services/callcenter-web
+        run: pnpm build:prod
+
+      - name: 上传 CallCenter 前端制品
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: callcenter-web-ci-${{ github.run_number }}
+          if-no-files-found: ignore
+          path: services/callcenter-web/dist/**
+
+  legacy-server:
+    name: Legacy Server 兼容校验
     runs-on: ubuntu-latest
 
     defaults:
@@ -63,15 +160,15 @@ jobs:
           java -version
           mvn -v
 
-      - name: 执行 Maven 全量校验
+      - name: 执行历史骨架 Maven 校验
         working-directory: server
         run: mvn -B clean verify
 
-      - name: 执行架构规则检查
+      - name: 执行历史骨架架构规则检查
         working-directory: server
         run: mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
 
-      - name: 执行文件行数检查
+      - name: 执行历史骨架文件行数检查
         run: |
           find server/src/main/java -name '*.java' | while read -r f; do
             lines=$(wc -l < "$f")
@@ -99,27 +196,13 @@ jobs:
             fi
           done
 
-      - name: 生成构建元数据
-        run: |
-          mkdir -p artifacts
-          {
-            echo "service=server"
-            echo "git_sha=${GITHUB_SHA}"
-            echo "git_ref=${GITHUB_REF}"
-            echo "run_id=${GITHUB_RUN_ID}"
-            echo "run_number=${GITHUB_RUN_NUMBER}"
-            echo "workflow=${GITHUB_WORKFLOW}"
-            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          } > artifacts/build-metadata.txt
-
-      - name: 上传构建产物与报告
+      - name: 上传历史骨架报告
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: server-ci-${{ github.run_number }}
+          name: legacy-server-ci-${{ github.run_number }}
           if-no-files-found: ignore
           path: |
-            artifacts/**
             server/target/*.jar
             server/target/surefire-reports/**
             server/target/site/jacoco/**

@@ -1,135 +1,139 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
+description: HernessDemo 系统架构总览，说明 RuoYi-Vue-Plus 代码事实、模块结构、数据脚本与工程护栏。
 ---
 
 # 系统架构概览
 
 ## 项目定位
 
-HernessDemo 是一个面向中小企业的在线项目管理平台，核心目标是支持项目、任务、成员、权限、搜索和计费等协作场景。
+HernessDemo 当前是基于 `RuoYi-Vue-Plus 5.6.1` 的多租户后台管理系统重构工作区。当前建设重点不是从零实现项目管理 MVP，而是让现有 RuoYi-Vue-Plus 后台体系、文档、发布材料和 Harness Engineering 护栏对齐。
 
-项目基线由根目录 `AGENTS.md` 定义：
+详细代码地图见 [docs/architecture/code-map.md](code-map.md)。
 
-- JDK 1.8
-- Spring Boot 2.7.x
-- Maven 3.6.3
-- MySQL 5.7，字符集 `utf8mb4`
-- MyBatis-Plus 3.5.x + Flyway
-- JUnit 5
+## 技术基线
 
-上述版本是兼容性边界，不允许在普通业务变更中擅自升级。
+当前后端基线由 [server/pom.xml](../../server/pom.xml) 确认：
 
-## 推荐目录结构
+- JDK 17。
+- Spring Boot 3.5.x / Spring Framework 6。
+- Maven 多模块工程。
+- MyBatis-Plus Boot 3、dynamic-datasource、p6spy。
+- Sa-Token、JWT、JustAuth。
+- Redis、Redisson、Lock4j。
+- SpringDoc、Actuator、Spring Boot Admin。
 
-```text
-.
-├── AGENTS.md
-├── README.md
-├── docs/
-├── server/
-├── web/
-└── deploy/
-```
+当前前端基线由 [web/package.json](../../web/package.json) 确认：
 
-- `docs/`: 架构、规范、设计、计划和参考文档。
-- `docs/README.md`: 按任务组织的统一文档导航入口。
-- `docs/delivery/`: 交付模型、环境、流水线、部署策略和制品治理文档。
-- `docs/operations/`: 发布验证、配置密钥、运行手册和服务目标文档。
-- `docs/governance/`: 发布审批、权限和审计治理文档。
-- `docs/reviews/`: 需求、设计、代码和测试阶段的评审清单。
-- `server/`: Spring Boot 后端服务。
-- `web/`: 前端应用。
-- `deploy/`: 部署、环境、容器和运维材料。
-- 根目录只保留项目入口文件、构建入口、仓库说明和必要配置。
+- Vue 3。
+- TypeScript。
+- Vite。
+- Element Plus。
+- Pinia。
+- Vue Router。
+- VXE Table。
+- Vitest。
 
-## 后端包结构
-
-后端 Spring Boot 工程放在 `server/` 下，标准包根路径为：
+## 后端结构
 
 ```text
-server/src/main/java/com/example/app/
-├── domain/
-│   ├── model/
-│   └── dto/
-├── config/
-├── mapper/
-├── service/
-├── controller/
-└── infrastructure/
+server/
+├── ruoyi-admin/
+├── ruoyi-common/
+├── ruoyi-modules/
+├── ruoyi-extend/
+└── script/
 ```
 
-- `domain/model`: MyBatis-Plus Entity、Value Object 和领域枚举。
-- `domain/dto`: Request、Response、Command、Query。Java 8 不支持 `record`，不可变 DTO 优先用 Lombok `@Value`。
-- `config`: Spring 配置类、`@ConfigurationProperties`、`@MapperScan` 和 `MybatisPlusInterceptor`。
-- `mapper`: MyBatis-Plus Mapper 接口，继承 `BaseMapper<T>`。
-- `service`: 业务逻辑、事务边界和领域规则编排。
-- `controller`: REST Controller、参数校验和 `@ControllerAdvice` 全局异常处理。
-- `infrastructure`: ApiClient、日志、指标、安全、审计和外部系统适配器。
+职责说明：
 
-## 后端架构
+- `ruoyi-admin` 是 Web 服务启动与打包入口，承载认证控制器、应用配置和最终 Jar。
+- `ruoyi-common` 是公共能力层，包含 core、web、mybatis、redis、satoken、tenant、security、oss、log、excel、sse、websocket 等基础能力。
+- `ruoyi-modules` 是主要业务与功能模块层，包含 system、generator、job、workflow、demo。
+- `ruoyi-extend` 是独立扩展层，包含 monitor admin 和 SnailJob server。
+- `script` 保存 SQL、Docker Compose、启动脚本和工作流示例数据。
 
-后端按分层架构组织，依赖方向必须保持单向：
+## 前端结构
 
 ```text
-domain -> config -> mapper -> service -> controller
+web/
+├── src/api/
+├── src/views/
+├── src/router/
+├── src/store/
+├── src/layout/
+├── src/components/
+├── src/utils/
+└── vite/
 ```
 
-各层职责如下：
+职责说明：
 
-- `domain`: 领域模型、枚举、领域常量和值对象。
-- `config`: Spring 配置、基础设施 Bean、属性绑定和横切能力装配。
-- `mapper`: MyBatis-Plus Mapper、SQL 映射和持久化访问。
-- `service`: 业务用例、事务边界、领域规则编排。
-- `controller`: HTTP 入参出参、状态码映射、接口协议适配。
-- `infrastructure`: 可注入的横切基础设施，不承载业务用例。
+- `src/api` 按功能域维护前端请求封装。
+- `src/views` 已包含 system、monitor、tool/gen、workflow、demo 等页面。
+- `src/router` 和 `src/store` 分别管理路由与 Pinia 状态。
+- `vite` 与根配置文件维护 Vite 插件和构建配置。
 
-更细的依赖规则见 [docs/architecture/boundaries.md](boundaries.md)。
+## 运行时链路
+
+```mermaid
+flowchart TD
+    Browser["浏览器 / web"]
+    Api["web/src/api"]
+    Admin["ruoyi-admin"]
+    CommonWeb["ruoyi-common-web"]
+    Satoken["ruoyi-common-satoken"]
+    Tenant["ruoyi-common-tenant"]
+    Modules["ruoyi-modules"]
+    Mybatis["ruoyi-common-mybatis"]
+    DB["数据库 / server/script/sql"]
+    Redis["Redis / Redisson"]
+
+    Browser --> Api
+    Api --> Admin
+    Admin --> CommonWeb
+    CommonWeb --> Satoken
+    CommonWeb --> Tenant
+    CommonWeb --> Modules
+    Modules --> Mybatis
+    Mybatis --> DB
+    Modules --> Redis
+    Satoken --> Redis
+```
 
 ## 数据与迁移
 
-数据库使用 MySQL 5.7，所有结构变更必须通过 Flyway migration 管理。业务代码、实体和 SQL 片段不能替代数据库迁移脚本。
+当前仓库以 SQL 脚本维护数据库事实：
 
-迁移脚本应满足：
+- 初始化脚本位于 [server/script/sql](../../server/script/sql)。
+- 版本升级脚本位于 [server/script/sql/update](../../server/script/sql/update)。
+- Oracle、PostgreSQL、SQL Server 兼容脚本也在 [server/script/sql](../../server/script/sql) 下维护。
 
-- 可以在空库上顺序执行。
-- 可以在测试环境重复验证。
-- 不使用 MySQL 8.x 独有语法。
-- 涉及兼容性风险时，在文档中说明回滚方案或补偿方案。
+当前没有 Flyway migration 体系。数据库结构变更必须同步更新 SQL 脚本和相关文档；若引入 Flyway，必须作为单独架构变更完成验证。
 
-## 外部交互
+## 发布与观测
 
-外部系统调用必须通过 `ApiClient` 抽象接入，禁止在业务代码中裸用 `RestTemplate` 或 `HttpURLConnection`。
-
-所有横切关注点，例如认证、日志、审计和 telemetry，必须通过 Spring 注入，不允许用 `new` 手动实例化。
+- 发布支撑材料位于 [deploy/release](../../deploy/release)。
+- 本地观测材料位于 [deploy/observability](../../deploy/observability)。
+- 当前 `.github/workflows` 中仍有 `services/callcenter-server` 历史引用，不能直接视为可用 CI/CD 事实。
 
 ## 质量门禁
 
-新增业务代码必须满足：
+新增或修改代码时必须遵守：
 
+- 新代码使用 `jakarta.*`，禁止新增 `javax.*`。
 - 使用构造器注入，禁止字段级 `@Autowired`。
-- 单个 `.java` 文件不超过 300 行。
-- 单个方法不超过 50 行。
-- 使用 SLF4J `Logger`，禁止 `System.out.println` 和 `e.printStackTrace()`。
-- 有对应 JUnit 5 测试，行覆盖率不低于 80%。
+- 禁止新增 `System.out.println` 和 `e.printStackTrace()`。
+- 通过已有 common 能力接入鉴权、租户、日志、缓存、SSE、WebSocket、对象存储等横切能力。
+- 业务变更必须补测试；后端默认 JUnit 5，前端默认 Vitest。
+- API、响应码、数据库脚本、发布入口变化必须同步更新文档。
 
-## 文档维护规则
+## 相关入口
 
-- API 变更同步更新 `docs/reference/api-spec.yaml`。
-- 错误码变更同步更新 `docs/reference/error-codes.md`。
-- 模块边界、依赖方向或部署方式变化同步更新 `docs/architecture/`。
-- 交付流程、环境策略或部署方式变化同步更新 `docs/delivery/`。
-- 发布验证、配置密钥或运行手册变化同步更新 `docs/operations/`。
-- 审批、权限或审计策略变化同步更新 `docs/governance/`。
-- 新增功能设计优先放在 `docs/design/`，再进入 `docs/plans/` 排期。
-
-## 交付导航
-
-当前仓库关于环境初始化、日常发布、回滚和验证的统一入口见：
-
-- [docs/delivery/delivery-operations-map.md](../delivery/delivery-operations-map.md)
-
-如果需要按开发、测试、评审、交付场景快速组合阅读文档，统一入口见：
-
-- [docs/README.md](../README.md)
+- [docs/architecture/code-map.md](code-map.md)
+- [docs/architecture/target-technology-baseline.md](target-technology-baseline.md)
+- [docs/architecture/boundaries.md](boundaries.md)
+- [docs/architecture/data-flow.md](data-flow.md)
+- [docs/architecture/harness-engineering-adaptation.md](harness-engineering-adaptation.md)
