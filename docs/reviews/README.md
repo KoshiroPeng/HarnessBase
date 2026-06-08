@@ -20,6 +20,7 @@ owner: "@PengKang"
 - 后台代码评审使用后台代码评审清单。
 - 前端代码评审使用前端代码评审清单。
 - 测试用例评审使用测试用例评审清单。
+- 需要输出评审结论时，优先使用 [docs/reviews/templates/README.md](templates/README.md) 中的统一模板。
 
 ## 与现有文档的关系
 
@@ -45,6 +46,7 @@ owner: "@PengKang"
 | 后台代码评审 | [docs/reviews/backend-code-review-checklist.md](backend-code-review-checklist.md) |
 | 前端代码评审 | [docs/reviews/frontend-code-review-checklist.md](frontend-code-review-checklist.md) |
 | 测试用例评审 | [docs/reviews/testcase-review-checklist.md](testcase-review-checklist.md) |
+| 评审输出模板 | [docs/reviews/templates/README.md](templates/README.md) |
 
 ## 当前项目适配说明
 
