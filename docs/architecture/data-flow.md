@@ -113,6 +113,8 @@ server/script/sql/
 
 结构变更必须同步初始化脚本与升级脚本。发布前应确认目标环境使用的数据库类型和脚本版本。
 
+SQL 变更模板和验证清单见 [docs/reference/sql-change-checklist.md](../reference/sql-change-checklist.md)。
+
 ## 外部依赖流
 
 现有外部依赖通过公共模块接入：

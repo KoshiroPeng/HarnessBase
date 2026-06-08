@@ -2,14 +2,14 @@
 last_updated: 2026-06-08
 status: active
 owner: "@PengKang"
-description: HernessDemo 错误处理规范，约束 R、HttpStatus、GlobalExceptionHandler、i18n 消息与对外响应方式。
+description: HernessDemo 错误处理规范，约束 R、TableDataInfo、HttpStatus、GlobalExceptionHandler、SaTokenExceptionHandler、i18n 消息与对外响应方式。
 ---
 
 # 错误处理规范
 
 ## 当前响应模型
 
-HTTP API 当前使用统一响应对象 `R<T>`：
+HTTP API 当前普通 JSON 响应主要使用统一响应对象 `R<T>`：
 
 ```json
 {
@@ -23,8 +23,12 @@ HTTP API 当前使用统一响应对象 `R<T>`：
 
 - [R.java](../../server/ruoyi-common/ruoyi-common-core/src/main/java/org/dromara/common/core/domain/R.java)
 - [HttpStatus.java](../../server/ruoyi-common/ruoyi-common-core/src/main/java/org/dromara/common/core/constant/HttpStatus.java)
+- [TableDataInfo.java](../../server/ruoyi-common/ruoyi-common-mybatis/src/main/java/org/dromara/common/mybatis/core/page/TableDataInfo.java)
 - [GlobalExceptionHandler.java](../../server/ruoyi-common/ruoyi-common-web/src/main/java/org/dromara/common/web/handler/GlobalExceptionHandler.java)
+- [SaTokenExceptionHandler.java](../../server/ruoyi-common/ruoyi-common-satoken/src/main/java/org/dromara/common/satoken/handler/SaTokenExceptionHandler.java)
 - [MessageUtils.java](../../server/ruoyi-common/ruoyi-common-core/src/main/java/org/dromara/common/core/utils/MessageUtils.java)
+
+分页列表接口通常返回 `TableDataInfo<T>`，字段为 `code`、`msg`、`rows`、`total`。
 
 ## 基本原则
 
@@ -40,14 +44,16 @@ HTTP API 当前使用统一响应对象 `R<T>`：
 | code | 含义 |
 | --- | --- |
 | `200` | 操作成功 |
-| `400` | 参数错误 |
-| `401` | 未授权 |
-| `403` | 权限不足 |
+| `400` | JSON 或请求体解析错误；Bean Validation 异常当前多为默认失败 code |
+| `401` | 未授权，主要来自 Sa-Token 未登录或 SSE 认证失败 |
+| `403` | 权限不足，主要来自 Sa-Token 权限码或角色校验失败 |
 | `404` | 资源不存在 |
 | `405` | HTTP 方法不支持 |
 | `409` | 资源冲突 |
 | `500` | 系统错误或默认失败 |
 | `601` | 系统警告 |
+
+详细映射以 [docs/reference/error-codes.md](../reference/error-codes.md) 为准。
 
 ## Service 层规则
 
@@ -55,6 +61,7 @@ HTTP API 当前使用统一响应对象 `R<T>`：
 - 事务内出现异常时，应保证数据一致性。
 - 不要用返回 `null` 隐式表达业务失败。
 - 对批量操作要明确部分失败和全部失败语义。
+- 如果需要表达业务失败，优先使用 `ServiceException`、`BaseException` 子类或 `R.fail`，不要新增一套与当前 `R` 模型割裂的错误码枚举。
 
 ## Controller 层规则
 
@@ -62,6 +69,7 @@ HTTP API 当前使用统一响应对象 `R<T>`：
 - Controller 不写复杂业务分支。
 - Controller 不直接捕获所有异常后返回普通成功响应。
 - 异常到响应的通用映射交给 `GlobalExceptionHandler`。
+- 认证和权限异常由 `SaTokenExceptionHandler` 统一处理，不要在业务 Controller 中手写重复的登录态或权限异常包装。
 
 ## i18n 消息
 
