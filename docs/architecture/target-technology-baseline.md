@@ -74,11 +74,11 @@ description: HernessDemo 技术基线文档，记录当前 RuoYi-Vue-Plus 后端
 
 ## 不再作为当前事实维护的说法
 
-以下说法不得继续作为当前仓库事实传播：
+以下说法均为历史或错误表述，不得继续作为当前仓库事实传播：
 
 - 当前系统是 ProjectPilot 项目管理 MVP。
 - 当前前端尚未建立，需要创建 `web/apps/projectpilot-web`。
-- 当前默认使用 Flyway 管理数据库迁移。
+- 数据库迁移已经由 Flyway 管理。
 - 当前 CI/CD 已经以 `services/callcenter-server` 为真实源码路径稳定运行。
 - CallCenter 是当前代码结构来源或业务模板。
 

@@ -9,7 +9,7 @@ description: HernessDemo 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 
 ## 目标
 
-本文档替代旧的 Web MVP 路线图，用于描述当前 RuoYi-Vue-Plus 后台管理系统的功能主线、前后端对应关系和后续收敛方向。
+本文档替代旧的 Web MVP 路线图，用于描述当前 RuoYi-Vue-Plus 后台管理系统的功能主线、前后端对应关系和后续收敛方向。功能域细节见 [docs/design/feature-admin-domains.md](feature-admin-domains.md)。
 
 ## 当前功能域
 
@@ -21,6 +21,8 @@ description: HernessDemo 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 | 代码生成 | [server/ruoyi-modules/ruoyi-generator](../../server/ruoyi-modules/ruoyi-generator) | [web/src/views/tool/gen](../../web/src/views/tool/gen) | 表导入、预览、下载、同步与代码生成 |
 | 工作流 | [server/ruoyi-modules/ruoyi-workflow](../../server/ruoyi-modules/ruoyi-workflow) | [web/src/views/workflow](../../web/src/views/workflow) | 流程定义、分类、实例、任务、请假示例 |
 | 示例能力 | [server/ruoyi-modules/ruoyi-demo](../../server/ruoyi-modules/ruoyi-demo) | [web/src/views/demo](../../web/src/views/demo) | 缓存、锁、限流、加密、Excel、WebSocket、SSE 等示例 |
+
+详细设计入口：[docs/design/feature-admin-domains.md](feature-admin-domains.md)。
 
 ## 当前收敛重点
 
@@ -54,6 +56,7 @@ description: HernessDemo 后台管理功能路线图，围绕当前 RuoYi-Vue-Pl
 
 - [docs/architecture/code-map.md](../architecture/code-map.md)
 - [docs/architecture/boundaries.md](../architecture/boundaries.md)
+- [docs/design/feature-admin-domains.md](feature-admin-domains.md)
 - [docs/design/feature-auth.md](feature-auth.md)
 - [docs/reference/api-spec.yaml](../reference/api-spec.yaml)
 - [docs/reference/error-codes.md](../reference/error-codes.md)
