@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -11,6 +11,7 @@ info:
   description: |
     HernessDemo 在线项目管理平台 API 基线文档。
     当前文件定义第一版接口约定，实际实现时必须保持同步更新。
+    当前 API 文档以 Web MVP 主线为优先，超出当前阶段的接口仅作为边界预留，不代表已经进入当前迭代实现范围。
 servers:
   - url: /api/v1
     description: 默认 API 前缀
@@ -20,9 +21,9 @@ tags:
   - name: Projects
     description: 项目管理
   - name: Search
-    description: 搜索
+    description: 搜索，属于 Web MVP 后的增强能力
   - name: Billing
-    description: 计费
+    description: 计费，当前阶段仅保留边界，不属于第一批 MVP 实现
 paths:
   /auth/login:
     post:
@@ -126,6 +127,7 @@ paths:
       tags:
         - Search
       summary: 搜索项目和任务
+      description: 当前作为增强能力预留，具体实现优先级低于登录、项目、任务主链路。
       operationId: search
       parameters:
         - name: keyword
@@ -160,6 +162,7 @@ paths:
       tags:
         - Billing
       summary: 查询账单列表
+      description: 当前作为商业化边界预留，不表示已经进入第一阶段 Web MVP 实现。
       operationId: listInvoices
       parameters:
         - $ref: '#/components/parameters/Page'

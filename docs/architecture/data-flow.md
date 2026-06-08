@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -27,7 +27,7 @@ Client
 - Controller 负责协议适配、参数校验和响应映射。
 - Service 负责业务规则、事务和用例编排。
 - Mapper 负责数据访问。
-- Domain 承载领域模型、枚举和值对象。
+- Domain 承载领域模型、枚举和对象语义。
 
 ## 写入数据流
 
@@ -87,7 +87,7 @@ Business Exception
   -> HTTP Response
 ```
 
-错误码登记在 `docs/reference/error-codes.md`。新增错误码时必须同步文档。
+错误码登记在 [docs/reference/error-codes.md](../reference/error-codes.md)。新增错误码时必须同步文档。
 
 ## 日志与审计数据流
 

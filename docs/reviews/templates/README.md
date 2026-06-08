@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
@@ -8,7 +8,7 @@ owner: "@PengKang"
 
 ## 目标
 
-本目录提供 HernessDemo 在需求评审、设计评审、代码评审和测试用例评审中的统一输出模板，帮助 AI 与人工评审都按相同结构记录结论、问题和后续动作。
+本目录提供 HernessDemo 在需求评审、设计评审、代码评审和测试用例评审中的统一输出模板，帮助 AI 与人工评审都按同一结构记录结论、问题和后续动作。
 
 ## 使用原则
 
@@ -22,14 +22,25 @@ owner: "@PengKang"
 | --- | --- |
 | 需求评审输出 | [docs/reviews/templates/requirement-review-template.md](requirement-review-template.md) |
 | 后台设计评审输出 | [docs/reviews/templates/backend-design-review-template.md](backend-design-review-template.md) |
+| 前端设计评审输出 | [docs/reviews/templates/frontend-design-review-template.md](frontend-design-review-template.md) |
 | 后台代码评审输出 | [docs/reviews/templates/backend-code-review-template.md](backend-code-review-template.md) |
+| 前端代码评审输出 | [docs/reviews/templates/frontend-code-review-template.md](frontend-code-review-template.md) |
 | 测试用例评审输出 | [docs/reviews/templates/testcase-review-template.md](testcase-review-template.md) |
+| 验证证据输出 | [docs/reviews/templates/verification-evidence-template.md](verification-evidence-template.md) |
 
 ## 使用建议
 
 - AI 在执行评审或自检时，应优先套用对应模板，再引用相关清单逐项填写。
 - 若评审结果需要沉淀到 issue、PR 评论、评审纪要或测试记录中，优先复用模板结构，不要临时自由发挥。
-- 若后续启用 `web/` 前端应用，再补充前端设计评审和前端代码评审模板。
+- 当前已预先补齐前端设计评审和前端代码评审模板，供后续启用 `web/` 时直接接入使用。
+- 功能开发、自检、测试验证、发布验证完成后，建议额外使用 [docs/reviews/templates/verification-evidence-template.md](verification-evidence-template.md) 统一沉淀验证结果。
+
+## 推荐阅读顺序
+
+1. [docs/reviews/README.md](../README.md)
+2. 对应阶段的评审清单
+3. 对应阶段的评审模板
+4. 对应的设计、规范、API 或发布支撑文档
 
 ## 维护规则
 

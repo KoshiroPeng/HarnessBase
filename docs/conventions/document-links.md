@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
@@ -23,15 +23,15 @@ owner: "@PengKang"
 - `README.md`
 - `AGENTS.md`
 - 各类总览页、索引页、导航页
-- 各目录的 `README.md` 或等价索引页
-- 交付与运维手册
+- 各目录下的 `README.md` 或等价索引页
+- 发布与回滚手册
 - 运行手册
 
 以下场景允许使用纯文本路径：
 
-- 解释目录结构时的简短说明。
-- 代码块中的示例路径。
-- 非关键上下文中的一次性目录提及。
+- 解释目录结构时的简短说明
+- 代码块中的示例路径
+- 非关键上下文中的一次性目录提及
 
 ## 推荐写法
 
@@ -39,11 +39,13 @@ owner: "@PengKang"
 
 推荐：
 
-- `[docs/delivery/delivery-operations-map.md](../delivery/delivery-operations-map.md)`
+- `[docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)`
+- `[deploy/release/README.md](../../deploy/release/README.md)`
 
 不推荐：
 
-- `` `docs/delivery/delivery-operations-map.md` ``
+- `` `docs/design/web-mvp-roadmap.md` ``
+- `` `deploy/release/README.md` ``
 
 ### 关键 workflow
 

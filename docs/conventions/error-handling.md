@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -28,9 +28,9 @@ HTTP API 使用统一错误响应：
 
 字段说明：
 
-- `code`: 稳定错误码，登记在 `docs/reference/error-codes.md`。
-- `message`: 面向用户或调用方的简短说明。
-- `traceId`: 请求追踪 ID，用于排查问题。
+- `code`：稳定错误码，登记在 [docs/reference/error-codes.md](../reference/error-codes.md)。
+- `message`：面向用户或调用方的简短说明。
+- `traceId`：请求追踪 ID，用于排查问题。
 
 ## 异常分类
 
@@ -60,7 +60,7 @@ HTTP API 使用统一错误响应：
 
 ## 错误码维护
 
-新增、删除或变更错误码时，必须同步更新 `docs/reference/error-codes.md`。
+新增、删除或变更错误码时，必须同步更新 [docs/reference/error-codes.md](../reference/error-codes.md)。
 
 错误码命名建议：
 

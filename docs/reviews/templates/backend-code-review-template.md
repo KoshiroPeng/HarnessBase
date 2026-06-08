@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
@@ -9,6 +9,9 @@ owner: "@PengKang"
 关联清单：
 
 - [docs/reviews/backend-code-review-checklist.md](../backend-code-review-checklist.md)
+- [docs/conventions/README.md](../../conventions/README.md)
+- [docs/conventions/testing.md](../../conventions/testing.md)
+- [docs/architecture/harness-engineering-adaptation.md](../../architecture/harness-engineering-adaptation.md)
 
 ```md
 # 后台代码评审结论
@@ -34,6 +37,7 @@ owner: "@PengKang"
 - 是否存在线程安全、异步一致性或定时任务风险：
 - 是否补齐测试与回归验证：
 - 是否同步更新 API、错误码、迁移或交付文档：
+- 是否存在与当前阶段不匹配的平台化抽象：
 
 ## 发现问题
 
@@ -49,3 +53,8 @@ owner: "@PengKang"
 
 - 
 ```
+
+## 使用提醒
+
+- 如果本次改动涉及 API、错误码、迁移、发布或观测方案，评审结论中应明确写出需要同步更新的文档。
+- 如果发现“为了通用性而提前平台化”的倾向，应在“发现问题”中单列记录，不要只写在结论说明里。

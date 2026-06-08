@@ -1,29 +1,31 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
 # Backlog
 
-## P0：工程基线
+## 使用说明
 
-- 创建后端 Maven 项目，锁定 JDK 1.8、Spring Boot 2.7.x 和 Maven 3.6.3。
-- 配置 Maven Enforcer，防止版本漂移。
-- 接入 MyBatis-Plus 3.5.x。
-- 接入 Flyway 和 `flyway-mysql`。
-- 建立统一异常处理和错误响应模型。
-- 建立 SLF4J 日志配置。
-- 建立 JUnit 5 测试基础设施。
+- 当某个 backlog 项准备进入开发时，先回看 [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md) 判断它是否仍符合当前主线。
+- 如果任务涉及架构、规范、评审或发布影响，回到 [docs/README.md](../README.md) 按场景补齐联读材料。
+- 如果某项建设更像平台扩张而不是当前产品推进，先参考 [docs/architecture/harness-engineering-adaptation.md](../architecture/harness-engineering-adaptation.md) 做范围判断。
 
-## P1：核心业务
+## P0：Web MVP 主线
 
-- 用户注册、登录、登出和会话校验。
+- 建立 `web/` 前端工程与基础路由。
+- 建立登录页与会话校验流程。
+- 建立项目列表页与项目详情页。
+- 建立任务列表页、任务创建与状态流转。
+- 打通前后端联调链路。
+
+## P1：核心业务增强
+
 - 组织管理。
-- 项目管理。
-- 任务管理。
 - 成员与角色管理。
 - 项目与任务搜索。
+- 用户注册、登录、登出和会话校验增强能力。
 
 ## P2：商业化能力
 
@@ -33,28 +35,26 @@ owner: "@PengKang"
 - 账单查询。
 - 支付渠道适配抽象。
 
-## P3：运营与质量
+## P3：运营与质量支撑
 
 - API 文档持续维护。
 - 错误码治理。
 - 审计日志。
 - 指标和 telemetry。
-- 部署文档。
+- 发布文档与运行手册。
 - 性能基准测试。
 
-## P4：交付平台化
+## P4：渐进式工程硬化
 
-- 建立交付模型文档，明确 Application、Service、Environment、Infrastructure 的映射关系。
-- 建立环境治理文档，明确 dev、test、staging、prod 的职责和准入条件。
-- 建立标准 CI / CD / 发布验证流水线模型。
-- 定义部署策略、回滚策略和数据库变更兼容策略。
-- 建立配置与密钥治理规则。
-- 建立发布审批、权限和审计规则。
-- 建立运行手册和发布后验证流程。
+- 将 Harness Engineering 纠偏说明持续映射到导航、评审和验证材料。
+- 只保留对 Web MVP 交付有直接帮助的工程护栏。
+- 在真实主链路稳定后，再评估是否需要新增更重的平台化能力。
 
 ## Backlog 维护规则
 
 - 每个任务进入迭代前必须有明确验收标准。
-- 涉及架构或边界变化的任务必须同步 `docs/architecture/`。
-- 涉及 API 的任务必须同步 `docs/reference/api-spec.yaml`。
-- 涉及错误码的任务必须同步 `docs/reference/error-codes.md`。
+- 涉及架构或边界变化的任务必须同步 [docs/architecture/README.md](../architecture/README.md) 与对应文档。
+- 涉及 API 的任务必须同步 [docs/reference/api-spec.yaml](../reference/api-spec.yaml)。
+- 涉及错误码的任务必须同步 [docs/reference/error-codes.md](../reference/error-codes.md)。
+- 产品研发主线优先于平台治理主线，除非当前任务明确属于发布、运维或观测支撑建设。
+- 如果某项建设无法直接帮助当前主线推进，应先放回 backlog，而不是立即扩张为独立体系。

@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -17,7 +17,7 @@ owner: "@PengKang"
 
 | 级别 | 使用场景 |
 | --- | --- |
-| `trace` | 极细粒度诊断，默认不启用 |
+| `trace` | 极细粒度诊断，默认不开启 |
 | `debug` | 开发和排查问题所需的内部状态 |
 | `info` | 关键业务动作、启动完成、任务完成 |
 | `warn` | 可恢复异常、降级、重试、疑似风险 |

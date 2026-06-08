@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-06-08
-status: active         # active | deprecated | draft
+status: active
 owner: "@PengKang"
 ---
 
@@ -9,6 +9,9 @@ owner: "@PengKang"
 关联清单：
 
 - [docs/reviews/testcase-review-checklist.md](../testcase-review-checklist.md)
+- [docs/conventions/testing.md](../../conventions/testing.md)
+- [deploy/release/release-checklist.md](../../../deploy/release/release-checklist.md)
+- [docs/architecture/harness-engineering-adaptation.md](../../architecture/harness-engineering-adaptation.md)
 
 ```md
 # 测试用例评审结论
@@ -33,6 +36,8 @@ owner: "@PengKang"
 - 测试步骤是否清晰：
 - 前置条件、异常场景和数据量是否覆盖：
 - 集成测试和核心回归是否覆盖：
+- 是否优先覆盖当前 Web MVP 主链路：
+- 是否被次要平台流程分散重点：
 
 ## 发现问题
 
@@ -48,3 +53,8 @@ owner: "@PengKang"
 
 - 
 ```
+
+## 使用提醒
+
+- 若用例覆盖的是缺陷修复，建议在“关联缺陷”中写清缺陷编号或问题现象，并在“建议补充用例”中标记回归范围。
+- 若测试范围涉及发布验证、环境依赖或外部系统，建议同步引用 [deploy/release/README.md](../../../deploy/release/README.md)。

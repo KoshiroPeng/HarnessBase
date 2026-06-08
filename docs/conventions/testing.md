@@ -1,10 +1,12 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
 # 测试规范
+
+如果你是从开发、缺陷修复或测试评审任务进入，建议先结合 [docs/conventions/task-startup-checklist.md](task-startup-checklist.md) 一起使用。
 
 ## 基本要求
 
@@ -19,7 +21,7 @@ owner: "@PengKang"
 | --- | --- | --- |
 | 单元测试 | 验证单个类或函数的业务规则 | Service 规则校验 |
 | Mapper 测试 | 验证 SQL、映射和 MySQL 兼容性 | MyBatis-Plus 查询 |
-| Controller 测试 | 验证 HTTP 入参出参和状态码 | REST API |
+| Controller 测试 | 验证 HTTP 入参与出参、状态码 | REST API |
 | 集成测试 | 验证关键链路协同 | 创建项目完整流程 |
 
 ## 推荐测试策略
@@ -66,4 +68,11 @@ createProject_shouldThrowException_whenNameDuplicated
 - 修复前失败。
 - 修复后通过。
 - 测试名称能说明缺陷场景。
-- 断言覆盖问题根因，而不是只覆盖表面结果。
+- 断言覆盖问题根因，而不只是覆盖表面结果。
+
+## 配套入口
+
+- [docs/reviews/testcase-review-checklist.md](../reviews/testcase-review-checklist.md)
+- [docs/reviews/templates/testcase-review-template.md](../reviews/templates/testcase-review-template.md)
+- [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
+- [deploy/release/release-checklist.md](../../deploy/release/release-checklist.md)

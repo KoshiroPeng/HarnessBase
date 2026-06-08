@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -73,4 +73,4 @@ domain -> config -> mapper -> service -> controller
 - 模块职责能用一句话说清。
 - 新模块没有破坏 `domain -> config -> mapper -> service -> controller` 依赖方向。
 - 所需配置、数据迁移、API、错误码和测试文档已经同步。
-- 新增 `.java` 文件和方法长度符合 `AGENTS.md`。
+- 新增 `.java` 文件和方法长度符合 [AGENTS.md](../../AGENTS.md)。

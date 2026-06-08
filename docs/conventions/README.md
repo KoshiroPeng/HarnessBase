@@ -1,12 +1,12 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
 # 编码规范总览
 
-本目录记录 HernessDemo 的工程规范。根规则以 `AGENTS.md` 为准，本文档负责把日常开发细则拆分到可维护的位置。
+本目录记录 HernessDemo 的工程规范。根规则以 [AGENTS.md](../../AGENTS.md) 为准，本文档负责把日常开发细则拆分到可维护的位置。
 
 ## 文档索引
 
@@ -19,16 +19,13 @@ owner: "@PengKang"
 | 文件规模 | [docs/conventions/file-size.md](file-size.md) |
 | 方法规模 | [docs/conventions/method-size.md](method-size.md) |
 | 文档链接规范 | [docs/conventions/document-links.md](document-links.md) |
-| 交付模型 | [docs/delivery/delivery-model.md](../delivery/delivery-model.md) |
-| 环境治理 | [docs/delivery/environments.md](../delivery/environments.md) |
-| 流水线设计 | [docs/delivery/pipelines.md](../delivery/pipelines.md) |
-| 部署策略 | [docs/delivery/deployment-strategies.md](../delivery/deployment-strategies.md) |
-| 发布验证 | [docs/operations/release-verification.md](../operations/release-verification.md) |
-| 配置与密钥 | [docs/operations/config-and-secrets.md](../operations/config-and-secrets.md) |
-| 发布治理 | [docs/governance/release-governance.md](../governance/release-governance.md) |
+| 任务启动清单 | [docs/conventions/task-startup-checklist.md](task-startup-checklist.md) |
 | 评审清单总览 | [docs/reviews/README.md](../reviews/README.md) |
+| 验证证据模板 | [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md) |
 | API 规范 | [docs/reference/api-spec.yaml](../reference/api-spec.yaml) |
 | 错误码 | [docs/reference/error-codes.md](../reference/error-codes.md) |
+| 发布材料 | [deploy/release/README.md](../../deploy/release/README.md) |
+| 可观测性材料 | [deploy/observability/README.md](../../deploy/observability/README.md) |
 
 ## 技术基线
 
@@ -45,13 +42,13 @@ owner: "@PengKang"
 - 不为局部需求引入新框架或全局抽象。
 - 依赖方向保持 `domain -> config -> mapper -> service -> controller`。
 - 新增业务代码必须同步测试。
-- 涉及 API、错误码、数据库结构或架构边界的变更必须同步文档。
+- 涉及 API、错误码、数据库结构、发布流程或架构边界的变更必须同步文档。
 
 ## 代码规模
 
 - 单个 `.java` 文件不超过 300 行。
 - 单个方法不超过 50 行。
-- 超限前优先拆分职责，而不是通过格式压缩规避限制。
+- 超限前优先拆分职责，而不是靠格式压缩规避限制。
 
 ## 注入规范
 
@@ -71,3 +68,22 @@ owner: "@PengKang"
 - 相关文档已经同步更新。
 
 如果需要按任务查看“开发前必读 + 开发后自检 + 评审清单”，统一入口见 [docs/README.md](../README.md)。
+
+如果需要一份更短的“开始执行任务”入口，优先看 [docs/conventions/task-startup-checklist.md](task-startup-checklist.md)。
+
+## 典型阅读路径
+
+如果你现在要开发后端代码，建议按下面顺序阅读：
+
+1. [AGENTS.md](../../AGENTS.md)
+2. [docs/architecture/README.md](../architecture/README.md)
+3. [docs/design/web-mvp-roadmap.md](../design/web-mvp-roadmap.md)
+4. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
+
+如果你现在要做开发后自检，建议至少同时对照：
+
+1. [docs/conventions/testing.md](testing.md)
+2. [docs/conventions/error-handling.md](error-handling.md)
+3. [docs/conventions/logging.md](logging.md)
+4. [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
+5. [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md)

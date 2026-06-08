@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-06-07
-status: active         # active | deprecated | draft
+last_updated: 2026-06-08
+status: active
 owner: "@PengKang"
 ---
 
@@ -9,7 +9,7 @@ owner: "@PengKang"
 ## 通用原则
 
 - 名称使用业务语义，避免无意义缩写。
-- 同一概念在代码、数据库、API 和文档中使用同一术语。
+- 同一概念在代码、数据库、API 和文档中使用同一本术语。
 - 英文命名保持简洁，但不要牺牲可读性。
 - 布尔变量使用 `is`、`has`、`can`、`should` 等前缀表达语义。
 
@@ -43,14 +43,14 @@ com.example.hernessdemo.controller
 
 ## 方法名
 
-- 查询单个对象：`getProject`、`findProject`。
-- 查询列表：`listProjects`、`searchProjects`。
-- 创建：`createProject`。
-- 更新：`updateProject`。
-- 删除：`deleteProject`、`archiveProject`。
-- 校验：`validateProjectAccess`。
+- 查询单个对象：`getProject`、`findProject`
+- 查询列表：`listProjects`、`searchProjects`
+- 创建：`createProject`
+- 更新：`updateProject`
+- 删除：`deleteProject`、`archiveProject`
+- 校验：`validateProjectAccess`
 
-不要使用 `doSomething`、`handleData`、`processInfo` 等含义模糊的方法名。
+不要使用 `doSomething`、`handleData`、`processInfo` 这类含义模糊的方法名。
 
 ## 数据库命名
 
@@ -65,7 +65,7 @@ MySQL 语法必须兼容 5.7。
 
 ## API 命名
 
-- URL 使用小写连字符或小写路径段。
+- URL 使用小写路径段。
 - 资源名使用复数，例如 `/projects`、`/tasks`。
 - 请求和响应字段使用 `camelCase`。
 - 分页参数推荐使用 `page`、`pageSize`。

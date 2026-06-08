@@ -2,6 +2,8 @@
 
 本文件用于沉淀 HernessDemo 各环境的变量和密钥清单，便于在 GitHub Environments、部署平台或密钥管理系统中统一维护。
 
+本文档属于发布支撑材料，目标是减少环境准备的不确定性，而不是扩张新的平台范围。
+
 ## 公共变量
 
 | 名称 | 类型 | 是否敏感 | 示例 | 说明 |
@@ -59,9 +61,11 @@
 
 - 新增配置项时，同步补充到本模板。
 - 删除配置项时，同步清理对应环境中的遗留变量和密钥。
+- 如果某项变量暂时不直接服务当前 Web MVP 发布链路，应谨慎新增，避免配置面持续膨胀。
 
 ## 配套脚本
 
-- 主机初始化：`deploy/release/bootstrap-remote-host.sh`
-- 远端部署：`deploy/release/deploy-via-ssh.sh`
-- 发布后验证：`deploy/release/verify-release.sh`
+- 主机初始化：[deploy/release/bootstrap-remote-host.sh](bootstrap-remote-host.sh)
+- 远端部署：[deploy/release/deploy-via-ssh.sh](deploy-via-ssh.sh)
+- 发布后验证：[deploy/release/verify-release.sh](verify-release.sh)
+- 发布前后检查：[deploy/release/release-checklist.md](release-checklist.md)

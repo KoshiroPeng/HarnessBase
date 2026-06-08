@@ -1,6 +1,6 @@
 # AGENTS.md
 
-本文件是 HernessDemo 仓库的唯一 AI 协作规则入口。所有 agent 在读取或修改本仓库前，必须先阅读并遵守本文档。
+本文件是 HernessDemo 仓库唯一的 AI 协作规则入口。所有 agent 在读取或修改本仓库前，必须先阅读并遵守本文档。
 
 ## 回复与编码
 
@@ -11,18 +11,27 @@
 
 ## 项目简介
 
-HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spring Boot 2.7、Java 1.8 和 MySQL 5.7 构建。
+HernessDemo 是一个面向中小企业的在线项目管理 Web 产品，基于 Spring Boot 2.7、Java 1.8 和 MySQL 5.7 构建。
+
+当前项目主线是 Web 产品研发，不是继续扩展交付平台能力。发布、回滚、环境与可观测性材料属于支撑层，用来服务产品交付，不应反客为主。
+
+Harness Engineering 在本仓库中只作为工程方法使用，用于加强导航、护栏、评审和验证，不作为当前产品建设范围本身。
+
+项目命名口径说明：
+
+- 对外文档和仓库说明统一使用 `HernessDemo`。
+- 部署名、服务名、日志名、制品名中的 `herness-demo` 视为既有技术标识，当前阶段保留，不在本轮文档纠偏中强行改动。
 
 ## 技术栈基线
 
 以下技术栈是项目兼容性基线，不允许擅自升级：
 
-- JDK: 1.8，禁止使用 Java 9+ 语法，例如 `record`、`var`、text blocks。
-- Spring Boot: 2.7.x，禁止升级到 3.x，因为 Spring 6 要求 JDK 17。
-- Maven: 3.6.3，由 Maven Enforcer 强制校验。
-- 数据库: MySQL 5.7，字符集使用 `utf8mb4`，禁止升级到 8.x，因为生产环境为 5.7。
-- 持久化: MyBatis-Plus 3.5.x，基于 MyBatis 3.5。
-- 数据库迁移: Flyway，包含 `flyway-mysql` 子模块。
+- JDK：1.8，禁止使用 Java 9+ 语法，例如 `record`、`var`、text blocks。
+- Spring Boot：2.7.x，禁止升级到 3.x，因为 Spring 6 要求 JDK 17。
+- Maven：3.6.3，由 Maven Enforcer 强制校验。
+- 数据库：MySQL 5.7，字符集使用 `utf8mb4`，禁止升级到 8.x，因为生产环境为 5.7。
+- 持久化：MyBatis-Plus 3.5.x，基于 MyBatis 3.5。
+- 数据库迁移：Flyway，包含 `flyway-mysql` 子模块。
 - 禁止引入 JPA 或 Hibernate。
 
 ## 快速导航
@@ -31,25 +40,27 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 
 | 你想做什么 | 去哪里看 |
 | --- | --- |
-| 了解系统架构 | [docs/architecture/overview.md](docs/architecture/overview.md) |
+| 了解系统架构 | [docs/architecture/README.md](docs/architecture/README.md) |
+| 了解 Harness Engineering 在本项目中的用法 | [docs/architecture/harness-engineering-adaptation.md](docs/architecture/harness-engineering-adaptation.md) |
+| 系统理解 Harness Engineering 方法与当前协作环境映射 | [docs/architecture/harness-engineering-reference.md](docs/architecture/harness-engineering-reference.md) |
 | 了解统一文档导航 | [docs/README.md](docs/README.md) |
-| 开发后端代码并做自检 | [docs/README.md#开发后端代码](docs/README.md#开发后端代码) |
-| 做后台代码评审 | [docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md) |
+| 了解当前 Web MVP 主线 | [docs/design/web-mvp-roadmap.md](docs/design/web-mvp-roadmap.md) |
+| 执行开发任务启动清单 | [docs/conventions/task-startup-checklist.md](docs/conventions/task-startup-checklist.md) |
+| 统一记录任务执行状态 | [docs/plans/task-status-template.md](docs/plans/task-status-template.md) |
+| 统一沉淀验证证据 | [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) |
+| 开发后端代码并做自检 | [docs/README.md](docs/README.md) |
+| 做后端代码评审 | [docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md) |
 | 了解模块边界和依赖规则 | [docs/architecture/boundaries.md](docs/architecture/boundaries.md) |
 | 了解编码规范 | [docs/conventions/README.md](docs/conventions/README.md) |
 | 了解当前迭代任务 | [docs/plans/current-sprint.md](docs/plans/current-sprint.md) |
 | 了解 API 规范 | [docs/reference/api-spec.yaml](docs/reference/api-spec.yaml) |
 | 了解错误码 | [docs/reference/error-codes.md](docs/reference/error-codes.md) |
 | 了解测试规范 | [docs/conventions/testing.md](docs/conventions/testing.md) |
-| 了解交付模型 | [docs/delivery/delivery-model.md](docs/delivery/delivery-model.md) |
-| 了解环境治理 | [docs/delivery/environments.md](docs/delivery/environments.md) |
-| 了解流水线设计 | [docs/delivery/pipelines.md](docs/delivery/pipelines.md) |
-| 了解交付全景入口 | [docs/delivery/delivery-operations-map.md](docs/delivery/delivery-operations-map.md) |
 | 了解评审清单入口 | [docs/reviews/README.md](docs/reviews/README.md) |
-| 了解部署策略 | [docs/delivery/deployment-strategies.md](docs/delivery/deployment-strategies.md) |
-| 了解发布验证与回滚 | [docs/operations/release-verification.md](docs/operations/release-verification.md) |
-| 了解配置与密钥治理 | [docs/operations/config-and-secrets.md](docs/operations/config-and-secrets.md) |
-| 了解发布权限与审批 | [docs/governance/release-governance.md](docs/governance/release-governance.md) |
+| 了解发布与回滚材料 | [deploy/release/README.md](deploy/release/README.md) |
+| 了解发布检查清单 | [deploy/release/release-checklist.md](deploy/release/release-checklist.md) |
+| 了解环境变量模板 | [deploy/release/environment-variable-template.md](deploy/release/environment-variable-template.md) |
+| 了解可观测性材料 | [deploy/observability/README.md](deploy/observability/README.md) |
 
 ## 代码结构规则
 
@@ -74,16 +85,18 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 ## 开发流程
 
 - 修改前先阅读相关导航文档；文档缺失时，结合现有代码判断，并在本次变更中补齐必要说明。
-- 如果任务涉及多个阶段文档，优先从 [docs/README.md](docs/README.md) 选择对应场景的文档组合。
-- 如果任务是“开发代码”，至少要同时完成编码规范阅读和代码评审清单自检，不要只看其中一份文档。
+- 如果任务属于产品功能开发，优先阅读 [docs/design/web-mvp-roadmap.md](docs/design/web-mvp-roadmap.md) 和 [docs/design/README.md](docs/design/README.md)，不要默认从交付治理材料开始。
+- 如果任务刚开始、还不确定具体要读哪些文档，优先阅读 [docs/conventions/task-startup-checklist.md](docs/conventions/task-startup-checklist.md)。
+- 如果任务提到 Harness Engineering，应先阅读 [docs/architecture/harness-engineering-adaptation.md](docs/architecture/harness-engineering-adaptation.md)，确认是在做工程纠偏，而不是扩张平台范围。
+- 如果任务需要系统理解 Harness Engineering 在当前 Codex / `AGENTS.md` 环境中的具体落点，再补充阅读 [docs/architecture/harness-engineering-reference.md](docs/architecture/harness-engineering-reference.md)。
+- 如果任务是“开发代码”，至少同时完成编码规范阅读和代码评审清单自检，不要只看其中一份文档。
 - 优先遵循项目已有模式，不要为局部需求引入新的框架、全局抽象或不必要依赖。
 - 涉及数据库结构变更时，必须通过 Flyway migration 管理，不要只修改实体或 SQL 片段。
 - 涉及 API 变更时，同步更新 [docs/reference/api-spec.yaml](docs/reference/api-spec.yaml)。
 - 涉及错误码变更时，同步更新 [docs/reference/error-codes.md](docs/reference/error-codes.md)。
-- 涉及模块边界、依赖方向或部署方式变化时，同步更新 [docs/architecture/](docs/architecture/) 下的相关文档。
-- 涉及环境、流水线、制品、部署策略或回滚机制变化时，同步更新 [docs/delivery/](docs/delivery/) 下的相关文档。
-- 涉及发布验证、配置密钥、运行手册或服务目标变化时，同步更新 [docs/operations/](docs/operations/) 下的相关文档。
-- 涉及审批、权限和审计流程变化时，同步更新 [docs/governance/](docs/governance/) 下的相关文档。
+- 涉及模块边界、依赖方向或部署方式变化时，同步更新 [docs/architecture/README.md](docs/architecture/README.md) 和对应架构文档。
+- 涉及发布、回滚、环境变量或上线校验变化时，同步更新 [deploy/release/README.md](deploy/release/README.md) 下的相关文档。
+- 涉及监控、日志采集或本地观测方案变化时，同步更新 [deploy/observability/README.md](deploy/observability/README.md) 下的相关文档。
 
 ## 测试要求
 
@@ -106,9 +119,8 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 
 ## 提交类型
 
-- `feat`: 新功能
-- `fix`: 修复
-- `refactor`: 重构
-- `docs`: 文档
-- `test`: 测试
-
+- `feat`：新功能
+- `fix`：修复
+- `refactor`：重构
+- `docs`：文档
+- `test`：测试
