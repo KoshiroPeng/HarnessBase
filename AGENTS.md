@@ -32,6 +32,9 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 | 你想做什么 | 去哪里看 |
 | --- | --- |
 | 了解系统架构 | [docs/architecture/overview.md](docs/architecture/overview.md) |
+| 了解统一文档导航 | [docs/README.md](docs/README.md) |
+| 开发后端代码并做自检 | [docs/README.md#开发后端代码](docs/README.md#开发后端代码) |
+| 做后台代码评审 | [docs/reviews/backend-code-review-checklist.md](docs/reviews/backend-code-review-checklist.md) |
 | 了解模块边界和依赖规则 | [docs/architecture/boundaries.md](docs/architecture/boundaries.md) |
 | 了解编码规范 | [docs/conventions/README.md](docs/conventions/README.md) |
 | 了解当前迭代任务 | [docs/plans/current-sprint.md](docs/plans/current-sprint.md) |
@@ -42,6 +45,7 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 | 了解环境治理 | [docs/delivery/environments.md](docs/delivery/environments.md) |
 | 了解流水线设计 | [docs/delivery/pipelines.md](docs/delivery/pipelines.md) |
 | 了解交付全景入口 | [docs/delivery/delivery-operations-map.md](docs/delivery/delivery-operations-map.md) |
+| 了解评审清单入口 | [docs/reviews/README.md](docs/reviews/README.md) |
 | 了解部署策略 | [docs/delivery/deployment-strategies.md](docs/delivery/deployment-strategies.md) |
 | 了解发布验证与回滚 | [docs/operations/release-verification.md](docs/operations/release-verification.md) |
 | 了解配置与密钥治理 | [docs/operations/config-and-secrets.md](docs/operations/config-and-secrets.md) |
@@ -70,6 +74,8 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 ## 开发流程
 
 - 修改前先阅读相关导航文档；文档缺失时，结合现有代码判断，并在本次变更中补齐必要说明。
+- 如果任务涉及多个阶段文档，优先从 [docs/README.md](docs/README.md) 选择对应场景的文档组合。
+- 如果任务是“开发代码”，至少要同时完成编码规范阅读和代码评审清单自检，不要只看其中一份文档。
 - 优先遵循项目已有模式，不要为局部需求引入新的框架、全局抽象或不必要依赖。
 - 涉及数据库结构变更时，必须通过 Flyway migration 管理，不要只修改实体或 SQL 片段。
 - 涉及 API 变更时，同步更新 [docs/reference/api-spec.yaml](docs/reference/api-spec.yaml)。

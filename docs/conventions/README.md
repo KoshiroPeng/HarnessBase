@@ -26,6 +26,7 @@ owner: "@PengKang"
 | 发布验证 | [docs/operations/release-verification.md](../operations/release-verification.md) |
 | 配置与密钥 | [docs/operations/config-and-secrets.md](../operations/config-and-secrets.md) |
 | 发布治理 | [docs/governance/release-governance.md](../governance/release-governance.md) |
+| 评审清单总览 | [docs/reviews/README.md](../reviews/README.md) |
 | API 规范 | [docs/reference/api-spec.yaml](../reference/api-spec.yaml) |
 | 错误码 | [docs/reference/error-codes.md](../reference/error-codes.md) |
 
@@ -68,3 +69,5 @@ owner: "@PengKang"
 - 没有 `System.out.println` 或 `e.printStackTrace()`。
 - 没有裸用 `RestTemplate` 或 `HttpURLConnection`。
 - 相关文档已经同步更新。
+
+如果需要按任务查看“开发前必读 + 开发后自检 + 评审清单”，统一入口见 [docs/README.md](../README.md)。
