@@ -8,7 +8,9 @@ owner: "@PengKang"
 
 ## 目标
 
-本文档定义 HernessDemo 的持续交付对象模型。它参考 Harness CD 的常见组织方式：Pipeline 由 stages 和 steps 组成，CD 阶段围绕 Service、Environment、Infrastructure、Artifact、Secrets/Connectors、Verification 和 Rollback 编排。
+本文档定义 HernessDemo 的持续交付对象模型。项目级强制原则以根目录 [AGENTS.md](../../AGENTS.md) 中的 “Harness Engineering 原则” 为准；本文档只展开对象定义、当前映射关系和维护规则。
+
+它参考 Harness CD 的常见组织方式：Pipeline 由 stages 和 steps 组成，CD 阶段围绕 Service、Environment、Infrastructure、Artifact、Secrets/Connectors、Verification 和 Rollback 编排。
 
 本文档只描述交付对象和对象关系；发布步骤见 [pipelines.md](pipelines.md)，运行手册见 [docs/operations/](../operations/)。
 
