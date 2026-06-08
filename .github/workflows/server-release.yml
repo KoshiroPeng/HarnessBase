@@ -1,0 +1,212 @@
+name: Server Release Orchestration
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "目标环境"
+        required: true
+        type: environment
+      release_version:
+        description: "发布版本号，例如 0.1.0-rc1"
+        required: true
+        type: string
+      dry_run:
+        description: "是否仅生成发布包与检查清单，不执行真实部署"
+        required: true
+        default: true
+        type: boolean
+      verify_base_url:
+        description: "可选，发布后验证访问地址，例如 http://example.com"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  # 中文说明：同一环境的发布编排串行化，避免多人同时对同一环境发版。
+  group: server-release-${{ inputs.target_environment }}
+  cancel-in-progress: false
+
+jobs:
+  build-release-bundle:
+    name: 构建发布包
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    outputs:
+      artifact_name: ${{ steps.bundle_meta.outputs.artifact_name }}
+      jar_name: ${{ steps.bundle_meta.outputs.jar_name }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 输出环境参数快照
+        run: |
+          echo "目标环境：${{ inputs.target_environment }}"
+          echo "发布版本：${{ inputs.release_version }}"
+          echo "Dry Run：${{ inputs.dry_run }}"
+          echo "环境变量中的 APP_PROFILE：${{ vars.APP_PROFILE }}"
+          echo "环境变量中的 VERIFY_BASE_URL：${{ vars.VERIFY_BASE_URL }}"
+          echo "环境变量中的 APP_DEPLOY_STRATEGY：${{ vars.APP_DEPLOY_STRATEGY }}"
+          echo "环境变量中的 APP_SERVICE_NAME：${{ vars.APP_SERVICE_NAME }}"
+
+      - name: 设置 JDK 1.8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+          cache-dependency-path: server/pom.xml
+
+      - name: 设置 Maven 3.6.3
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.6.3
+
+      - name: 执行发布前全量校验
+        working-directory: server
+        run: mvn -B clean verify
+
+      - name: 生成发布计划与元数据
+        id: bundle_meta
+        run: |
+          chmod +x deploy/release/render-release-plan.sh
+          mkdir -p release-output
+          jar_path="$(find server/target -maxdepth 1 -name '*.jar' | head -n 1)"
+          jar_name="$(basename "${jar_path}")"
+          artifact_name="server-release-${{ inputs.release_version }}-${{ github.run_number }}"
+          echo "artifact_name=${artifact_name}" >> "$GITHUB_OUTPUT"
+          echo "jar_name=${jar_name}" >> "$GITHUB_OUTPUT"
+          RELEASE_VERSION='${{ inputs.release_version }}' \
+          TARGET_ENVIRONMENT='${{ inputs.target_environment }}' \
+          DRY_RUN='${{ inputs.dry_run }}' \
+          GIT_SHA="${GITHUB_SHA}" \
+          GIT_REF="${GITHUB_REF}" \
+          RUN_ID="${GITHUB_RUN_ID}" \
+          OUTPUT_FILE="release-output/release-plan.md" \
+          bash deploy/release/render-release-plan.sh
+          {
+            echo "release_version=${{ inputs.release_version }}"
+            echo "target_environment=${{ inputs.target_environment }}"
+            echo "dry_run=${{ inputs.dry_run }}"
+            echo "git_sha=${GITHUB_SHA}"
+            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > release-output/release-metadata.txt
+          sha256sum server/target/*.jar > release-output/server-artifact.sha256
+
+      - name: 上传发布包
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bundle_meta.outputs.artifact_name }}
+          if-no-files-found: error
+          path: |
+            server/target/*.jar
+            release-output/**
+            deploy/release/**
+
+      - name: 输出发布摘要
+        run: |
+          cat release-output/release-plan.md >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo ""
+            echo "## 治理文档入口"
+            echo ""
+            echo "- docs/delivery/github-environments.md"
+            echo "- docs/operations/github-environment-setup.md"
+            echo "- deploy/release/environment-variable-template.md"
+            echo "- deploy/release/release-checklist.md"
+            echo "- docs/governance/release-governance.md"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-release-candidate:
+    name: 执行远端部署
+    needs:
+      - build-release-bundle
+      - approval-gate
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target_environment }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 下载发布包
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build-release-bundle.outputs.artifact_name }}
+          path: release-bundle
+
+      - name: 执行 SSH 部署脚本
+        env:
+          APP_PROFILE: ${{ vars.APP_PROFILE }}
+          APP_DEPLOY_DIR: ${{ vars.APP_DEPLOY_DIR }}
+          APP_DEPLOY_PORT: ${{ vars.APP_DEPLOY_PORT }}
+          APP_DEPLOY_STRATEGY: ${{ vars.APP_DEPLOY_STRATEGY }}
+          APP_SERVICE_NAME: ${{ vars.APP_SERVICE_NAME }}
+          JAVA_OPTS: ${{ vars.JAVA_OPTS }}
+          APP_DEPLOY_HOST: ${{ secrets.APP_DEPLOY_HOST }}
+          APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
+          APP_DEPLOY_KEY: ${{ secrets.APP_DEPLOY_KEY }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+          ARTIFACT_PATH: release-bundle/server/target/${{ needs.build-release-bundle.outputs.jar_name }}
+        run: |
+          chmod +x deploy/release/deploy-via-ssh.sh
+          bash deploy/release/deploy-via-ssh.sh
+
+  approval-gate:
+    name: 环境审批门禁
+    needs: build-release-bundle
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target_environment }}
+
+    steps:
+      - name: 记录审批结果
+        run: |
+          echo "目标环境：${{ inputs.target_environment }}"
+          echo "发布版本：${{ inputs.release_version }}"
+          echo "说明：如仓库配置了 GitHub Environment 审批规则，此处会自动生效。"
+          echo "请对照 deploy/release/release-checklist.md 完成审批前检查。"
+
+  verify-release-candidate:
+    name: 发布后验证
+    needs:
+      - deploy-release-candidate
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 执行发布验证脚本
+        run: |
+          chmod +x deploy/release/verify-release.sh
+          TARGET_BASE_URL='${{ inputs.verify_base_url != '' && inputs.verify_base_url || vars.VERIFY_BASE_URL }}' \
+          RELEASE_VERSION='${{ inputs.release_version }}' \
+          TARGET_ENVIRONMENT='${{ inputs.target_environment }}' \
+          DRY_RUN='${{ inputs.dry_run }}' \
+          bash deploy/release/verify-release.sh
+
+      - name: 输出验证与运行手册入口
+        run: |
+          {
+            echo "## 发布后验证入口"
+            echo ""
+            echo "- deploy/release/verify-release.sh"
+            echo "- docs/operations/release-verification.md"
+            echo "- docs/operations/runbooks.md"
+          } >> "$GITHUB_STEP_SUMMARY"

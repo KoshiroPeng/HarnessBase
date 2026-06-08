@@ -18,6 +18,13 @@ owner: "@PengKang"
 | 日志规范 | `docs/conventions/logging.md` |
 | 文件规模 | `docs/conventions/file-size.md` |
 | 方法规模 | `docs/conventions/method-size.md` |
+| 交付模型 | `docs/delivery/delivery-model.md` |
+| 环境治理 | `docs/delivery/environments.md` |
+| 流水线设计 | `docs/delivery/pipelines.md` |
+| 部署策略 | `docs/delivery/deployment-strategies.md` |
+| 发布验证 | `docs/operations/release-verification.md` |
+| 配置与密钥 | `docs/operations/config-and-secrets.md` |
+| 发布治理 | `docs/governance/release-governance.md` |
 | API 规范 | `docs/reference/api-spec.yaml` |
 | 错误码 | `docs/reference/error-codes.md` |
 

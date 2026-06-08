@@ -38,6 +38,14 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 | 了解 API 规范 | `docs/reference/api-spec.yaml` |
 | 了解错误码 | `docs/reference/error-codes.md` |
 | 了解测试规范 | `docs/conventions/testing.md` |
+| 了解交付模型 | `docs/delivery/delivery-model.md` |
+| 了解环境治理 | `docs/delivery/environments.md` |
+| 了解流水线设计 | `docs/delivery/pipelines.md` |
+| 了解交付全景入口 | `docs/delivery/delivery-operations-map.md` |
+| 了解部署策略 | `docs/delivery/deployment-strategies.md` |
+| 了解发布验证与回滚 | `docs/operations/release-verification.md` |
+| 了解配置与密钥治理 | `docs/operations/config-and-secrets.md` |
+| 了解发布权限与审批 | `docs/governance/release-governance.md` |
 
 ## 代码结构规则
 
@@ -67,6 +75,9 @@ HernessDemo 是一个面向中小企业的在线项目管理平台，基于 Spri
 - 涉及 API 变更时，同步更新 `docs/reference/api-spec.yaml`。
 - 涉及错误码变更时，同步更新 `docs/reference/error-codes.md`。
 - 涉及模块边界、依赖方向或部署方式变化时，同步更新 `docs/architecture/` 下的相关文档。
+- 涉及环境、流水线、制品、部署策略或回滚机制变化时，同步更新 `docs/delivery/` 下的相关文档。
+- 涉及发布验证、配置密钥、运行手册或服务目标变化时，同步更新 `docs/operations/` 下的相关文档。
+- 涉及审批、权限和审计流程变化时，同步更新 `docs/governance/` 下的相关文档。
 
 ## 测试要求
 

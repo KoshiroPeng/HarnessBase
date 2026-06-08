@@ -1,0 +1,75 @@
+name: Remote Host Bootstrap
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "目标环境"
+        required: true
+        type: environment
+      dry_run:
+        description: "是否仅输出初始化计划，不执行真实初始化"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  # 中文说明：同一环境的主机初始化必须串行，避免多个初始化任务相互覆盖。
+  group: remote-bootstrap-${{ inputs.target_environment }}
+  cancel-in-progress: false
+
+jobs:
+  bootstrap-remote-host:
+    name: 初始化远端主机
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target_environment }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 输出环境参数快照
+        run: |
+          echo "目标环境：${{ inputs.target_environment }}"
+          echo "Dry Run：${{ inputs.dry_run }}"
+          echo "环境变量中的 APP_PROFILE：${{ vars.APP_PROFILE }}"
+          echo "环境变量中的 APP_DEPLOY_DIR：${{ vars.APP_DEPLOY_DIR }}"
+          echo "环境变量中的 APP_DEPLOY_STRATEGY：${{ vars.APP_DEPLOY_STRATEGY }}"
+          echo "环境变量中的 APP_SERVICE_NAME：${{ vars.APP_SERVICE_NAME }}"
+
+      - name: 执行远端主机初始化脚本
+        env:
+          APP_PROFILE: ${{ vars.APP_PROFILE }}
+          APP_DEPLOY_DIR: ${{ vars.APP_DEPLOY_DIR }}
+          APP_DEPLOY_PORT: ${{ vars.APP_DEPLOY_PORT }}
+          APP_DEPLOY_STRATEGY: ${{ vars.APP_DEPLOY_STRATEGY }}
+          APP_SERVICE_NAME: ${{ vars.APP_SERVICE_NAME }}
+          JAVA_OPTS: ${{ vars.JAVA_OPTS }}
+          APP_DEPLOY_HOST: ${{ secrets.APP_DEPLOY_HOST }}
+          APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
+          APP_DEPLOY_KEY: ${{ secrets.APP_DEPLOY_KEY }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          chmod +x deploy/release/bootstrap-remote-host.sh
+          bash deploy/release/bootstrap-remote-host.sh
+
+      - name: 输出初始化手册入口
+        run: |
+          {
+            echo "## 远端主机初始化入口"
+            echo ""
+            echo "- deploy/release/bootstrap-remote-host.sh"
+            echo "- deploy/release/herness-demo.service.template"
+            echo "- docs/operations/remote-host-bootstrap.md"
+            echo "- docs/operations/github-environment-setup.md"
+          } >> "$GITHUB_STEP_SUMMARY"

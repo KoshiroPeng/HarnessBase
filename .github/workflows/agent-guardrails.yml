@@ -1,10 +1,40 @@
-name: Agent Guardrails
+name: Server CI
 
 on:
+  # 中文说明：PR 阶段执行质量门禁，阻止不符合基线的改动进入主线。
   pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "server/**"
+      - "docs/**"
+      - "AGENTS.md"
+      - ".editorconfig"
+      - ".gitattributes"
+  # 中文说明：主分支合并后再次执行 CI，并产出可追溯的构建制品元数据。
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "server/**"
+      - "docs/**"
+      - "AGENTS.md"
+      - ".editorconfig"
+      - ".gitattributes"
+  # 中文说明：允许手工触发，便于在未改动代码时验证流水线配置。
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # 中文说明：同一分支上的 CI 仅保留最新一次，减少重复排队和资源浪费。
+  group: server-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   quality-gates:
+    name: 质量门禁与制品准备
     runs-on: ubuntu-latest
 
     defaults:
@@ -12,36 +42,36 @@ jobs:
         shell: bash
 
     steps:
-      - name: Checkout
+      - name: 检出代码
         uses: actions/checkout@v4
 
-      - name: Set up JDK 1.8
+      - name: 设置 JDK 1.8
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '8'
+          java-version: "8"
           cache: maven
           cache-dependency-path: server/pom.xml
 
-      - name: Set up Maven 3.6.3
+      - name: 设置 Maven 3.6.3
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.6.3
 
-      - name: Verify tooling
+      - name: 校验构建工具版本
         run: |
           java -version
           mvn -v
 
-      - name: Build & Verify
+      - name: 执行 Maven 全量校验
         working-directory: server
         run: mvn -B clean verify
 
-      - name: Architecture Check
+      - name: 执行架构规则检查
         working-directory: server
         run: mvn -B test -Dtest='*ArchTest,LayerDependencyTest'
 
-      - name: File Size Check
+      - name: 执行文件行数检查
         run: |
           find server/src/main/java -name '*.java' | while read -r f; do
             lines=$(wc -l < "$f")
@@ -53,7 +83,7 @@ jobs:
             fi
           done
 
-      - name: Doc Freshness
+      - name: 执行设计文档新鲜度检查
         run: |
           find docs/design -name '*.md' | while read -r f; do
             last_mod=$(git log -1 --format=%ct -- "$f" 2>/dev/null || true)
@@ -68,3 +98,28 @@ jobs:
               echo "⚠️ $f 已 ${days_old} 天未更新，可能已过期"
             fi
           done
+
+      - name: 生成构建元数据
+        run: |
+          mkdir -p artifacts
+          {
+            echo "service=server"
+            echo "git_sha=${GITHUB_SHA}"
+            echo "git_ref=${GITHUB_REF}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_number=${GITHUB_RUN_NUMBER}"
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "generated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > artifacts/build-metadata.txt
+
+      - name: 上传构建产物与报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-ci-${{ github.run_number }}
+          if-no-files-found: ignore
+          path: |
+            artifacts/**
+            server/target/*.jar
+            server/target/surefire-reports/**
+            server/target/site/jacoco/**
