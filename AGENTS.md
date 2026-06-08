@@ -105,9 +105,11 @@ Harness Engineering 在本仓库中的含义是：用清晰入口、真实代码
 1. 开始前先完成统一入口阅读：`AGENTS.md` -> [docs/README.md](docs/README.md) -> [docs/architecture/code-map.md](docs/architecture/code-map.md) -> 对应任务场景文档。
 2. 如果任务涉及架构、模块边界、发布、数据库脚本或 workflow，必须先核对真实文件，不允许只凭旧文档判断。
 3. 如果任务涉及新增业务功能或业务域，必须先核对 [docs/architecture/business-extension-baseline.md](docs/architecture/business-extension-baseline.md)，确认后端、前端、SQL、权限、API、测试和验证证据的纵向闭环。
-4. 如果任务跨多个文档、模块或阶段，优先使用 [docs/plans/task-status-template.md](docs/plans/task-status-template.md) 记录目标、进展、风险和待补文档。
-5. 完成前如果任务涉及功能、缺陷、评审、测试、发布或重要文档治理，优先使用 [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) 记录验证方式、结果和未覆盖风险。
-6. 新增规范、清单、模板或导航页后，必须让它能够从 [docs/README.md](docs/README.md) 或目录索引页直接进入。
+4. 阅读文档时只按当前任务场景展开必要链接；当已经明确代码落位、影响范围和验证方式后，必须停止递归追踪导航链接，进入代码或文档实施。
+5. 禁止为了“读完所有文档”而循环阅读目录索引、导航页或互相引用的规则文档；文档用于定位任务，不替代真实代码核对。
+6. 如果任务跨多个文档、模块或阶段，优先使用 [docs/plans/task-status-template.md](docs/plans/task-status-template.md) 记录目标、进展、风险和待补文档。
+7. 完成前如果任务涉及功能、缺陷、评审、测试、发布或重要文档治理，优先使用 [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) 记录验证方式、结果和未覆盖风险。
+8. 新增规范、清单、模板或导航页后，必须让它能够从 [docs/README.md](docs/README.md) 或目录索引页直接进入。
 
 ## Git 与提交
 

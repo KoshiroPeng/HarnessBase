@@ -44,7 +44,16 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 
 如果一个文档只是重复这些入口，或讲概念却不能指导任务，应删除、合并或改成索引。
 
-### 3. 规则即护栏
+### 3. 防止文档循环
+
+Harness Engineering 的文档入口是导航，不是递归阅读任务。协作者阅读文档时必须遵守停止条件：
+
+- 只按当前任务场景展开必要链接，不追求覆盖所有文档。
+- 已经明确代码落位、影响范围、验证方式后，停止继续追踪导航链接。
+- 导航页、目录索引和规则文档互相引用时，只保留本次任务需要的最短路径。
+- 如果文档与真实代码冲突，以真实代码、配置、SQL、Controller、前端调用和 workflow 为准。
+
+### 4. 规则即护栏
 
 当前高价值护栏包括：
 
@@ -55,7 +64,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 - SQL 脚本、API 文档、响应码文档同步要求。
 - workflow 与发布脚本必须指向真实源码路径。
 
-### 4. 验证即闭环
+### 5. 验证即闭环
 
 完成任务时，至少说明：
 
@@ -65,7 +74,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 
 高风险任务优先使用 [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md)。
 
-### 5. 自动化优先级
+### 6. 自动化优先级
 
 下一阶段应优先把以下规则变成自动检查：
 
@@ -74,6 +83,7 @@ description: 说明 Harness Engineering 在 HarnessBase 中的落地方向：真
 3. 历史过渡产品、旧行业业务系统、旧源码路径等历史事实误用扫描。
 4. workflow 中源码路径是否存在。
 5. SQL 脚本变更是否触发发布与数据文档检查。
+6. 导航文档是否存在递归阅读风险，任务启动清单是否提供停止条件。
 
 自动化方案入口见 [docs/conventions/harness-automation-roadmap.md](../conventions/harness-automation-roadmap.md)。
 
