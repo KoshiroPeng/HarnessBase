@@ -107,9 +107,12 @@ owner: "@PengKang"
 ## 与仓库文件的对应关系
 
 - 环境定义：`docs/delivery/github-environments.md`
+- 交付总览：`docs/delivery/delivery-operations-map.md`
 - 变量模板：`deploy/release/environment-variable-template.md`
 - 发布检查清单：`deploy/release/release-checklist.md`
+- 主机初始化工作流：`.github/workflows/bootstrap-remote-host.yml`
 - 发布工作流：`.github/workflows/server-release.yml`
+- 回滚工作流：`.github/workflows/server-rollback.yml`
 
 ## 配置完成后的验证
 
@@ -132,6 +135,10 @@ owner: "@PengKang"
 - `docs/operations/remote-host-bootstrap.md`
 
 并执行：
+
+- `.github/workflows/bootstrap-remote-host.yml`
+
+如需在本地或临时 CI 环境中预演，也可以直接执行：
 
 - `deploy/release/bootstrap-remote-host.sh`
 

@@ -83,7 +83,7 @@ domain -> config -> mapper -> service -> controller
 - `controller`: HTTP 入参出参、状态码映射、接口协议适配。
 - `infrastructure`: 可注入的横切基础设施，不承载业务用例。
 
-更细的依赖规则见 `docs/architecture/boundaries.md`。
+更细的依赖规则见 [docs/architecture/boundaries.md](boundaries.md)。
 
 ## 数据与迁移
 
@@ -126,4 +126,4 @@ domain -> config -> mapper -> service -> controller
 
 当前仓库关于环境初始化、日常发布、回滚和验证的统一入口见：
 
-- `docs/delivery/delivery-operations-map.md`
+- [docs/delivery/delivery-operations-map.md](../delivery/delivery-operations-map.md)

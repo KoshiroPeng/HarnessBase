@@ -124,10 +124,10 @@ owner: "@PengKang"
 
 当前缺失能力：
 
-- 明确制品发布策略。
+- 更成熟的制品仓库接入与版本选择机制。
 - 更成熟的部署平台适配，例如容器编排、滚动发布或 GitOps。
-- 回滚自动化。
-- 密钥和环境参数注入规范。
+- 更自动化的回滚制品发现与选择机制。
+- 更强的密钥管理系统接入，例如 Vault 或云原生密钥服务。
 
 ## 最小落地顺序
 
@@ -143,8 +143,10 @@ owner: "@PengKang"
 - `.github/workflows/agent-guardrails.yml`：CI Pipeline，实现质量门禁、构建和制品归档。
 - `.github/workflows/bootstrap-remote-host.yml`：首次接入远端主机时的初始化工作流。
 - `.github/workflows/server-release.yml`：手工触发的发布编排入口，串联构建、审批和验证。
+- `.github/workflows/server-rollback.yml`：独立回滚工作流，串联审批、回滚和回滚后验证。
 - `deploy/release/render-release-plan.sh`：生成标准化发布计划。
 - `deploy/release/deploy-via-ssh.sh`：基于 SSH 的最小远端部署骨架。
+- `deploy/release/rollback-via-ssh.sh`：基于 SSH 的最小远端回滚骨架。
 - `deploy/release/verify-release.sh`：执行最小发布后验证。
 
 ## 维护规则

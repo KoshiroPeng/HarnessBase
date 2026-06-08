@@ -30,10 +30,10 @@ owner: "@PengKang"
 
 入口：
 
-- Workflow：`.github/workflows/bootstrap-remote-host.yml`
-- 脚本：`deploy/release/bootstrap-remote-host.sh`
-- systemd 模板：`deploy/release/herness-demo.service.template`
-- 手册：`docs/operations/remote-host-bootstrap.md`
+- Workflow：[.github/workflows/bootstrap-remote-host.yml](../../.github/workflows/bootstrap-remote-host.yml)
+- 脚本：[deploy/release/bootstrap-remote-host.sh](../../deploy/release/bootstrap-remote-host.sh)
+- systemd 模板：[deploy/release/herness-demo.service.template](../../deploy/release/herness-demo.service.template)
+- 手册：[docs/operations/remote-host-bootstrap.md](../operations/remote-host-bootstrap.md)
 
 ## 二、日常发布
 
@@ -43,12 +43,12 @@ owner: "@PengKang"
 
 入口：
 
-- Workflow：`.github/workflows/server-release.yml`
-- 发布计划脚本：`deploy/release/render-release-plan.sh`
-- 部署脚本：`deploy/release/deploy-via-ssh.sh`
-- 发布验证脚本：`deploy/release/verify-release.sh`
-- 检查清单：`deploy/release/release-checklist.md`
-- 手册：`docs/operations/release-verification.md`
+- Workflow：[.github/workflows/server-release.yml](../../.github/workflows/server-release.yml)
+- 发布计划脚本：[deploy/release/render-release-plan.sh](../../deploy/release/render-release-plan.sh)
+- 部署脚本：[deploy/release/deploy-via-ssh.sh](../../deploy/release/deploy-via-ssh.sh)
+- 发布验证脚本：[deploy/release/verify-release.sh](../../deploy/release/verify-release.sh)
+- 检查清单：[deploy/release/release-checklist.md](../../deploy/release/release-checklist.md)
+- 手册：[docs/operations/release-verification.md](../operations/release-verification.md)
 
 ## 三、异常回滚
 
@@ -60,54 +60,54 @@ owner: "@PengKang"
 
 入口：
 
-- Workflow：`.github/workflows/server-rollback.yml`
-- 回滚脚本：`deploy/release/rollback-via-ssh.sh`
-- 检查清单：`deploy/release/release-checklist.md`
-- 手册：`docs/operations/rollback-runbook.md`
+- Workflow：[.github/workflows/server-rollback.yml](../../.github/workflows/server-rollback.yml)
+- 回滚脚本：[deploy/release/rollback-via-ssh.sh](../../deploy/release/rollback-via-ssh.sh)
+- 检查清单：[deploy/release/release-checklist.md](../../deploy/release/release-checklist.md)
+- 手册：[docs/operations/rollback-runbook.md](../operations/rollback-runbook.md)
 
 ## 四、环境与配置治理
 
 入口：
 
-- 环境定义：`docs/delivery/environments.md`
-- GitHub Environment 映射：`docs/delivery/github-environments.md`
-- GitHub 配置手册：`docs/operations/github-environment-setup.md`
-- 变量与密钥模板：`deploy/release/environment-variable-template.md`
-- 配置与密钥治理：`docs/operations/config-and-secrets.md`
+- 环境定义：[docs/delivery/environments.md](environments.md)
+- GitHub Environment 映射：[docs/delivery/github-environments.md](github-environments.md)
+- GitHub 配置手册：[docs/operations/github-environment-setup.md](../operations/github-environment-setup.md)
+- 变量与密钥模板：[deploy/release/environment-variable-template.md](../../deploy/release/environment-variable-template.md)
+- 配置与密钥治理：[docs/operations/config-and-secrets.md](../operations/config-and-secrets.md)
 
 ## 五、交付模型与策略
 
 入口：
 
-- 交付模型：`docs/delivery/delivery-model.md`
-- 流水线设计：`docs/delivery/pipelines.md`
-- 部署策略：`docs/delivery/deployment-strategies.md`
-- 制品治理：`docs/delivery/artifact-policy.md`
-- 服务目标与门禁：`docs/operations/slo-and-gates.md`
+- 交付模型：[docs/delivery/delivery-model.md](delivery-model.md)
+- 流水线设计：[docs/delivery/pipelines.md](pipelines.md)
+- 部署策略：[docs/delivery/deployment-strategies.md](deployment-strategies.md)
+- 制品治理：[docs/delivery/artifact-policy.md](artifact-policy.md)
+- 服务目标与门禁：[docs/operations/slo-and-gates.md](../operations/slo-and-gates.md)
 
 ## 推荐使用顺序
 
 首次接入新环境：
 
-1. 阅读 `docs/delivery/github-environments.md`
-2. 按 `docs/operations/github-environment-setup.md` 配置 GitHub Environments
-3. 触发 `Remote Host Bootstrap`
-4. 触发 `Server Release Orchestration`
+1. 阅读 [docs/delivery/github-environments.md](github-environments.md)
+2. 按 [docs/operations/github-environment-setup.md](../operations/github-environment-setup.md) 配置 GitHub Environments
+3. 触发 [Remote Host Bootstrap](../../.github/workflows/bootstrap-remote-host.yml)
+4. 触发 [Server Release Orchestration](../../.github/workflows/server-release.yml)
 
 日常发布：
 
-1. 触发 `Server Release Orchestration`
+1. 触发 [Server Release Orchestration](../../.github/workflows/server-release.yml)
 2. 观察验证结果
-3. 若异常，再触发 `Server Rollback`
+3. 若异常，再触发 [Server Rollback](../../.github/workflows/server-rollback.yml)
 
 ## 当前 Workflow 清单
 
 | Workflow | 用途 |
 | --- | --- |
-| `agent-guardrails.yml` | CI 质量门禁与制品归档 |
-| `bootstrap-remote-host.yml` | 首次初始化远端主机 |
-| `server-release.yml` | 日常发布与验证 |
-| `server-rollback.yml` | 异常回滚与回滚后验证 |
+| [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml) | CI 质量门禁与制品归档 |
+| [bootstrap-remote-host.yml](../../.github/workflows/bootstrap-remote-host.yml) | 首次初始化远端主机 |
+| [server-release.yml](../../.github/workflows/server-release.yml) | 日常发布与验证 |
+| [server-rollback.yml](../../.github/workflows/server-rollback.yml) | 异常回滚与回滚后验证 |
 
 ## 维护规则
 

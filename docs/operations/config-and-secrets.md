@@ -52,14 +52,17 @@ owner: "@PengKang"
 
 - `application.yml`
 - `application-local.yml`
+- `application-test.yml`
+- `application-staging.yml`
+- `application-prod.yml`
 - `deploy/release/environment-variable-template.md`
+- `docs/operations/github-environment-setup.md`
 
 后续建议补齐：
 
 - 环境配置命名约定。
-- 配置模板文件。
-- 变量清单与说明文档。
 - 密钥轮换流程。
+- 更强的密钥托管与审计能力。
 
 ## 当前模板入口
 
