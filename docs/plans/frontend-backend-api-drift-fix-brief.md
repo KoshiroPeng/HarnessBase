@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 status: active
 owner: "@PengKang"
 description: HarnessBase 前后端接口漂移修复任务说明，用于记录若依微服务后端与 Vue 2 前端之间的接口事实差异、修复方式和验证要求。
@@ -119,7 +119,7 @@ mvn -B -pl ruoyi-modules/目标模块 -am test
 - 当前接口参考入口：[docs/reference/README.md](../reference/README.md)
 - 当前技术基线：[docs/architecture/target-technology-baseline.md](../architecture/target-technology-baseline.md)
 - 当前代码地图：[docs/architecture/code-map.md](../architecture/code-map.md)
-- 自动化同步提醒入口：[docs/plans/phase4-doc-sync-reminder-brief.md](phase4-doc-sync-reminder-brief.md)
+- 自动化同步提醒规则：[docs/conventions/automation-check-catalog.md](../conventions/automation-check-catalog.md)
 
 ## 何时需要新建独立任务
 

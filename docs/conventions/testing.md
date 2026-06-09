@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 status: active
 owner: "@PengKang"
 description: HarnessBase 测试规范，约束单元测试、回归测试、联调验证与测试证据记录范围。
@@ -77,7 +77,7 @@ createUser_shouldFail_whenUserNameDuplicated
 ## 配套入口
 
 - [docs/reviews/testcase-review-checklist.md](../reviews/testcase-review-checklist.md)
-- [docs/reviews/templates/testcase-review-template.md](../reviews/templates/testcase-review-template.md)
+- [docs/reviews/templates/review-output-template.md](../reviews/templates/review-output-template.md)
 - [docs/reviews/backend-code-review-checklist.md](../reviews/backend-code-review-checklist.md)
 - [docs/reviews/frontend-code-review-checklist.md](../reviews/frontend-code-review-checklist.md)
 - [deploy/release/release-checklist.md](../../deploy/release/release-checklist.md)

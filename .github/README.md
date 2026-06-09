@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 status: active
 owner: "@PengKang"
 description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发布、回滚与远端主机初始化 workflow 的职责、输入与联读文档。
@@ -17,7 +17,7 @@ description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发
 
 - [AGENTS.md](../AGENTS.md)：仓库级协作规则与 Git 提交要求
 - [docs/README.md](../docs/README.md)：统一文档导航入口
-- [docs/plans/automation-delivery-map.md](../docs/plans/automation-delivery-map.md)：自动化接入与阶段验收总入口
+- [docs/conventions/automation-check-catalog.md](../docs/conventions/automation-check-catalog.md)：自动化检查规则入口
 - [deploy/release/README.md](../deploy/release/README.md)：发布脚本说明
 - [deploy/release/environment-variable-template.md](../deploy/release/environment-variable-template.md)：环境变量与密钥模板
 - [deploy/release/release-checklist.md](../deploy/release/release-checklist.md)：发布与回滚检查清单

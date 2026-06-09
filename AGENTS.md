@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 status: active
 owner: "@PengKang"
 description: HarnessBase 仓库级 AI 协作规则、当前微服务代码事实、开发导航入口、架构护栏与文档治理要求。
@@ -137,7 +137,7 @@ Harness Engineering 在本仓库中的含义是：用清晰入口、真实代码
 6. 如果任务跨多个文档、模块或阶段，优先使用 [docs/plans/task-status-template.md](docs/plans/task-status-template.md) 记录目标、进展、风险和待补文档。
 7. 完成前如果任务涉及功能、缺陷、评审、测试、发布或重要文档治理，优先使用 [docs/reviews/templates/verification-evidence-template.md](docs/reviews/templates/verification-evidence-template.md) 记录验证方式、结果和未覆盖风险。
 8. 新增规范、清单、模板或导航页后，必须让它能够从 [docs/README.md](docs/README.md) 或目录索引页直接进入。
-9. 如果任务涉及自动化检查接入、试运行或阶段验收，优先从 [docs/plans/automation-delivery-map.md](docs/plans/automation-delivery-map.md) 进入，再按阶段文档展开。
+9. 如果任务涉及自动化检查，优先核对 [docs/conventions/automation-check-catalog.md](docs/conventions/automation-check-catalog.md) 和 [.github/scripts/doc_guardrails.py](.github/scripts/doc_guardrails.py)；试运行结果记录到验证证据、PR、CI 或提交说明，不再新增阶段过程文档。
 
 ## Git 与提交
 
