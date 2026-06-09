@@ -59,6 +59,7 @@ web/src/views
 - 禁止新增业务绕过 Service，直接在 Controller 中堆叠复杂规则。
 - 禁止跨模块直接调用其他模块 Controller。
 - 禁止业务代码直接散落第三方 SDK 初始化逻辑；应进入 common、adapter 或明确封装类。
+- 禁止在业务 Controller、Service 或领域逻辑中直接发起裸 HTTP 请求；当前仓库中社会化登录 provider 适配器、OSS SDK transport 和 URL 解析等基础设施/适配层实现不视为违规点。
 - 禁止新增 `javax.*` 命名空间。
 - 禁止新增字段级 `@Autowired`。
 
