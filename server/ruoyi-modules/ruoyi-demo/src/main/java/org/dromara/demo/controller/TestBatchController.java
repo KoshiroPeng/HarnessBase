@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.demo.domain.TestDemo;
-import org.dromara.demo.mapper.TestDemoMapper;
+import org.dromara.demo.service.ITestDemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +25,7 @@ import java.util.List;
 @RequestMapping("/demo/batch")
 public class TestBatchController extends BaseController {
 
-    /**
-     * 为了便于测试 直接引入mapper
-     */
-    private final TestDemoMapper testDemoMapper;
+    private final ITestDemoService testDemoService;
 
     /**
      * 新增批量方法 可完美替代 saveBatch 秒级插入上万数据 (对mysql负荷较大)
@@ -46,7 +43,7 @@ public class TestBatchController extends BaseController {
             testDemo.setValue("测试新增");
             list.add(testDemo);
         }
-        return toAjax(testDemoMapper.insertBatch(list));
+        return toAjax(testDemoService.saveBatch(list));
     }
 
     /**
@@ -65,7 +62,7 @@ public class TestBatchController extends BaseController {
             testDemo.setValue("测试新增");
             list.add(testDemo);
         }
-        testDemoMapper.insertBatch(list);
+        testDemoService.saveBatch(list);
         for (int i = 0; i < list.size(); i++) {
             TestDemo testDemo = list.get(i);
             testDemo.setTestKey("批量新增或修改");
@@ -74,7 +71,7 @@ public class TestBatchController extends BaseController {
                 testDemo.setId(null);
             }
         }
-        return toAjax(testDemoMapper.insertOrUpdateBatch(list));
+        return toAjax(testDemoService.saveOrUpdateBatch(list));
     }
 
     /**
@@ -83,7 +80,7 @@ public class TestBatchController extends BaseController {
     @DeleteMapping()
 //    @DS("slave")
     public R<Void> remove() {
-        return toAjax(testDemoMapper.delete(new LambdaQueryWrapper<TestDemo>()
+        return toAjax(testDemoService.removeByOrderNum(new LambdaQueryWrapper<TestDemo>()
             .eq(TestDemo::getOrderNum, -1L)));
     }
 

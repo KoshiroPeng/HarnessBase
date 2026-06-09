@@ -115,4 +115,14 @@ public class TestDemoServiceImpl implements ITestDemoService {
     public Boolean saveBatch(List<TestDemo> list) {
         return baseMapper.insertBatch(list);
     }
+
+    @Override
+    public Boolean saveOrUpdateBatch(List<TestDemo> list) {
+        return baseMapper.insertOrUpdateBatch(list);
+    }
+
+    @Override
+    public Boolean removeByOrderNum(LambdaQueryWrapper<TestDemo> wrapper) {
+        return baseMapper.delete(wrapper) > 0;
+    }
 }

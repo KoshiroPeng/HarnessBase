@@ -5,6 +5,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.demo.domain.TestDemo;
 import org.dromara.demo.domain.bo.TestDemoBo;
 import org.dromara.demo.domain.vo.TestDemoVo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -68,4 +69,14 @@ public interface ITestDemoService {
      * 批量保存
      */
     Boolean saveBatch(List<TestDemo> list);
+
+    /**
+     * 批量新增或更新
+     */
+    Boolean saveOrUpdateBatch(List<TestDemo> list);
+
+    /**
+     * 按条件删除
+     */
+    Boolean removeByOrderNum(LambdaQueryWrapper<TestDemo> wrapper);
 }
