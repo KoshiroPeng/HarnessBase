@@ -150,8 +150,9 @@ web/
 
 - 旧源码路径已经不是当前源码入口，后续 workflow 和文档不能重新引用为事实。
 - [.github/workflows](../../.github/workflows) 当前应使用 `server/`、`web/`、`deploy/` 作为真实入口。
+- [.github/README.md](../../.github/README.md) 是当前 workflow 的目录入口，供发布、回滚、初始化和 CI 校验时快速导航。
 - [deploy/release](../../deploy/release) 中 systemd 模板仍使用 `harness-base` 作为部署服务名语境，修改服务名时必须同步 workflow、脚本和发布文档。
-- [server/README.md](../../server/README.md) 和 [web/README.md](../../web/README.md) 保留上游 RuoYi-Vue-Plus 说明，可作为脚手架参考，但仓库级约束以 [AGENTS.md](../../AGENTS.md) 和 [docs/README.md](../README.md) 为准。
+- [server/README.md](../../server/README.md) 和 [web/README.md](../../web/README.md) 已收敛为当前仓库的本地目录入口；上游 RuoYi-Vue-Plus / plus-ui 资料仅作为外部参考，不再作为本仓库协作入口。
 
 ## 维护规则
 

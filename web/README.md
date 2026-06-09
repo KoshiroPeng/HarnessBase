@@ -1,83 +1,91 @@
-## 平台简介
+---
+last_updated: 2026-06-09
+status: active
+owner: "@PengKang"
+description: HarnessBase 前端工程入口，汇总前端目录结构、运行命令、接口落位规则与协作文档导航。
+---
 
-- 本仓库为前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [TS](https://www.typescriptlang.org/) + [Element Plus](https://element-plus.org/zh-CN) + [Vite](https://cn.vitejs.dev) 版本。
-- 成员项目: 基于 vben5(ant-design-vue) 的前端项目 [ruoyi-plus-vben5](https://github.com/imdap/ruoyi-plus-vben5)
-- 成员项目: 基于soybean 的前端项目 [ruoyi-plus-soybean](https://gitee.com/xlsea/ruoyi-plus-soybean)
+# 前端工程入口
 
-## 配套后端代码仓库地址
+## 目标
 
-| 介绍         | 项目名              | 项目地址                                                                                                                                                                           |
-|------------|:-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 🔥 分布式集群框架 | RuoYi-Vue-Plus   | - [Gitee](https://gitee.com/dromara/RuoYi-Vue-Plus)<br> - [GitHub](https://github.com/dromara/RuoYi-Vue-Plus)<br> - [GitCode](https://gitcode.com/dromara/RuoYi-Vue-Plus)      |
-| 🔥 微服务框架   | RuoYi-Cloud-Plus | - [Gitee](https://gitee.com/dromara/RuoYi-Cloud-Plus)<br>- [GitHub](https://github.com/dromara/RuoYi-Cloud-Plus)<br> - [GitCode](https://gitcode.com/dromara/RuoYi-Cloud-Plus) |
+本文档作为 HarnessBase 前端工程的本地入口，帮助开发者和 AI 协作者快速确认前端技术栈、目录结构、运行命令、接口落位规则和必读文档。
 
-## 分支说明
+当前前端真实代码以 [package.json](package.json)、[src](src) 与 [vite.config.ts](vite.config.ts) 为准；如果与上游 plus-ui 说明冲突，以本仓库代码事实和 [AGENTS.md](../AGENTS.md) 为准。
 
-- ts分支(稳定发布主分支 生产可用)
-- dev分支(开发分支 开发过程中使用)
+## 快速导航
 
-## 前端运行
+- [AGENTS.md](../AGENTS.md)：仓库级协作规则与硬性约束
+- [docs/README.md](../docs/README.md)：统一文档导航入口
+- [docs/architecture/code-map.md](../docs/architecture/code-map.md)：真实代码地图
+- [docs/design/feature-admin-domains.md](../docs/design/feature-admin-domains.md)：后台功能域图谱
+- [docs/conventions/testing.md](../docs/conventions/testing.md)：前端测试与验证规范
+- [docs/reviews/frontend-code-review-checklist.md](../docs/reviews/frontend-code-review-checklist.md)：前端代码评审清单
+- [docs/reviews/frontend-design-review-checklist.md](../docs/reviews/frontend-design-review-checklist.md)：前端设计评审清单
 
-```bash
-# 安装依赖
-npm install --registry=https://registry.npmmirror.com
+## 当前结构
 
-# 启动服务
-npm run dev
-
-# 构建生产环境
-npm run build:prod
-
-# 前端访问地址 http://localhost:80
+```text
+web/
+├── package.json
+├── pnpm-lock.yaml
+├── src/
+│   ├── api/
+│   ├── views/
+│   ├── router/
+│   ├── store/
+│   ├── layout/
+│   ├── components/
+│   └── utils/
+└── vite/
 ```
 
-## 本框架与RuoYi的业务差异
+| 路径 | 作用 |
+| --- | --- |
+| [package.json](package.json) | 前端依赖、脚本和运行环境约束 |
+| [pnpm-lock.yaml](pnpm-lock.yaml) | 当前依赖锁文件 |
+| [src/api](src/api) | 按功能域组织的接口客户端 |
+| [src/views](src/views) | 系统管理、监控、工具、工作流、示例等页面 |
+| [src/router](src/router) | 路由入口与导航装配 |
+| [src/store](src/store) | Pinia 状态管理 |
+| [src/components](src/components) | 复用组件 |
+| [vite](vite) | Vite 插件与构建辅助配置 |
 
-| 业务         | 功能说明                                                      | 本框架 | RuoYi                         |
-| ------------ | ------------------------------------------------------------- | ------ | ----------------------------- |
-| 租户管理     | 系统内租户的管理 如:租户套餐、过期时间、用户数量、企业信息等  | 支持   | 无                            |
-| 租户套餐管理 | 系统内租户所能使用的套餐管理 如:套餐内所包含的菜单等          | 支持   | 无                            |
-| 用户管理     | 用户的管理配置 如:新增用户、分配用户所属部门、角色、岗位等    | 支持   | 支持                          |
-| 部门管理     | 配置系统组织机构（公司、部门、小组） 树结构展现支持数据权限   | 支持   | 支持                          |
-| 岗位管理     | 配置系统用户所属担任职务                                      | 支持   | 支持                          |
-| 菜单管理     | 配置系统菜单、操作权限、按钮权限标识等                        | 支持   | 支持                          |
-| 角色管理     | 角色菜单权限分配、设置角色按机构进行数据范围权限划分          | 支持   | 支持                          |
-| 字典管理     | 对系统中经常使用的一些较为固定的数据进行维护                  | 支持   | 支持                          |
-| 参数管理     | 对系统动态配置常用参数                                        | 支持   | 支持                          |
-| 通知公告     | 系统通知公告信息发布维护                                      | 支持   | 支持                          |
-| 操作日志     | 系统正常操作日志记录和查询 系统异常信息日志记录和查询         | 支持   | 支持                          |
-| 登录日志     | 系统登录日志记录查询包含登录异常                              | 支持   | 支持                          |
-| 文件管理     | 系统文件展示、上传、下载、删除等管理                          | 支持   | 无                            |
-| 文件配置管理 | 系统文件上传、下载所需要的配置信息动态添加、修改、删除等管理  | 支持   | 无                            |
-| 在线用户管理 | 已登录系统的在线用户信息监控与强制踢出操作                    | 支持   | 支持                          |
-| 定时任务     | 运行报表、任务管理(添加、修改、删除)、日志管理、执行器管理等  | 支持   | 仅支持任务与日志管理          |
-| 代码生成     | 多数据源前后端代码的生成（java、html、xml、sql）支持CRUD下载  | 支持   | 仅支持单数据源                |
-| 系统接口     | 根据业务代码自动生成相关的api接口文档                         | 支持   | 支持                          |
-| 服务监控     | 监视集群系统CPU、内存、磁盘、堆栈、在线日志、Spring相关配置等 | 支持   | 仅支持单机CPU、内存、磁盘监控 |
-| 缓存监控     | 对系统的缓存信息查询，命令统计等。                            | 支持   | 支持                          |
-| 在线构建器   | 拖动表单元素生成相应的HTML代码。                              | 支持   | 支持                          |
-| 使用案例     | 系统的一些功能案例                                            | 支持   | 不支持                        |
+## 运行与构建
 
-## 演示图例
+当前前端包管理器基线是 `pnpm`，版本解析受 [pnpm-lock.yaml](pnpm-lock.yaml) 和 [package.json](package.json) 中 `packageManager` 字段约束。
 
-|                                                                                                      |                                                                                                      |
-| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| ![输入图片说明](https://foruda.gitee.com/images/1680077524361362822/270bb429_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680077619939771291/989bf9b6_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680077681751513929/1c27c5bd_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680077721559267315/74d63e23_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680077765638904515/1b75d4a6_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078026375951297/eded7a4b_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078237104531207/0eb1b6a7_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078254306078709/5931e22f_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078287971528493/0b9af60a_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078308138770249/8d3b6696_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078352553634393/db5ef880_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078378238393374/601e4357_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078414983206024/2aae27c1_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078446738419874/ecce7d59_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078475971341775/149e8634_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078491666717143/3fadece7_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078558863188826/fb8ced2a_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078574561685461/ae68a0b2_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078594932772013/9d8bfec6_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078626493093532/fcfe4ff6_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078643608812515/0295bd4f_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078685196286463/d7612c81_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078703877318597/56fce0bc_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078716586545643/b6dbd68f_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078734103217688/eb1e6aa6_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078759131415480/73c525d8_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078779416197879/75e3ed02_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078802329118061/77e10915_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078893627848351/34a1c342_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078928175016986/f126ec4a_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078941718318363/b68a0f72_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680078963175518631/3bb769a1_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680078982294090567/b31c343d_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680079000642440444/77ca82a9_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680079020995074177/03b7d52e_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680079039367822173/76811806_1766278.png '屏幕截图') |
-| ![输入图片说明](https://foruda.gitee.com/images/1680079274333484664/4dfdc7c0_1766278.png '屏幕截图') | ![输入图片说明](https://foruda.gitee.com/images/1680079290467458224/d6715fcf_1766278.png '屏幕截图') |
+常用命令：
+
+```bash
+pnpm install
+pnpm dev
+pnpm build:prod
+pnpm lint:eslint
+pnpm prettier
+```
+
+如果需要验证改动对生产构建的影响，至少补一次 `pnpm build:prod`。
+
+## 前端改动落位规则
+
+- 新接口优先放到 [src/api](src/api) 对应功能域目录，不要把请求散落到页面中。
+- 新页面优先放到 [src/views](src/views) 对应功能域目录。
+- 路由变更同步检查 [src/router](src/router)。
+- 状态变更同步检查 [src/store](src/store)。
+- 若涉及菜单、权限、按钮或后端接口路径，必须联动核对后端模块与 API 摘要。
+
+## 前端任务起步建议
+
+- 新增业务页面：先读 [docs/architecture/business-extension-baseline.md](../docs/architecture/business-extension-baseline.md)
+- 改认证、租户、登录相关页面：先读 [docs/design/feature-auth.md](../docs/design/feature-auth.md)
+- 改后台主功能域页面：先读 [docs/design/feature-admin-domains.md](../docs/design/feature-admin-domains.md)
+- 修接口漂移：先读 [docs/plans/frontend-backend-api-drift-fix-brief.md](../docs/plans/frontend-backend-api-drift-fix-brief.md)
+- 做前端评审或自检：先读 [docs/reviews/frontend-code-review-checklist.md](../docs/reviews/frontend-code-review-checklist.md)
+
+## 与上游的关系
+
+本目录底层前端工程仍来自 plus-ui / RuoYi-Vue-Plus 体系，但当前仓库不再直接使用上游 README 作为本地导航入口。若需要查看上游背景资料，可自行参考：
+
+- [plus-ui GitHub](https://github.com/dromara/plus-ui)
+- [RuoYi-Vue-Plus 文档](https://plus-doc.dromara.org)
