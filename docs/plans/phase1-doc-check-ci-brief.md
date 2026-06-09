@@ -2,14 +2,14 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定义元数据与链接检查的接入目标、位置、输出与验收方式。
+description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，记录元数据与链接检查的接入状态、位置、输出与验收方式。
 ---
 
 # 第一阶段文档结构类检查 CI 接入说明
 
 ## 目标
 
-本文档用于说明 HarnessBase 第一阶段自动化检查，也就是文档结构类硬校验，后续应该如何接入 CI。
+本文档用于说明 HarnessBase 第一阶段自动化检查，也就是文档结构类硬校验，当前如何接入 CI、如何本地验证、后续如何维护。
 
 本说明只描述：
 
@@ -18,7 +18,16 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 - 输出成什么样
 - 如何验收
 
-本说明不直接修改 workflow，也不替代具体脚本实现。
+本说明不替代具体脚本实现；当前脚本入口是 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py)，CI 入口是 [.github/workflows/agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml)。
+
+## 当前状态
+
+截至 2026-06-09，第一阶段已经落地：
+
+- A01、A02、A03 已由 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py) 覆盖。
+- A03 已删除文档引用检查并入 A02 相对链接目标检查。
+- [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml) 已将文档护栏作为后端和前端构建前置门禁。
+- 本地执行 `python .github/scripts/doc_guardrails.py` 应输出 A01/A02/A03 通过。
 
 ## 适用范围
 
@@ -41,9 +50,9 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 这意味着它们最适合作为 HarnessBase 自动化检查的第一批落地点。
 
-## 推荐接入位置
+## 接入位置
 
-后续真正落地时，优先接入：
+当前已接入：
 
 - [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml)
 
@@ -53,9 +62,9 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 - 文档变更本身就会触发当前 workflow。
 - 文档检查与后端构建、前端构建属于同一类“进入主线前的基础门禁”。
 
-## 推荐接入方式
+## 接入方式
 
-建议未来 workflow 结构按以下顺序组织：
+当前 workflow 结构按以下顺序组织：
 
 1. 检出代码
 2. 执行文档结构类检查
@@ -75,7 +84,7 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 ## 推荐输出方式
 
-后续脚本与 CI 输出建议统一遵守：
+脚本与 CI 输出建议统一遵守：
 
 - [docs/conventions/automation-message-guidelines.md](../conventions/automation-message-guidelines.md)
 - [docs/reviews/templates/automation-check-report-template.md](../reviews/templates/automation-check-report-template.md)
@@ -90,7 +99,7 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 ## 推荐结果沉淀方式
 
-首次接入、规则调整或误报治理时，建议同步输出一份人工可读结果，便于回顾：
+规则调整或误报治理时，建议同步输出一份人工可读结果，便于回顾：
 
 - 使用 [docs/reviews/templates/automation-check-report-template.md](../reviews/templates/automation-check-report-template.md) 记录试运行结果
 - 若本次接入涉及规则调整或忽略项变更，补充 [docs/reviews/templates/verification-evidence-template.md](../reviews/templates/verification-evidence-template.md)
@@ -122,13 +131,12 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 ## 推荐试运行步骤
 
-建议按以下顺序推进：
+后续维护建议按以下顺序推进：
 
-1. 先在本地脚本验证 A01、A02、A03
-2. 再在 CI 中以非正式试运行方式接入
-3. 收集 1 到 2 轮误报与漏报
-4. 修正忽略规则与输出文案
-5. 最后升级为正式阻断
+1. 先在本地执行 `python .github/scripts/doc_guardrails.py`
+2. 收集误报与漏报
+3. 修正忽略规则与输出文案
+4. 继续保持 CI 阻断模式
 
 ## 与当前文档的关系
 
@@ -142,8 +150,6 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 以下事项不在本文处理：
 
-- 具体脚本文件名
-- 具体脚本语言选择
 - workflow YAML 实际改动
 - 第二阶段历史事实误用扫描
 - 第三阶段 workflow 路径护栏
@@ -151,4 +157,4 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，定
 
 ## 一句话结论
 
-第一阶段最合理的接法，是把文档结构类检查作为 `agent-guardrails.yml` 中最前置的阻断门禁，并保证输出能直接定位文件、字段、路径和规则来源。
+第一阶段已经作为 `agent-guardrails.yml` 中最前置的阻断门禁落地，维护重点是保持输出能直接定位文件、字段、路径和规则来源。
