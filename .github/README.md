@@ -30,7 +30,7 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 | Workflow | 文件 | 作用 |
 | --- | --- | --- |
-| CI / 护栏校验 | [agent-guardrails.yml](workflows/agent-guardrails.yml) | 执行后端构建、前端构建与基础制品上传 |
+| CI / 护栏校验 | [agent-guardrails.yml](workflows/agent-guardrails.yml) | 先执行文档护栏检查，再执行后端构建、前端构建与基础制品上传 |
 | 服务发布 | [server-release.yml](workflows/server-release.yml) | 构建发布包、生成发布计划、执行 SSH 部署、发布后验证 |
 | 服务回滚 | [server-rollback.yml](workflows/server-rollback.yml) | 远端回滚指定制品并执行回滚后验证 |
 | 远端初始化 | [bootstrap-remote-host.yml](workflows/bootstrap-remote-host.yml) | 初始化远端目录、环境文件与 systemd 服务骨架 |
@@ -55,6 +55,7 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 重点关注：
 
 - 文档结构类检查是否作为前置阻断门禁接入
+- `python .github/scripts/doc_guardrails.py` 是否作为最前置文档门禁执行
 - 后端 `mvn -B -DskipTests package`
 - 前端 `pnpm install --frozen-lockfile` 与 `pnpm build:prod`
 - 制品上传路径是否仍存在
