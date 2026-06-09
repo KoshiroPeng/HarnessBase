@@ -2,7 +2,7 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HarnessBase 前后端接口差异修复任务说明，聚焦 workflow definition XML 路径和 monitor cache 前端残留。
+description: HarnessBase 前后端接口差异修复任务说明，当前聚焦 workflow definition XML 路径差异，并记录已收敛的 monitor cache 前端残留处理结论。
 ---
 
 # 前后端接口差异修复任务说明
@@ -11,10 +11,9 @@ description: HarnessBase 前后端接口差异修复任务说明，聚焦 workfl
 
 本文档把当前已知的前后端接口差异收敛成后续代码任务说明。它不是本轮文档治理的延续，而是给下一轮允许修改代码时使用的执行入口。
 
-当前优先处理两类差异：
+当前仍需处理的差异：
 
 1. workflow definition XML 路径差异。
-2. monitor cache 前端缓存细分接口残留。
 
 ## 当前边界
 
@@ -73,17 +72,17 @@ rg -n "definitionXml" web/src
 - [ ] [docs/reference/api-spec.yaml](../reference/api-spec.yaml) 不新增 `definitionXml` 路径。
 - [ ] 前端类型检查或相关构建命令通过；若未执行，必须记录原因。
 
-## 差异二：monitor cache 前端残留
+## 已收敛差异：monitor cache 前端残留
 
 ### 当前事实
 
 | 位置 | 当前事实 |
 | --- | --- |
-| [web/src/api/monitor/cache/index.ts](../../web/src/api/monitor/cache/index.ts) | 除 `/monitor/cache` 外，还保留 `getNames`、`getKeys`、`getValue`、`clearCacheName`、`clearCacheKey`、`clearCacheAll` 请求 |
+| [web/src/api/monitor/cache/index.ts](../../web/src/api/monitor/cache/index.ts) | 已删除 `getNames`、`getKeys`、`getValue`、`clearCacheName`、`clearCacheKey`、`clearCacheAll` 前端残留，只保留 `/monitor/cache` |
 | [CacheController.java](../../server/ruoyi-modules/ruoyi-system/src/main/java/org/dromara/system/controller/monitor/CacheController.java) | 当前只暴露 `GET /monitor/cache` |
-| [docs/reference/README.md](../reference/README.md) | 已记录该前后端差异，API 摘要不应写入缓存细分残留路径 |
+| [docs/reference/README.md](../reference/README.md) | 已移除该差异记录，reference 当前仅保留仍未修复的漂移项 |
 
-前端证据：
+修复前证据：
 
 ```text
 web/src/api/monitor/cache/index.ts:6-10 getCache -> /monitor/cache
@@ -97,40 +96,35 @@ server/ruoyi-modules/ruoyi-system/src/main/java/org/dromara/system/controller/mo
 server/ruoyi-modules/ruoyi-system/src/main/java/org/dromara/system/controller/monitor/CacheController.java:31-33 @GetMapping()
 ```
 
-### 推荐处理路径
+处理结论：
 
-推荐先判断前端页面是否实际调用缓存细分接口：
+- 页面实际只调用 `getCache()`，未调用缓存细分接口。
+- 因此前端已删除未使用的缓存细分接口封装，不新增后端缓存管理接口。
+- 当前 monitor cache 功能定位仍然保持为缓存概览监控，而不是缓存管理。
+
+对应调用核对命令：
 
 ```bash
 rg -n "listCacheName|listCacheKey|getCacheValue|clearCacheName|clearCacheKey|clearCacheAll" web/src
 ```
 
-处理原则：
+保留结论：
 
-- 如果页面没有实际调用这些函数，删除前端 API 残留和未使用类型。
-- 如果页面仍调用这些函数，但当前产品只需要缓存概览，收敛页面交互，只保留 `getCache()`。
-- 如果产品确实需要缓存名称、键值和清理能力，则作为后端功能补齐任务处理，并同步权限、审计日志、接口摘要、测试和安全评估。
-
-在没有明确需求前，不建议直接补齐后端清理接口。
-
-理由：
-
-- 缓存清理属于高影响操作，不能只为了匹配前端残留而新增。
-- 当前后端 `CacheController` 只有概览接口，说明当前落地范围更偏监控而不是缓存管理。
-- 若补齐删除接口，必须设计权限、审计和误操作保护。
+- 在没有明确产品需求前，不新增后端缓存清理接口。
+- 如果后续确实需要缓存名称、键值或清理能力，应作为独立后端功能任务处理，并同步权限、审计、测试和风险说明。
 
 ### 验收标准
 
-- [ ] 前端不再请求后端不存在的 `/monitor/cache/getNames`、`/getKeys`、`/getValue`、`/clearCacheName`、`/clearCacheKey`、`/clearCacheAll`，或后端明确补齐这些接口。
+- [x] 前端不再请求后端不存在的 `/monitor/cache/getNames`、`/getKeys`、`/getValue`、`/clearCacheName`、`/clearCacheKey`、`/clearCacheAll`，且后端未新增这些接口。
 - [ ] 如果新增后端缓存清理接口，必须有权限校验、操作日志和风险说明。
-- [ ] [docs/reference/README.md](../reference/README.md) 的缓存差异记录已删除、改为“已修复”或更新为新的真实事实。
+- [x] [docs/reference/README.md](../reference/README.md) 的缓存差异记录已删除。
 - [ ] [docs/reference/api-spec.yaml](../reference/api-spec.yaml) 只列真实存在且已核对的接口。
 - [ ] 前端构建、后端测试或对应聚焦验证通过；若未执行，必须记录原因。
 
 ## 推荐执行顺序
 
 1. 先修 workflow definition XML 路径，因为它已经有明确后端替代入口。
-2. 再处理 monitor cache 前端残留，因为它需要先判断是否保留缓存清理能力。
+2. 再处理 monitor cache 前端残留，因为它需要先判断是否保留缓存清理能力；该项已按“删除前端未使用残留、不补后端接口”收敛。
 3. 每修完一类差异，同步更新 [docs/reference/README.md](../reference/README.md)。
 4. 如果实际接口发生变化，同步检查 [docs/reference/api-spec.yaml](../reference/api-spec.yaml)。
 5. 如果涉及权限、菜单或 SQL，同步检查 [server/script/sql](../../server/script/sql) 和 [docs/reference/sql-change-checklist.md](../reference/sql-change-checklist.md)。
