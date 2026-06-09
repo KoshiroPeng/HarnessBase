@@ -20,6 +20,10 @@ web/src/types/components.d.ts
 server/logs/*
 !server/logs/.gitkeep
 
+# Python
+__pycache__/
+*.py[cod]
+
 # IDE
 .idea/
 .vscode/

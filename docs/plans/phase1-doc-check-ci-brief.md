@@ -27,7 +27,7 @@ description: HarnessBase 第一阶段文档结构类检查 CI 接入说明，记
 - A01、A02、A03 已由 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py) 覆盖。
 - A03 已删除文档引用检查并入 A02 相对链接目标检查。
 - [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml) 已将文档护栏作为后端和前端构建前置门禁。
-- 本地执行 `python .github/scripts/doc_guardrails.py` 应输出 A01/A02/A03 通过。
+- 本阶段验收关注 A01/A02/A03；当前同一脚本还会一并执行 A05 workflow 路径检查。
 
 ## 适用范围
 

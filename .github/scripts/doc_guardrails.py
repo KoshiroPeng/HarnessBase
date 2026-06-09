@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""HarnessBase 文档护栏检查脚本。
+"""HarnessBase 文档与 workflow 护栏检查脚本。
 
 当前阶段只实现：
 - A01：治理型 Markdown 元数据标头检查
 - A02：Markdown 相对链接与锚点检查
 - A03：已删除文档引用检查（并入 A02）
+- A05：workflow 路径存在性检查
 """
 
 from __future__ import annotations
@@ -21,6 +22,15 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 REQUIRED_FRONTMATTER_KEYS = ("last_updated", "status", "owner", "description")
 MARKDOWN_EXTENSIONS = {".md", ".markdown"}
 IGNORED_DIR_NAMES = {"node_modules", ".git", "target", "dist", ".idea"}
+WORKFLOW_GLOB = ".github/workflows/*.yml"
+GENERATED_PATH_PREFIXES = (
+    "artifacts",
+    "release-output",
+    "release-bundle",
+    "server/${{",
+    "web/dist",
+)
+GENERATED_PATH_PARTS = {"target", "dist", "artifacts", "release-output", "release-bundle"}
 
 
 @dataclass(frozen=True)
@@ -231,26 +241,177 @@ def check_links() -> list[Finding]:
     return findings
 
 
+def iter_workflow_files() -> Iterable[Path]:
+    return sorted(ROOT.glob(WORKFLOW_GLOB))
+
+
+def strip_yaml_value(value: str) -> str:
+    value = value.strip()
+    if not value:
+        return value
+    if value[0] in {'"', "'"} and value[-1:] == value[0]:
+        return value[1:-1].strip()
+    return value
+
+
+def is_dynamic_or_generated_path(path_value: str) -> bool:
+    if not path_value:
+        return True
+
+    if "://" in path_value:
+        return True
+
+    if path_value.startswith(("/", "~", "$")):
+        return True
+
+    if "${{" in path_value or "${" in path_value:
+        return True
+
+    normalized = path_value.strip()
+    return any(
+        normalized == prefix or normalized.startswith(f"{prefix}/") or normalized.startswith(prefix)
+        for prefix in GENERATED_PATH_PREFIXES
+    )
+
+
+def static_prefix_before_glob(path_value: str) -> str:
+    parts = path_value.split("/")
+    static_parts: list[str] = []
+    for part in parts:
+        if not part or part in GENERATED_PATH_PARTS or any(token in part for token in ("*", "?", "[")):
+            break
+        static_parts.append(part)
+    return "/".join(static_parts)
+
+
+def workflow_path_exists(path_value: str) -> bool:
+    if is_dynamic_or_generated_path(path_value):
+        return True
+
+    candidate = static_prefix_before_glob(path_value) if any(token in path_value for token in "*?[") else path_value
+    if not candidate:
+        return True
+
+    return (ROOT / candidate).exists()
+
+
+def append_workflow_path_finding(
+    findings: list[Finding],
+    workflow_path: Path,
+    line_number: int,
+    field: str,
+    path_value: str,
+) -> None:
+    findings.append(
+        Finding(
+            check_id="A05",
+            level="阻断",
+            path=repo_rel(workflow_path),
+            problem=f"第 {line_number} 行 `{field}` 引用的路径不存在: {path_value}",
+            rule="docs/conventions/automation-check-catalog.md",
+            suggestion="修正 workflow 路径，或先补齐被引用的脚本、目录、模板或依赖文件",
+        )
+    )
+
+
+def check_workflow_scalar_path_fields(path: Path, lines: list[str]) -> list[Finding]:
+    findings: list[Finding] = []
+    scalar_pattern = re.compile(r"^\s*(working-directory|cache-dependency-path|path):\s*(.+?)\s*$")
+
+    for line_number, line in enumerate(lines, 1):
+        match = scalar_pattern.match(line)
+        if not match:
+            continue
+
+        field = match.group(1)
+        path_value = strip_yaml_value(match.group(2))
+        if path_value == "|":
+            continue
+        if not workflow_path_exists(path_value):
+            append_workflow_path_finding(findings, path, line_number, field, path_value)
+
+    return findings
+
+
+def check_workflow_block_path_fields(path: Path, lines: list[str]) -> list[Finding]:
+    findings: list[Finding] = []
+    block_start_pattern = re.compile(r"^(\s*)(path):\s*\|\s*$")
+    item_pattern = re.compile(r"^\s+(.+?)\s*$")
+
+    for line_index, line in enumerate(lines):
+        start_match = block_start_pattern.match(line)
+        if not start_match:
+            continue
+
+        base_indent = len(start_match.group(1))
+        field = start_match.group(2)
+
+        for child_index in range(line_index + 1, len(lines)):
+            child_line = lines[child_index]
+            if not child_line.strip():
+                continue
+
+            indent = len(child_line) - len(child_line.lstrip(" "))
+            if indent <= base_indent:
+                break
+
+            item_match = item_pattern.match(child_line)
+            if not item_match:
+                continue
+
+            path_value = strip_yaml_value(item_match.group(1))
+            if not workflow_path_exists(path_value):
+                append_workflow_path_finding(findings, path, child_index + 1, field, path_value)
+
+    return findings
+
+
+def check_workflow_run_paths(path: Path, lines: list[str]) -> list[Finding]:
+    findings: list[Finding] = []
+    command_pattern = re.compile(r"\b(?:bash|cat|chmod\s+\+x)\s+([A-Za-z0-9_./${}*?\\-]+)")
+
+    for line_number, line in enumerate(lines, 1):
+        for match in command_pattern.finditer(line):
+            path_value = strip_yaml_value(match.group(1))
+            if not workflow_path_exists(path_value):
+                append_workflow_path_finding(findings, path, line_number, "run", path_value)
+
+    return findings
+
+
+def check_workflow_paths() -> list[Finding]:
+    findings: list[Finding] = []
+
+    for path in iter_workflow_files():
+        lines = read_text(path).splitlines()
+        findings.extend(check_workflow_scalar_path_fields(path, lines))
+        findings.extend(check_workflow_block_path_fields(path, lines))
+        findings.extend(check_workflow_run_paths(path, lines))
+
+    return findings
+
+
 def print_summary(findings: list[Finding]) -> None:
     if not findings:
-        print("[A01/A02/A03][通过] 文档护栏检查通过")
-        print("说明: 治理型 Markdown 标头、相对链接和锚点检查均未发现问题")
+        print("[A01/A02/A03/A05][通过] 文档与 workflow 护栏检查通过")
+        print("说明: 治理型 Markdown 标头、相对链接、锚点和 workflow 路径检查均未发现问题")
         return
 
     grouped: dict[str, list[Finding]] = {}
     for finding in findings:
         grouped.setdefault(finding.check_id, []).append(finding)
 
-    for check_id in ("A01", "A02"):
+    for check_id in ("A01", "A02", "A05"):
         items = grouped.get(check_id, [])
         if not items:
             continue
 
-        title = (
-            "治理型 Markdown 元数据标头检查未通过"
-            if check_id == "A01"
-            else "Markdown 相对链接与锚点检查未通过"
-        )
+        titles = {
+            "A01": "治理型 Markdown 元数据标头检查未通过",
+            "A02": "Markdown 相对链接与锚点检查未通过",
+            "A05": "workflow 路径存在性检查未通过",
+        }
+        title = titles[check_id]
 
         print(f"[{check_id}][阻断] {title}")
         for index, item in enumerate(items, 1):
@@ -265,6 +426,7 @@ def main() -> int:
     findings: list[Finding] = []
     findings.extend(check_frontmatter())
     findings.extend(check_links())
+    findings.extend(check_workflow_paths())
     print_summary(findings)
     return 1 if findings else 0
 

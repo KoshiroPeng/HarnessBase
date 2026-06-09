@@ -2,14 +2,23 @@
 last_updated: 2026-06-09
 status: active
 owner: "@PengKang"
-description: HarnessBase 第三阶段 workflow 路径护栏接入说明，定义工作流路径存在性检查的接入位置、范围、输出与验收方式。
+description: HarnessBase 第三阶段 workflow 路径护栏说明，记录工作流路径存在性检查的接入状态、范围、输出与验收方式。
 ---
 
 # 第三阶段 workflow 路径护栏接入说明
 
 ## 目标
 
-本文档用于说明 HarnessBase 第三阶段自动化检查，也就是 workflow 路径存在性检查，后续应如何接入 CI。
+本文档用于说明 HarnessBase 第三阶段自动化检查，也就是 workflow 路径存在性检查，当前如何接入、如何本地验证、后续如何维护。
+
+## 当前状态
+
+截至 2026-06-09，第三阶段已经接入当前文档护栏脚本：
+
+- A05 已由 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py) 覆盖。
+- [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml) 已在后端和前端构建前执行该脚本。
+- 本地执行 `python .github/scripts/doc_guardrails.py` 应输出 A01/A02/A03/A05 通过。
+- 第一版只校验能静态判断的仓库内路径；动态表达式、远端路径和构建产物目录不做阻断。
 
 ## 适用范围
 
@@ -29,9 +38,9 @@ workflow 路径问题通常具有高风险：
 
 但它又和第一阶段的 Markdown 检查不同，因此适合单独成阶段处理。
 
-## 推荐接入位置
+## 接入位置
 
-后续真正落地时，优先接入：
+当前已接入：
 
 - [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml)
 
@@ -60,15 +69,15 @@ workflow 路径问题通常具有高风险：
 - [docs/architecture/code-map.md](../architecture/code-map.md)
 - [deploy/release/README.md](../../deploy/release/README.md)
 
-## 推荐接入策略
+## 接入策略
 
-建议：
+当前策略：
 
-1. 先实现路径存在性校验
-2. 先只判断“路径是否存在”
-3. 不在第一版里过度推断 workflow 语义
+1. 只实现路径存在性校验。
+2. 只判断“静态仓库内路径是否存在”。
+3. 不在第一版里过度推断 workflow 语义。
 
-因为第一版最重要的是先拦住“明显失效路径”。
+第一版最重要的是先拦住“明显失效路径”。
 
 ## 推荐输出方式
 
@@ -93,7 +102,7 @@ workflow 路径问题通常具有高风险：
 
 ## 推荐验收标准
 
-第三阶段接入完成后，至少应满足：
+第三阶段当前已满足：
 
 1. 能发现不存在的 `working-directory`
 2. 能发现不存在的缓存路径或依赖路径
@@ -101,14 +110,14 @@ workflow 路径问题通常具有高风险：
 4. 输出能明确指出来源 workflow 与字段
 5. 对明显失效路径采取阻断策略
 
-## 推荐试运行步骤
+## 维护步骤
 
-建议按以下顺序推进：
+后续维护按以下顺序推进：
 
-1. 先本地模拟扫描 workflow 文件
-2. 再在 CI 中接入试运行
+1. 先本地执行 `python .github/scripts/doc_guardrails.py`
+2. 如有误报，优先调整静态路径识别规则，不放宽真实坏路径
 3. 验证现有 workflow 全部通过
-4. 再把检查升级为正式阻断
+4. 继续保持阻断模式
 
 ## 与当前文档的关系
 
@@ -119,4 +128,4 @@ workflow 路径问题通常具有高风险：
 
 ## 一句话结论
 
-第三阶段最合理的接法，是把 workflow 路径存在性检查作为主线 CI 的正式阻断护栏，先防止目录和脚本路径再次偏离当前仓库事实。
+第三阶段已经作为主线 CI 的正式阻断护栏落地，维护重点是防止目录、脚本路径、缓存路径和模板路径再次偏离当前仓库事实。
