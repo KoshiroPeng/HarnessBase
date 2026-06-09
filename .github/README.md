@@ -17,11 +17,7 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 - [AGENTS.md](../AGENTS.md)：仓库级协作规则与 Git 提交要求
 - [docs/README.md](../docs/README.md)：统一文档导航入口
-- [docs/plans/automation-delivery-map.md](../docs/plans/automation-delivery-map.md)：自动化接入、输出规范与阶段验收总入口
-- [docs/plans/phase1-doc-check-ci-brief.md](../docs/plans/phase1-doc-check-ci-brief.md)：第一阶段文档结构类检查 CI 接入说明
-- [docs/plans/phase2-history-scan-brief.md](../docs/plans/phase2-history-scan-brief.md)：第二阶段历史事实误用扫描接入说明
-- [docs/plans/phase3-workflow-path-check-brief.md](../docs/plans/phase3-workflow-path-check-brief.md)：第三阶段 workflow 路径护栏接入说明
-- [docs/plans/phase4-doc-sync-reminder-brief.md](../docs/plans/phase4-doc-sync-reminder-brief.md)：第四阶段文档同步提醒接入说明
+- [docs/plans/automation-delivery-map.md](../docs/plans/automation-delivery-map.md)：自动化接入与阶段验收总入口
 - [deploy/release/README.md](../deploy/release/README.md)：发布脚本说明
 - [deploy/release/environment-variable-template.md](../deploy/release/environment-variable-template.md)：环境变量与密钥模板
 - [deploy/release/release-checklist.md](../deploy/release/release-checklist.md)：发布与回滚检查清单
@@ -37,7 +33,7 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 ## 运行前必须确认
 
-1. workflow 中 `working-directory`、缓存路径和制品路径仍指向真实 [server](../server)、[web](../web) 与 [deploy](../deploy)。
+1. workflow 中的 `working-directory`、缓存路径和制品路径仍指向真实 [server](../server)、[web](../web) 与 [deploy](../deploy)。
 2. 发布与回滚脚本入口仍是 [deploy/release](../deploy/release) 中的当前脚本，而不是历史路径。
 3. 远端环境变量、Secrets 和服务名与 [deploy/release/environment-variable-template.md](../deploy/release/environment-variable-template.md) 保持一致。
 4. 如果涉及 SQL、接口或响应码变化，相关文档和验证清单已经同步更新。
@@ -54,11 +50,10 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 重点关注：
 
-- 文档结构类检查是否作为前置阻断门禁接入
 - `python .github/scripts/doc_guardrails.py` 是否作为最前置文档门禁执行
 - 后端 `mvn -B -DskipTests package`
-- 前端 `pnpm install --frozen-lockfile` 与 `pnpm build:prod`
-- 制品上传路径是否仍存在
+- 前端 `npm install` 与 `npm run build:prod`
+- 当前前端是否仍被 workflow 当成 `pnpm` / Vite 项目
 
 ### 做正式发布
 
@@ -71,9 +66,9 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 重点关注：
 
-- `server/ruoyi-admin/target/ruoyi-admin.jar` 是否仍为实际制品
-- SSH 发布脚本与服务模板是否匹配当前服务名语境
-- 发布后验证地址是否可访问 `/actuator/health` 与 `/actuator/prometheus`
+- 当前 workflow 是否仍错误指向 `server/ruoyi-admin/target/ruoyi-admin.jar`
+- SSH 发布脚本与 systemd 模板是否匹配当前微服务发布方式
+- 发布后验证地址是否可访问 `/actuator/health` 或其他真实健康检查入口
 
 ### 做回滚
 
@@ -105,4 +100,4 @@ description: HarnessBase GitHub 工作流入口，汇总 CI、发布、回滚与
 
 - 新增或删除 workflow 后，必须同步更新本文档和 [docs/README.md](../docs/README.md)。
 - 调整 workflow 中的源码路径、制品路径、缓存路径、环境变量或服务名时，必须同步更新 [deploy/release/README.md](../deploy/release/README.md)。
-- 若 workflow 语义变化会影响开发、测试、发布或回滚流程，必须同步更新 [AGENTS.md](../AGENTS.md) 或对应任务文档。
+- 如果 workflow 语义变化会影响开发、测试、发布或回滚流程，必须同步更新 [AGENTS.md](../AGENTS.md) 或对应任务文档。

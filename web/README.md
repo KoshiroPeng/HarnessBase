@@ -1,30 +1,87 @@
-## 开发
+---
+last_updated: 2026-06-09
+status: active
+owner: "@PengKang"
+description: HarnessBase 前端工程入口，汇总当前 Vue 2 管理后台结构、常用命令、目录职责与前端协作导航。
+---
 
-```bash
-# 克隆项目
-git clone https://gitee.com/y_project/RuoYi-Vue
+# 前端工程入口
 
-# 进入项目目录
-cd ruoyi-ui
+## 目标
 
-# 安装依赖
-npm install
+本文档是 HarnessBase 前端工程的本地入口。当前前端以仓库真实代码为准：Vue 2、Vue CLI、Element UI、Vuex、Vue Router 3，而不是旧文档中的 Vue 3 / Vite / Pinia 栈。
 
-# 建议不要直接使用 cnpm 安装依赖，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npmmirror.com
+## 当前结构
 
-# 启动服务
-npm run dev
+前端根目录：[web](.)
+
+```text
+web/
+├── src/api/
+├── src/assets/
+├── src/components/
+├── src/directive/
+├── src/layout/
+├── src/plugins/
+├── src/router/
+├── src/store/
+├── src/utils/
+├── src/views/
+├── App.vue
+├── main.js
+└── package.json
 ```
 
-浏览器访问 http://localhost:80
+## 关键目录
 
-## 发布
+| 路径 | 说明 |
+| --- | --- |
+| [src/api](./src/api) | 前端接口请求封装 |
+| [src/views/system](./src/views/system) | 系统管理页面 |
+| [src/views/monitor](./src/views/monitor) | 监控相关页面 |
+| [src/views/tool](./src/views/tool) | 工具页，例如代码生成 |
+| [src/router](./src/router) | Vue Router 3 路由入口 |
+| [src/store](./src/store) | Vuex 状态管理 |
+| [src/layout](./src/layout) | 全局布局 |
+| [src/components](./src/components) | 通用组件 |
+| [src/utils](./src/utils) | 公共工具方法 |
+
+## 常用命令
+
+在 [web](.) 目录执行：
 
 ```bash
-# 构建测试环境
+npm install
+npm run dev
 npm run build:stage
-
-# 构建生产环境
 npm run build:prod
 ```
+
+浏览器默认访问：`http://localhost:80`
+
+## 关键入口
+
+- 应用入口：[main.js](./src/main.js)
+- 路由入口：[router/index.js](./src/router/index.js)
+- 状态入口：[store/index.js](./src/store/index.js)
+- 包配置：[package.json](./package.json)
+
+## 开发时重点关注
+
+- 真实代码地图：[docs/architecture/code-map.md](../docs/architecture/code-map.md)
+- 前端开发执行指南：[docs/conventions/task-startup-checklist.md#开发前端代码](../docs/conventions/task-startup-checklist.md#开发前端代码)
+- 前端代码评审清单：[docs/reviews/frontend-code-review-checklist.md](../docs/reviews/frontend-code-review-checklist.md)
+- 前端设计评审清单：[docs/reviews/frontend-design-review-checklist.md](../docs/reviews/frontend-design-review-checklist.md)
+- API 与后端契约入口：[docs/reference/README.md](../docs/reference/README.md)
+
+## 当前技术栈提醒
+
+- 当前前端主语言是 JavaScript，不是 TypeScript。
+- 当前构建工具是 Vue CLI，不是 Vite。
+- 当前状态管理是 Vuex，不是 Pinia。
+- 当前仓库未见前端自动化测试基线；如果要补测试，需要先结合当前工具链设计落位。
+
+## 维护规则
+
+- 新增或调整前端目录结构时，必须同步更新本文档和 [docs/architecture/code-map.md](../docs/architecture/code-map.md)。
+- 如果目录变化会影响开发、评审、发布或联调主路径，必须同步更新 [docs/README.md](../docs/README.md)。

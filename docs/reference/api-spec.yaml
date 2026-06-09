@@ -3,289 +3,53 @@ info:
   title: HarnessBase Admin API 摘要
   version: 0.1.0
   description: |
-    本文件是当前 RuoYi-Vue-Plus 后台管理系统的仓库级 API 摘要，不替代运行时 SpringDoc 生成的完整接口文档。
-    摘要只列真实 Controller 中已经核对过的代表性入口，完整接口应以后端 Controller、SpringDoc 输出和前端 web/src/api 为准。
-    不要把历史过渡产品、旧行业业务系统或前端残留但后端不存在的接口写入本摘要。
+    本文件是当前若依微服务后台管理系统的仓库级 API 摘要，
+    不替代运行时 SpringDoc 生成的完整接口文档。
 servers:
   - url: /
     description: 当前后端 context-path
 tags:
   - name: Auth
-    description: 认证、会话、注册、租户与第三方绑定
-  - name: Resource
-    description: 验证码、OSS 与资源能力
+    description: 认证与会话
   - name: System
-    description: 用户、菜单、角色、租户等系统管理
+    description: 系统管理
   - name: Monitor
-    description: 在线用户、日志、缓存等监控能力
+    description: 监控
   - name: Generator
     description: 代码生成
-  - name: Workflow
-    description: 流程定义、实例、任务、分类、表达式与请假示例
-  - name: Demo
-    description: 框架能力示例接口
 paths:
   /auth/login:
     post:
       tags: [Auth]
       summary: 用户登录
-      description: 校验 clientId、grantType、租户状态后进入对应认证策略。
       responses:
         "200":
-          description: R<LoginVo>
-  /auth/logout:
-    post:
-      tags: [Auth]
-      summary: 用户登出
-      responses:
-        "200":
-          description: R<Void>
-  /auth/register:
-    post:
-      tags: [Auth]
-      summary: 用户注册
-      responses:
-        "200":
-          description: R<Void>
-  /auth/tenant/list:
-    get:
-      tags: [Auth]
-      summary: 查询登录页租户列表
-      responses:
-        "200":
-          description: R<LoginTenantVo>
-  /auth/code:
-    get:
-      tags: [Resource]
-      summary: 获取图形验证码
-      responses:
-        "200":
-          description: R<CaptchaVo>
-  /auth/binding/{source}:
-    get:
-      tags: [Auth]
-      summary: 获取第三方绑定跳转地址
-      parameters:
-        - name: source
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: tenantId
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: domain
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: R<String>
-  /resource/sms/code:
-    get:
-      tags: [Resource]
-      summary: 发送短信验证码
-      responses:
-        "200":
-          description: R<Void>
-  /resource/email/code:
-    get:
-      tags: [Resource]
-      summary: 发送邮箱验证码
-      responses:
-        "200":
-          description: R<Void>
+          description: 登录成功
   /system/user/list:
     get:
       tags: [System]
       summary: 查询用户列表
       responses:
         "200":
-          description: TableDataInfo<SysUserVo>
-  /system/user/getInfo:
-    get:
-      tags: [System]
-      summary: 获取当前用户信息
-      responses:
-        "200":
-          description: R<UserInfoVo>
+          description: 查询成功
   /system/menu/getRouters:
     get:
       tags: [System]
       summary: 获取动态路由
       responses:
         "200":
-          description: R<List<RouterVo>>
-  /system/role/list:
-    get:
-      tags: [System]
-      summary: 查询角色列表
-      responses:
-        "200":
-          description: TableDataInfo<SysRoleVo>
-  /system/tenant/list:
-    get:
-      tags: [System]
-      summary: 查询租户列表
-      responses:
-        "200":
-          description: TableDataInfo<SysTenantVo>
-  /resource/oss/list:
-    get:
-      tags: [Resource]
-      summary: 查询 OSS 文件列表
-      responses:
-        "200":
-          description: TableDataInfo<SysOssVo>
+          description: 查询成功
   /monitor/online/list:
     get:
       tags: [Monitor]
       summary: 查询在线用户列表
       responses:
         "200":
-          description: TableDataInfo<SysUserOnline>
-  /monitor/cache:
-    get:
-      tags: [Monitor]
-      summary: 查询缓存监控信息
-      responses:
-        "200":
-          description: R<CacheListInfoVo>
+          description: 查询成功
   /tool/gen/list:
     get:
       tags: [Generator]
       summary: 查询代码生成表列表
       responses:
         "200":
-          description: TableDataInfo<GenTable>
-  /tool/gen/db/list:
-    get:
-      tags: [Generator]
-      summary: 查询数据库表列表
-      responses:
-        "200":
-          description: TableDataInfo<GenTable>
-  /tool/gen/preview/{tableId}:
-    get:
-      tags: [Generator]
-      summary: 预览代码生成结果
-      parameters:
-        - name: tableId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: R<Map<String,String>>
-  /tool/gen/getDataNames:
-    get:
-      tags: [Generator]
-      summary: 查询数据源名称列表
-      responses:
-        "200":
-          description: R<Object>
-  /workflow/definition/list:
-    get:
-      tags: [Workflow]
-      summary: 查询流程定义列表
-      responses:
-        "200":
-          description: TableDataInfo<FlowDefinitionVo>
-  /workflow/definition/unPublishList:
-    get:
-      tags: [Workflow]
-      summary: 查询未发布流程定义列表
-      responses:
-        "200":
-          description: TableDataInfo<FlowDefinitionVo>
-  /workflow/definition/{id}:
-    get:
-      tags: [Workflow]
-      summary: 查询流程定义详情
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: R<Definition>
-  /workflow/definition/xmlString/{id}:
-    get:
-      tags: [Workflow]
-      summary: 获取流程定义 JSON 字符串
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: R<String>
-  /workflow/task/pageByTaskWait:
-    get:
-      tags: [Workflow]
-      summary: 查询当前用户待办任务
-      responses:
-        "200":
-          description: TableDataInfo<FlowTaskVo>
-  /workflow/task/startWorkFlow:
-    post:
-      tags: [Workflow]
-      summary: 启动工作流
-      responses:
-        "200":
-          description: R<StartProcessReturnDTO>
-  /workflow/category/list:
-    get:
-      tags: [Workflow]
-      summary: 查询流程分类列表
-      responses:
-        "200":
-          description: R<List<FlowCategoryVo>>
-  /demo/demo/list:
-    get:
-      tags: [Demo]
-      summary: 查询示例数据列表
-      responses:
-        "200":
-          description: TableDataInfo<TestDemoVo>
-components:
-  schemas:
-    R:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: 响应码，成功通常为 200
-        msg:
-          type: string
-          description: 响应消息
-        data:
-          description: 响应数据
-    TableDataInfo:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: 分页响应状态码，成功通常为 200
-        msg:
-          type: string
-          description: 分页响应消息
-        rows:
-          type: array
-          items: {}
-          description: 当前页数据
-        total:
-          type: integer
-          format: int64
-          description: 总记录数
+          description: 查询成功

@@ -1,43 +1,42 @@
 # HarnessBase
 
-HarnessBase 当前是一个基于 `RuoYi-Vue-Plus 5.6.1` 的多租户后台管理系统重构工作区。真实代码主线由 `server/` 后端、`web/` 前端、`deploy/` 发布与观测支撑材料、`docs/` 协作文档组成。
+HarnessBase 当前是一个基于若依微服务结构整理的后台管理系统工作区。真实代码主线由 [server](server) 后端、[web](web) 前端、[deploy](deploy) 发布与观测支撑材料、[docs](docs) 协作文档组成。
 
-本仓库曾经存在历史命名和过渡说明。后续文档以 `HarnessBase` 和当前代码事实为准：系统核心不是项目管理 MVP，而是 RuoYi-Vue-Plus 体系下的后台管理、租户、权限、系统配置、代码生成、工作流、监控与示例能力。
+当前仓库已经不再是之前文档中描述的 `RuoYi-Vue-Plus` 单体后台，也不是过渡阶段里假设的业务 MVP。后续阅读、开发、评审和发布，都应以当前微服务代码事实为准。
 
 ## 快速入口
 
-- [AGENTS.md](AGENTS.md)：AI 协作规则、编码要求、Git 规则与任务入口。
-- [docs/README.md](docs/README.md)：按任务场景组织的文档导航。
-- [docs/architecture/code-map.md](docs/architecture/code-map.md)：当前代码地图与模块事实。
-- [docs/architecture/overview.md](docs/architecture/overview.md)：系统架构总览。
-- [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)：当前技术基线。
-- [server/README.md](server/README.md)：后端工程入口与 SQL 脚本导航。
-- [web/README.md](web/README.md)：前端工程入口与运行命令导航。
-- [.github/README.md](.github/README.md)：GitHub Actions 与发布 workflow 入口。
-- [docs/design/README.md](docs/design/README.md)：功能设计入口。
-- [docs/design/feature-admin-domains.md](docs/design/feature-admin-domains.md)：后台功能域图谱。
-- [docs/plans/current-sprint.md](docs/plans/current-sprint.md)：当前文档与工程收敛计划。
-- [docs/plans/documentation-closure-status.md](docs/plans/documentation-closure-status.md)：当前文档体系收口状态与后续维护边界。
-- [docs/plans/automation-delivery-map.md](docs/plans/automation-delivery-map.md)：自动化接入、阶段说明与验收材料总入口。
-- [docs/reviews/README.md](docs/reviews/README.md)：评审清单与模板入口。
-- [deploy/release/README.md](deploy/release/README.md)：发布支撑材料。
-- [deploy/observability/README.md](deploy/observability/README.md)：本地可观测性材料。
+- [AGENTS.md](AGENTS.md)：AI 协作规则、编码要求、Git 规则与任务入口
+- [docs/README.md](docs/README.md)：按任务场景组织的文档导航
+- [docs/architecture/code-map.md](docs/architecture/code-map.md)：当前代码地图与模块事实
+- [docs/architecture/overview.md](docs/architecture/overview.md)：系统架构总览
+- [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)：当前技术基线
+- [server/README.md](server/README.md)：后端工程入口与服务导航
+- [web/README.md](web/README.md)：前端工程入口与运行命令
+- [.github/README.md](.github/README.md)：GitHub Actions 与发布 workflow 入口
+- [docs/reviews/README.md](docs/reviews/README.md)：评审清单与验证证据入口
+- [deploy/release/README.md](deploy/release/README.md)：发布支撑材料
 
 ## 当前代码画像
 
-后端位于 [server/](server)，Maven 根为 [server/pom.xml](server/pom.xml)。代码事实包括：
+后端位于 [server](server)，Maven 根为 [server/pom.xml](server/pom.xml)。当前真实结构包括：
 
-- `artifactId` 为 `ruoyi-vue-plus`，版本为 `5.6.1`。
-- 运行基线为 JDK 17、Spring Boot 3.5.x、Spring Framework 6。
-- 后端模块包括 `ruoyi-admin`、`ruoyi-common`、`ruoyi-modules`、`ruoyi-extend`。
-- 业务模块主要落在 `ruoyi-modules/ruoyi-system`、`ruoyi-modules/ruoyi-generator`、`ruoyi-modules/ruoyi-job`、`ruoyi-modules/ruoyi-workflow`、`ruoyi-modules/ruoyi-demo`。
-- SQL 初始化和版本升级脚本位于 [server/script/sql](server/script/sql)，当前不是 Flyway migration 体系。
+- 网关服务：`ruoyi-gateway`
+- 认证服务：`ruoyi-auth`
+- 公共能力：`ruoyi-common`
+- 远程接口：`ruoyi-api`
+- 业务服务：`ruoyi-system`、`ruoyi-gen`、`ruoyi-job`、`ruoyi-file`
+- 可视化监控：`ruoyi-visual/ruoyi-monitor`
+- SQL 脚本：`server/sql`
 
-前端位于 [web/](web)，包配置为 [web/package.json](web/package.json)。代码事实包括：
+前端位于 [web](web)，配置入口为 [web/package.json](web/package.json)。当前真实技术栈包括：
 
-- `name` 为 `ruoyi-vue-plus`，版本为 `5.6.1-2.6.1`。
-- 使用 Vue 3、TypeScript、Vite、Element Plus、Pinia、Vue Router、VXE Table。
-- 页面目录已经覆盖 `system`、`monitor`、`tool/gen`、`workflow`、`demo` 等后台管理能力。
+- Vue 2
+- Vue CLI
+- Element UI
+- Vuex
+- Vue Router 3
+- JavaScript
 
 ## 常用命令
 
@@ -53,12 +52,10 @@ mvn -B test
 
 ```bash
 cd web
-pnpm install
-pnpm dev
-pnpm build:prod
+npm install
+npm run dev
+npm run build:prod
 ```
-
-当前前端通过 [web/pnpm-lock.yaml](web/pnpm-lock.yaml) 和 `packageManager` 字段固定 `pnpm` 依赖解析。
 
 本地观测：
 
@@ -68,7 +65,7 @@ docker compose -f deploy/observability/docker-compose.yml up -d
 
 ## 当前重点
 
-- 让文档、代码事实、发布材料和 Harness Engineering 护栏对齐。
-- 继续防止历史过渡产品叙事、旧行业业务叙事、旧源码路径和错误 workflow 口径回流。
-- 保留 RuoYi-Vue-Plus 既有模块边界，新增能力优先按现有 `ruoyi-*` 模块体系扩展。
-- 把高频规则沉淀为可执行检查，而不是继续堆叠新概念文档。
+- 让文档、代码事实、发布材料和 Harness Engineering 护栏保持一致。
+- 防止旧单体结构、旧包名、旧 SQL 路径和错误前端栈说明回流到新文档。
+- 保留当前若依微服务边界，新增能力优先沿用现有 `ruoyi-*` 模块与 `web/src/*` 结构扩展。
+- 把开发、评审、测试、发布中的高频规则沉淀为可导航、可验证、可自动化检查的材料。
