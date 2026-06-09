@@ -1,42 +1,73 @@
 # HarnessBase
 
-HarnessBase 当前是一个基于若依微服务结构整理的后台管理系统工作区。真实代码主线由 [server](server) 后端、[web](web) 前端、[deploy](deploy) 发布与观测支撑材料、[docs](docs) 协作文档组成。
+HarnessBase 是一个基于若依微服务体系整理的后台管理系统工程基座。仓库主线由 [server](server) 后端微服务、[web](web) 管理后台前端、[deploy](deploy) 发布与观测支撑材料、[docs](docs) 协作文档组成。
 
-当前仓库已经不再是之前文档中描述的 `RuoYi-Vue-Plus` 单体后台，也不是过渡阶段里假设的业务 MVP。后续阅读、开发、评审和发布，都应以当前微服务代码事实为准。
+这个仓库围绕当前已经落地的微服务结构，提供可开发、可评审、可发布、可持续治理的统一工程入口。
 
-## 快速入口
+## 项目定位
 
-- [AGENTS.md](AGENTS.md)：AI 协作规则、编码要求、Git 规则与任务入口
-- [docs/README.md](docs/README.md)：按任务场景组织的文档导航
-- [docs/architecture/code-map.md](docs/architecture/code-map.md)：当前代码地图与模块事实
-- [docs/architecture/overview.md](docs/architecture/overview.md)：系统架构总览
-- [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)：当前技术基线
-- [server/README.md](server/README.md)：后端工程入口与服务导航
-- [web/README.md](web/README.md)：前端工程入口与运行命令
-- [.github/README.md](.github/README.md)：GitHub Actions 与发布 workflow 入口
-- [docs/reviews/README.md](docs/reviews/README.md)：评审清单与验证证据入口
-- [deploy/release/README.md](deploy/release/README.md)：发布支撑材料
+- 后端是 Maven 多模块微服务工程，承载认证、网关、系统管理、代码生成、定时任务、文件服务和监控能力。
+- 前端是 Vue 2 管理后台，承载系统管理、监控、工具等页面与联调入口。
+- 文档体系用于把代码入口、模块边界、技术基线、评审清单和发布路径串成统一导航。
+- Harness Engineering 在本仓库中的落点是“入口清楚、事实一致、验证可追踪”。
 
-## 当前代码画像
+## 仓库导航
 
-后端位于 [server](server)，Maven 根为 [server/pom.xml](server/pom.xml)。当前真实结构包括：
+| 你要找什么 | 入口 |
+| --- | --- |
+| 仓库协作规则 | [AGENTS.md](AGENTS.md) |
+| 文档总导航 | [docs/README.md](docs/README.md) |
+| 系统架构总览 | [docs/architecture/overview.md](docs/architecture/overview.md) |
+| 当前代码地图 | [docs/architecture/code-map.md](docs/architecture/code-map.md) |
+| 技术基线 | [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md) |
+| 后端工程入口 | [server/README.md](server/README.md) |
+| 前端工程入口 | [web/README.md](web/README.md) |
+| GitHub workflow 入口 | [.github/README.md](.github/README.md) |
+| 评审清单与证据模板 | [docs/reviews/README.md](docs/reviews/README.md) |
+| 发布与回滚材料 | [deploy/release/README.md](deploy/release/README.md) |
 
-- 网关服务：`ruoyi-gateway`
-- 认证服务：`ruoyi-auth`
-- 公共能力：`ruoyi-common`
-- 远程接口：`ruoyi-api`
-- 业务服务：`ruoyi-system`、`ruoyi-gen`、`ruoyi-job`、`ruoyi-file`
-- 可视化监控：`ruoyi-visual/ruoyi-monitor`
-- SQL 脚本：`server/sql`
+## 模块概览
 
-前端位于 [web](web)，配置入口为 [web/package.json](web/package.json)。当前真实技术栈包括：
+### 后端
 
-- Vue 2
-- Vue CLI
-- Element UI
-- Vuex
-- Vue Router 3
-- JavaScript
+后端根目录是 [server](server)，Maven 根是 [server/pom.xml](server/pom.xml)。
+
+| 模块 | 职责 |
+| --- | --- |
+| `ruoyi-gateway` | 微服务统一入口、路由与网关过滤 |
+| `ruoyi-auth` | 登录认证、鉴权与认证链路 |
+| `ruoyi-modules/ruoyi-system` | 系统管理主业务 |
+| `ruoyi-modules/ruoyi-gen` | 代码生成服务 |
+| `ruoyi-modules/ruoyi-job` | 定时任务服务 |
+| `ruoyi-modules/ruoyi-file` | 文件服务 |
+| `ruoyi-visual/ruoyi-monitor` | 监控服务 |
+| `ruoyi-api` | 服务间远程接口与共享模型 |
+| `ruoyi-common` | 公共基础能力 |
+| `server/sql` | 数据库脚本事实目录 |
+
+### 前端
+
+前端根目录是 [web](web)，包配置入口是 [web/package.json](web/package.json)。
+
+| 目录 | 职责 |
+| --- | --- |
+| [web/src/api](web/src/api) | 前端接口请求封装 |
+| [web/src/views/system](web/src/views/system) | 系统管理页面 |
+| [web/src/views/monitor](web/src/views/monitor) | 监控页面 |
+| [web/src/views/tool](web/src/views/tool) | 工具页面 |
+| [web/src/router](web/src/router) | 路由配置 |
+| [web/src/store](web/src/store) | Vuex 状态管理 |
+| [web/src/layout](web/src/layout) | 全局布局 |
+| [web/src/components](web/src/components) | 通用组件 |
+
+## 当前技术基线
+
+- 后端：JDK 17、Spring Boot 4.0.3、Spring Cloud 2025.1.0、Spring Cloud Alibaba 2025.1.0.0、Maven 多模块
+- 数据与中间件：MyBatis、PageHelper、dynamic-datasource、Druid、Redis、Nacos、Seata 相关公共模块
+- 前端：Vue 2、Vue CLI、Element UI、Vuex、Vue Router 3、JavaScript、npm
+- 自动化入口：文档护栏与 CI workflow 位于 [.github/workflows](.github/workflows)
+
+详细说明见 [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)。
 
 ## 常用命令
 
@@ -63,9 +94,10 @@ npm run build:prod
 docker compose -f deploy/observability/docker-compose.yml up -d
 ```
 
-## 当前重点
+## 建议阅读顺序
 
-- 让文档、代码事实、发布材料和 Harness Engineering 护栏保持一致。
-- 防止旧单体结构、旧包名、旧 SQL 路径和错误前端栈说明回流到新文档。
-- 保留当前若依微服务边界，新增能力优先沿用现有 `ruoyi-*` 模块与 `web/src/*` 结构扩展。
-- 把开发、评审、测试、发布中的高频规则沉淀为可导航、可验证、可自动化检查的材料。
+1. [AGENTS.md](AGENTS.md)
+2. [docs/architecture/code-map.md](docs/architecture/code-map.md)
+3. [docs/architecture/target-technology-baseline.md](docs/architecture/target-technology-baseline.md)
+4. [docs/architecture/overview.md](docs/architecture/overview.md)
+5. [server/README.md](server/README.md) 或 [web/README.md](web/README.md)

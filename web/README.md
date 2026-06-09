@@ -9,7 +9,7 @@ description: HarnessBase 前端工程入口，汇总当前 Vue 2 管理后台结
 
 ## 目标
 
-本文档是 HarnessBase 前端工程的本地入口。当前前端以仓库真实代码为准：Vue 2、Vue CLI、Element UI、Vuex、Vue Router 3，而不是旧文档中的 Vue 3 / Vite / Pinia 栈。
+本文档是 HarnessBase 前端工程的本地入口，围绕当前仓库中的 Vue 2 管理后台结构、运行方式、目录职责和协作导航组织。
 
 ## 当前结构
 
@@ -76,9 +76,9 @@ npm run build:prod
 
 ## 当前技术栈提醒
 
-- 当前前端主语言是 JavaScript，不是 TypeScript。
-- 当前构建工具是 Vue CLI，不是 Vite。
-- 当前状态管理是 Vuex，不是 Pinia。
+- 当前前端主语言是 JavaScript。
+- 当前构建工具是 Vue CLI。
+- 当前状态管理是 Vuex。
 - 当前仓库未见前端自动化测试基线；如果要补测试，需要先结合当前工具链设计落位。
 
 ## 维护规则

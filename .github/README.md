@@ -39,12 +39,12 @@ description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发
 - 前端在 [web](../web) 下执行 `npm.cmd install` 与 `npm.cmd run build:prod`，结果均成功。
 - 前端生产构建存在体积告警，但没有阻塞构建完成；当前问题属于性能治理范围，不属于执行链断裂。
 
-这意味着当前 CI 文档口径已经从“历史单体 + pnpm 假设”收口到“真实微服务 + npm 构建”主线。
+这意味着当前 CI 文档口径已经稳定在“微服务后端 + npm 前端构建”的执行主线上。
 
 ## 运行前必须确认
 
 1. workflow 中的 `working-directory`、缓存路径和制品路径仍指向真实 [server](../server)、[web](../web) 与 [deploy](../deploy)。
-2. 发布与回滚脚本入口仍是 [deploy/release](../deploy/release) 中的当前脚本，而不是历史路径。
+2. 发布与回滚脚本入口仍是 [deploy/release](../deploy/release) 中的当前脚本。
 3. 远端环境变量、Secrets 和服务名与 [deploy/release/environment-variable-template.md](../deploy/release/environment-variable-template.md) 保持一致。
 4. 如果涉及 SQL、接口或响应码变化，相关文档和验证清单已经同步更新。
 
@@ -63,7 +63,7 @@ description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发
 - `python .github/scripts/doc_guardrails.py` 是否作为最前置文档门禁执行
 - 后端 `mvn -B -DskipTests package`
 - 前端 `npm install` 与 `npm run build:prod`
-- 当前 workflow 是否已经按 Vue 2 / npm 前端事实执行，而不是旧的 `pnpm` / Vite 假设
+- 当前 workflow 是否已经按 Vue 2 / npm 前端事实执行
 - 前端构建若出现告警，先区分是 `warning` 还是真实 `error`，不要把体积告警误判成构建失败
 
 ### 做正式发布
@@ -77,7 +77,7 @@ description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发
 
 重点关注：
 
-- 当前 workflow 是否仍错误指向单一 `ruoyi-admin` 制品，而不是当前手动选择的微服务模块制品
+- 当前 workflow 是否按手动选择的微服务模块制品组织发布包
 - 发布输入中的 `target_module`、`APP_SERVICE_NAME` 与远端部署目录是否匹配当前目标服务
 - 发布后验证地址是否可访问 `/actuator/health` 或其他真实健康检查入口
 - `target_module` 应直接对应 Maven 模块路径，例如 `ruoyi-auth`、`ruoyi-gateway`、`ruoyi-modules/ruoyi-system`、`ruoyi-visual/ruoyi-monitor`
