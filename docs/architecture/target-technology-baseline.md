@@ -71,6 +71,7 @@ description: HarnessBase 技术基线文档，记录当前 RuoYi-Vue-Plus 后端
 - 启动、聚合依赖和应用配置优先落在 `ruoyi-admin`。
 - 独立运维扩展优先落在 `ruoyi-extend`。
 - 新增前端功能按 `web/src/api` 与 `web/src/views` 的既有功能域组织。
+- 禁止新增 `javax.servlet`、`javax.validation`、`javax.persistence` 等旧 Java EE / Jakarta EE 迁移前命名空间；当前仓库内保留的 `javax.sql.DataSource` 属于 JDK 标准 JDBC API，不作为迁移目标。
 
 ## 不再作为当前事实维护的说法
 
