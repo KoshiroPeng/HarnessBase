@@ -32,7 +32,7 @@ description: ProjectPilot 当前阶段的持续治理待办，覆盖历史残留
 - 裸 HTTP 客户端首轮核对已完成，当前命中集中在社会化登录 provider 适配器和基础设施层，未发现业务 Controller / Service 直接发起外部 HTTP 请求。验证证据见 [docs/reviews/verification-evidence-http-client-boundary-check-2026-06-09.md](../reviews/verification-evidence-http-client-boundary-check-2026-06-09.md)。
 - `javax.*` 首轮核对已完成，当前仅剩合法的 `javax.sql.DataSource` 标准 JDBC 用法，未发现需要迁移到 `jakarta.*` 的旧 EE 残留。验证证据见 [docs/reviews/verification-evidence-javax-baseline-check-2026-06-09.md](../reviews/verification-evidence-javax-baseline-check-2026-06-09.md)。
 - 对过长 Java 文件和方法做分阶段收口。
-- 当前主要阻塞已收敛为基础设施层构建问题：`mvn -B -pl ruoyi-admin,ruoyi-modules/ruoyi-system -am -DskipTests compile` 仍会在 `ruoyi-common-oss` 的 AWS SDK 缺失处失败。后续应单独拆分该阻塞修复，避免边界治理和依赖治理相互缠绕。
+- `ruoyi-common-oss` 的 AWS SDK 编译阻塞已完成首轮修复：真实根因不是源码缺陷，而是本机 Maven 本地仓库中的 `org.junit:junit-bom:5.10.0` POM 被缓存为 0 字节，导致 AWS 上游 BOM 解析失效、传递依赖缺失。当前 `mvn -B -pl ruoyi-common/ruoyi-common-oss -am -DskipTests compile` 与 `mvn -B -pl ruoyi-admin,ruoyi-modules/ruoyi-system -am -DskipTests compile` 均已通过；后续应补充一份环境排障说明，沉淀为同类 Maven 缓存问题的标准排查手册。
 
 ## P3：发布与观测
 
