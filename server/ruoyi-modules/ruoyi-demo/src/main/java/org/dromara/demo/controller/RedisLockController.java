@@ -6,8 +6,8 @@ import com.baomidou.lock.LockTemplate;
 import com.baomidou.lock.annotation.Lock4j;
 import com.baomidou.lock.executor.RedissonLockExecutor;
 import org.dromara.common.core.domain.R;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +21,12 @@ import java.time.LocalTime;
  * @author shenxinquan
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/demo/redisLock")
 public class RedisLockController {
 
-    @Autowired
-    private LockTemplate lockTemplate;
+    private final LockTemplate lockTemplate;
 
     /**
      * 测试lock4j 注解
@@ -34,9 +34,9 @@ public class RedisLockController {
     @Lock4j(keys = {"#key"})
     @GetMapping("/testLock4j")
     public R<String> testLock4j(String key, String value) {
-        System.out.println("start:" + key + ",time:" + LocalTime.now());
+        log.info("开始执行分布式锁演示: key={}, time={}", key, LocalTime.now());
         ThreadUtil.sleep(10000);
-        System.out.println("end :" + key + ",time:" + LocalTime.now());
+        log.info("结束执行分布式锁演示: key={}, time={}", key, LocalTime.now());
         return R.ok("操作成功", value);
     }
 
@@ -52,7 +52,7 @@ public class RedisLockController {
         // 获取锁成功，处理业务
         try {
             ThreadUtil.sleep(8000);
-            System.out.println("执行简单方法1 , 当前线程:" + Thread.currentThread().getName());
+            log.info("执行简单方法1, 当前线程={}", Thread.currentThread().getName());
         } finally {
             //释放锁
             lockTemplate.releaseLock(lockInfo);

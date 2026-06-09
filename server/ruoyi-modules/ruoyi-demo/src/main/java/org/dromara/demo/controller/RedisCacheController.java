@@ -5,6 +5,7 @@ import org.dromara.common.core.constant.CacheNames;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.redis.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,6 +22,7 @@ import java.time.Duration;
  */
 // 类级别 缓存统一配置
 //@CacheConfig(cacheNames = CacheNames.DEMO_CACHE)
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/demo/cache")
@@ -83,7 +85,7 @@ public class RedisCacheController {
     public R<Boolean> test6(String key, String value) {
         RedisUtils.setCacheObject(key, value);
         boolean flag = RedisUtils.expire(key, Duration.ofSeconds(10));
-        System.out.println("***********" + flag);
+        log.info("缓存过期时间设置结果: key={}, success={}", key, flag);
         ThreadUtil.sleep(11 * 1000);
         Object obj = RedisUtils.getCacheObject(key);
         return R.ok(value.equals(obj));
