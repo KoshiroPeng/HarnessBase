@@ -38,7 +38,7 @@ concurrency:
 
 jobs:
   docs:
-    name: HarnessBase 文档护栏校验
+    name: HarnessBase 自动化护栏校验
     runs-on: ubuntu-latest
 
     defaults:
@@ -48,13 +48,15 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 设置 Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
-      - name: 执行文档护栏检查
+      - name: 执行自动化护栏检查
         run: python .github/scripts/doc_guardrails.py
 
   server:

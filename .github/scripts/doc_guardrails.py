@@ -7,11 +7,16 @@
 - A03：已删除文档引用检查（并入 A02）
 - A04：历史事实误用扫描（提醒模式）
 - A05：workflow 路径存在性检查
+- A06：API 文档同步提醒
+- A07：错误码与异常文档同步提醒
+- A08：SQL 与发布材料同步提醒
 """
 
 from __future__ import annotations
 
+import os
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -66,6 +71,7 @@ GENERATED_PATH_PREFIXES = (
     "web/dist",
 )
 GENERATED_PATH_PARTS = {"target", "dist", "artifacts", "release-output", "release-bundle"}
+ZERO_SHA = "0" * 40
 
 
 @dataclass(frozen=True)
@@ -127,6 +133,62 @@ def is_history_scan_markdown(path: Path) -> bool:
         return True
 
     return rel.startswith("docs/") or rel.startswith("deploy/")
+
+
+def run_git_name_only(args: list[str]) -> list[str]:
+    try:
+        result = subprocess.run(args, cwd=ROOT, check=False, capture_output=True, text=True)
+    except OSError:
+        return []
+
+    if result.returncode != 0:
+        return []
+
+    return [line.strip() for line in result.stdout.splitlines() if line.strip()]
+
+
+def normalize_changed_file(path_value: str) -> str:
+    return path_value.strip().replace("\\", "/").lstrip("./")
+
+
+def collect_changed_files() -> list[str]:
+    env_value = os.environ.get("DOC_GUARDRAILS_CHANGED_FILES", "")
+    changed: set[str] = set()
+
+    if env_value.strip():
+        for line in re.split(r"[\n,]", env_value):
+            rel = normalize_changed_file(line)
+            if rel:
+                changed.add(rel)
+        return sorted(changed)
+
+    for rel in run_git_name_only(["git", "diff", "--name-only", "--cached"]):
+        changed.add(normalize_changed_file(rel))
+
+    for rel in run_git_name_only(["git", "diff", "--name-only"]):
+        changed.add(normalize_changed_file(rel))
+
+    for rel in run_git_name_only(["git", "ls-files", "--others", "--exclude-standard"]):
+        changed.add(normalize_changed_file(rel))
+
+    event_name = os.environ.get("GITHUB_EVENT_NAME", "")
+    if event_name == "pull_request":
+        base_ref = os.environ.get("GITHUB_BASE_REF", "")
+        if base_ref:
+            for rel in run_git_name_only(["git", "diff", "--name-only", f"origin/{base_ref}...HEAD"]):
+                changed.add(normalize_changed_file(rel))
+
+    before_sha = os.environ.get("GITHUB_EVENT_BEFORE", "")
+    current_sha = os.environ.get("GITHUB_SHA", "HEAD")
+    if before_sha and before_sha != ZERO_SHA:
+        for rel in run_git_name_only(["git", "diff", "--name-only", before_sha, current_sha]):
+            changed.add(normalize_changed_file(rel))
+
+    if not changed:
+        for rel in run_git_name_only(["git", "diff", "--name-only", "HEAD~1", "HEAD"]):
+            changed.add(normalize_changed_file(rel))
+
+    return sorted(rel for rel in changed if rel)
 
 
 def read_text(path: Path) -> str:
@@ -478,21 +540,95 @@ def check_workflow_paths() -> list[Finding]:
     return findings
 
 
+def is_api_trigger(path_value: str) -> bool:
+    return (
+        path_value.startswith("server/")
+        and path_value.endswith(".java")
+        and "/controller/" in path_value
+    ) or (path_value.startswith("web/src/api/") and path_value.endswith(".js"))
+
+
+def is_error_trigger(path_value: str) -> bool:
+    filename = Path(path_value).name
+    return (
+        filename in {"GlobalExceptionHandler.java", "R.java", "TableDataInfo.java"}
+        or (path_value.startswith("server/") and "/i18n/" in path_value and path_value.endswith(".properties"))
+    )
+
+
+def is_sql_trigger(path_value: str) -> bool:
+    return path_value.startswith("server/sql/")
+
+
+def append_sync_reminder(
+    findings: list[Finding],
+    check_id: str,
+    path_value: str,
+    problem: str,
+    suggestion: str,
+) -> None:
+    findings.append(
+        Finding(
+            check_id=check_id,
+            level="提醒",
+            path=path_value,
+            problem=problem,
+            rule="docs/conventions/automation-check-catalog.md",
+            suggestion=suggestion,
+        )
+    )
+
+
+def check_sync_reminders() -> list[Finding]:
+    findings: list[Finding] = []
+    changed_files = collect_changed_files()
+
+    for path_value in changed_files:
+        if is_api_trigger(path_value):
+            append_sync_reminder(
+                findings,
+                "A06",
+                path_value,
+                "API 相关文件发生变更，需要核对 API 参考文档",
+                "核对 docs/reference/api-spec.yaml、docs/reference/README.md；如发现前后端漂移，按 docs/plans/frontend-backend-api-drift-fix-brief.md 记录和拆分",
+            )
+
+        if is_error_trigger(path_value):
+            append_sync_reminder(
+                findings,
+                "A07",
+                path_value,
+                "错误码、异常或 i18n 相关文件发生变更，需要核对错误码文档",
+                "核对 docs/reference/error-codes.md；如语义有变化，补充验证证据",
+            )
+
+        if is_sql_trigger(path_value):
+            append_sync_reminder(
+                findings,
+                "A08",
+                path_value,
+                "SQL 脚本发生变更，需要核对 SQL 清单和发布材料",
+                "核对 docs/reference/sql-change-checklist.md、deploy/release/README.md 和相关发布/回滚材料",
+            )
+
+    return findings
+
+
 def print_summary(findings: list[Finding]) -> None:
     blockers = [finding for finding in findings if finding.level == "阻断"]
     reminders = [finding for finding in findings if finding.level == "提醒"]
 
     if not blockers and not reminders:
-        print("[A01/A02/A03/A04/A05][通过] 文档与 workflow 护栏检查通过")
-        print("说明: 治理型 Markdown 标头、相对链接、锚点、历史事实误用扫描和 workflow 路径检查均未发现问题")
+        print("[A01/A02/A03/A04/A05/A06/A07/A08][通过] 文档、workflow 与同步提醒护栏检查通过")
+        print("说明: 治理型 Markdown 标头、相对链接、锚点、历史事实误用扫描、workflow 路径和跨文档同步提醒均未发现问题")
         return
 
-    grouped: dict[str, list[Finding]] = {}
+    blocker_groups: dict[str, list[Finding]] = {}
     for finding in blockers:
-        grouped.setdefault(finding.check_id, []).append(finding)
+        blocker_groups.setdefault(finding.check_id, []).append(finding)
 
     for check_id in ("A01", "A02", "A05"):
-        items = grouped.get(check_id, [])
+        items = blocker_groups.get(check_id, [])
         if not items:
             continue
 
@@ -511,18 +647,33 @@ def print_summary(findings: list[Finding]) -> None:
         print(f"建议: {items[0].suggestion}")
         print()
 
-    if reminders:
-        print("[A04][提醒] 历史事实误用扫描发现需要人工复核的命中项")
-        for index, item in enumerate(reminders, 1):
+    reminder_groups: dict[str, list[Finding]] = {}
+    for finding in reminders:
+        reminder_groups.setdefault(finding.check_id, []).append(finding)
+
+    reminder_titles = {
+        "A04": "历史事实误用扫描发现需要人工复核的命中项",
+        "A06": "API 文档同步提醒",
+        "A07": "错误码与异常文档同步提醒",
+        "A08": "SQL 与发布材料同步提醒",
+    }
+
+    for check_id in ("A04", "A06", "A07", "A08"):
+        items = reminder_groups.get(check_id, [])
+        if not items:
+            continue
+
+        print(f"[{check_id}][提醒] {reminder_titles[check_id]}")
+        for index, item in enumerate(items, 1):
             print(f"{index}. 文件: {item.path}")
             print(f"   问题: {item.problem}")
-        print(f"规则: {reminders[0].rule}")
-        print(f"建议: {reminders[0].suggestion}")
+        print(f"规则: {items[0].rule}")
+        print(f"建议: {items[0].suggestion}")
         print()
 
     if not blockers:
-        print("[A01/A02/A03/A04/A05][通过] 未发现阻断问题")
-        print("说明: A04 当前为提醒模式，命中项只提示人工复核，不阻断主线")
+        print("[A01/A02/A03/A04/A05/A06/A07/A08][通过] 未发现阻断问题")
+        print("说明: A04、A06、A07、A08 当前为提醒模式，命中项只提示人工复核，不阻断主线")
 
 
 def main() -> int:
@@ -531,6 +682,7 @@ def main() -> int:
     findings.extend(check_links())
     findings.extend(check_history_fact_terms())
     findings.extend(check_workflow_paths())
+    findings.extend(check_sync_reminders())
     print_summary(findings)
     return 1 if any(finding.level == "阻断" for finding in findings) else 0
 

@@ -9,7 +9,7 @@ description: HarnessBase 第四阶段跨文档同步提醒接入说明，定义 
 
 ## 目标
 
-本文档用于说明第四阶段自动化检查，也就是跨文档同步提醒，后续如何接入脚本或 CI。
+本文档用于说明第四阶段自动化检查，也就是跨文档同步提醒，当前如何接入脚本和 CI、如何解释提醒输出、后续如何维护触发范围。
 
 ## 适用范围
 
@@ -21,6 +21,16 @@ description: HarnessBase 第四阶段跨文档同步提醒接入说明，定义 
 
 检查定义以 [docs/conventions/automation-check-catalog.md](../conventions/automation-check-catalog.md) 为准。
 
+## 当前状态
+
+截至 2026-06-09，第四阶段已经接入当前文档护栏脚本：
+
+- A06、A07、A08 已由 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py) 覆盖。
+- [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml) 已在后端和前端构建前执行该脚本。
+- 当前为提醒模式；命中项会输出触发文件和应核对文档，但不会作为阻断退出码。
+- 本地执行 `python .github/scripts/doc_guardrails.py` 应输出 A01/A02/A03/A04/A05/A06/A07/A08 通过。
+- 当前通过本次变更文件触发提醒，不做全仓噪音扫描。
+
 ## 为什么放在第四阶段
 
 这类检查与前几阶段不同：
@@ -29,16 +39,16 @@ description: HarnessBase 第四阶段跨文档同步提醒接入说明，定义 
 - 它不一定能自动判断文档是否已经改够
 - 更适合作为提醒，而不是一开始就阻断
 
-## 推荐接入位置
+## 接入位置
 
-优先接入：
+当前已接入：
 
 - [agent-guardrails.yml](../../.github/workflows/agent-guardrails.yml)
 
-接入建议：
+接入方式：
 
-- 作为独立提醒步骤
-- 可放在主构建前或主构建后执行
+- 复用 [.github/scripts/doc_guardrails.py](../../.github/scripts/doc_guardrails.py)
+- 基于本次变更文件触发提醒
 - 初期不阻断流水线
 
 ## 推荐触发范围
@@ -101,12 +111,24 @@ description: HarnessBase 第四阶段跨文档同步提醒接入说明，定义 
 
 前者记录自动化提醒效果，后者记录具体任务最终验证结果。
 
+## 推荐试运行命令
+
+模拟 API、错误码和 SQL 三类变更：
+
+```bash
+DOC_GUARDRAILS_CHANGED_FILES=$'server/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/SysUserController.java\nweb/src/api/system/user.js\nserver/ruoyi-common/ruoyi-common-core/src/main/java/com/ruoyi/common/core/domain/R.java\nserver/sql/ry_20260321.sql' python .github/scripts/doc_guardrails.py
+```
+
 ## 推荐验收标准
 
-接入完成后，至少应满足：
+第四阶段当前已满足：
 
 1. API 相关变更会提醒核对 API 参考文档
 2. 错误码、异常和 i18n 相关变更会提醒核对错误码文档
 3. SQL 相关变更会提醒核对 SQL 清单和发布材料
 4. 提醒内容带具体文档路径
 5. 初期以提醒为主，不直接阻断
+
+## 一句话结论
+
+第四阶段已经作为非阻断同步提醒接入当前文档护栏脚本，维护重点是让 API、错误码、SQL 和发布材料的联动提醒覆盖真实高风险变更，同时避免全仓扫描噪音。

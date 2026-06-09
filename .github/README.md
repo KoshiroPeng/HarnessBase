@@ -60,7 +60,7 @@ description: HarnessBase GitHub 工作流入口，汇总当前微服务 CI、发
 
 重点关注：
 
-- `python .github/scripts/doc_guardrails.py` 是否作为最前置文档、历史事实和 workflow 门禁执行
+- `python .github/scripts/doc_guardrails.py` 是否作为最前置文档、历史事实、workflow 和跨文档同步提醒门禁执行
 - 后端 `mvn -B -DskipTests package`
 - 前端 `npm install` 与 `npm run build:prod`
 - 当前 workflow 是否已经按 Vue 2 / npm 前端事实执行

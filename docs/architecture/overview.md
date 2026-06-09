@@ -160,7 +160,7 @@ flowchart TD
 
 - 发布支撑材料位于 [deploy/release](../../deploy/release)
 - 本地观测材料位于 [deploy/observability](../../deploy/observability)
-- GitHub Actions 位于 [.github/workflows](../../.github/workflows)，当前主线围绕文档护栏、后端构建、前端构建、模块级发布与服务级回滚展开
+- GitHub Actions 位于 [.github/workflows](../../.github/workflows)，当前主线围绕自动化护栏、后端构建、前端构建、模块级发布与服务级回滚展开
 
 ## 质量门禁
 
