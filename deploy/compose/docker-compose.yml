@@ -20,7 +20,7 @@ services:
       retries: 20
       start_period: 30s
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ruoyi-mysql-data:/var/lib/mysql
       - ../../server/sql/ry_20260321.sql:/docker-entrypoint-initdb.d/10_ry_20260321.sql:ro
       - ../../server/sql/ry_config_20260311.sql:/docker-entrypoint-initdb.d/20_ry_config_20260311.sql:ro
       - ./mysql/initdb/30_ry_config_compose_20260610.sql:/docker-entrypoint-initdb.d/30_ry_config_compose_20260610.sql:ro
@@ -34,7 +34,7 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ../../server/docker/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
-      - ./data/redis:/data
+      - ruoyi-redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -61,7 +61,7 @@ services:
       NACOS_AUTH_IDENTITY_VALUE: ${NACOS_AUTH_IDENTITY_VALUE}
     volumes:
       - ./nacos/conf/application.properties:/home/nacos/conf/application.properties:ro
-      - ./data/nacos/logs:/home/nacos/logs
+      - ruoyi-nacos-logs:/home/nacos/logs
     depends_on:
       ruoyi-mysql:
         condition: service_healthy
@@ -82,9 +82,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9200
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9200/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -107,9 +109,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9201
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9201/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -134,9 +138,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9202
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9202/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -161,9 +167,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9203
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9203/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -188,11 +196,13 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9300
       JAVA_OPTS: ${JAVA_OPTS}
     volumes:
       - ${FILE_UPLOAD_PATH}:/home/ruoyi/uploadPath
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9300/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -215,9 +225,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 9100
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9100/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -242,9 +254,11 @@ services:
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_SENTINEL_DATASOURCE_DS1_NACOS_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_SENTINEL_EAGER: "false"
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      HEALTHCHECK_PORT: 8080
       JAVA_OPTS: ${JAVA_OPTS}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/actuator/health | grep 'UP' >/dev/null"]
+      test: ["CMD", "/opt/harness-base/backend-healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 20
@@ -284,3 +298,8 @@ services:
         condition: service_healthy
     ports:
       - "${NGINX_HTTP_PORT}:80"
+
+volumes:
+  ruoyi-mysql-data:
+  ruoyi-redis-data:
+  ruoyi-nacos-logs:

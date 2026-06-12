@@ -40,6 +40,7 @@ BEGIN
 
     SET current_content = REPLACE(current_content, 'host: localhost', 'host: ruoyi-redis');
     SET current_content = REPLACE(current_content, 'url: jdbc:mysql://localhost:3306/ry-cloud', 'url: jdbc:mysql://ruoyi-mysql:3306/ry-cloud');
+    SET current_content = REPLACE(current_content, 'password: password', 'password: ${MYSQL_ROOT_PASSWORD:password}');
     SET current_content = REPLACE(current_content, 'gatewayUrl: http://localhost:8080', 'gatewayUrl: http://ruoyi-gateway:8080');
     SET current_content = REPLACE(current_content, 'http://127.0.0.1:9300', 'http://localhost:9300');
     SET current_content = REPLACE(current_content, 'path: D:/ruoyi/uploadPath', 'path: /home/ruoyi/uploadPath');

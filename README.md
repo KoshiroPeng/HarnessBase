@@ -117,7 +117,9 @@ docker compose -f deploy/observability/docker-compose.yml up -d
 
 ```bash
 bash deploy/compose/build-compose-artifacts.sh
-bash deploy/compose/manage-compose.sh up-all
+bash deploy/compose/manage-compose.sh up-base
+bash deploy/compose/manage-compose.sh up-apps
+bash deploy/compose/manage-compose.sh verify
 ```
 
 ## 协作入口

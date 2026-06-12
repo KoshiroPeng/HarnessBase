@@ -6,24 +6,34 @@ set -euo pipefail
 # 重点确认容器进程、前端入口和网关健康检查是否可访问。
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-env_file="${script_dir}/.env"
-
-if [[ -f "${env_file}" ]]; then
-  # shellcheck disable=SC1090
-  source "${env_file}"
+if [[ -f "${script_dir}/.env" ]]; then
+  env_file="${script_dir}/.env"
 else
-  # shellcheck disable=SC1091
-  source "${script_dir}/.env.example"
+  env_file="${script_dir}/.env.example"
 fi
 
 compose_file="${script_dir}/docker-compose.yml"
 
-echo "检查容器状态"
-docker compose --env-file "${env_file:-${script_dir}/.env.example}" -f "${compose_file}" ps
+read_env_value() {
+  local key="$1"
+  local default_value="$2"
+  local line
 
-gateway_port="${GATEWAY_HTTP_PORT:-8080}"
-nginx_port="${NGINX_HTTP_PORT:-80}"
-monitor_port="${MONITOR_HTTP_PORT:-9100}"
+  line="$(grep -E "^${key}=" "${env_file}" | tail -n 1 || true)"
+  if [[ -z "${line}" ]]; then
+    printf '%s' "${default_value}"
+    return
+  fi
+
+  printf '%s' "${line#*=}"
+}
+
+echo "检查容器状态"
+docker compose --env-file "${env_file}" -f "${compose_file}" ps
+
+gateway_port="$(read_env_value "GATEWAY_HTTP_PORT" "8080")"
+nginx_port="$(read_env_value "NGINX_HTTP_PORT" "80")"
+monitor_port="$(read_env_value "MONITOR_HTTP_PORT" "9100")"
 
 echo "检查前端入口：http://127.0.0.1:${nginx_port}"
 curl --fail --silent --show-error "http://127.0.0.1:${nginx_port}" >/dev/null
@@ -35,4 +45,3 @@ echo "检查监控服务健康端点：http://127.0.0.1:${monitor_port}/actuator
 curl --fail --silent --show-error "http://127.0.0.1:${monitor_port}/actuator/health"
 
 echo "docker-compose 最小验证通过。"
-
