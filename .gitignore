@@ -20,6 +20,9 @@ web/src/types/components.d.ts
 server/logs/*
 !server/logs/.gitkeep
 
+# Local compose runtime artifacts
+deploy/compose/docker/sentinel-dashboard.jar
+
 # Python
 __pycache__/
 *.py[cod]

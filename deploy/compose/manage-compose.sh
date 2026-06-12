@@ -39,6 +39,7 @@ up_base() {
 
 up_apps() {
   "${compose_cmd[@]}" up -d \
+    ruoyi-sentinel \
     ruoyi-auth \
     ruoyi-system \
     ruoyi-gen \
@@ -87,4 +88,3 @@ case "${1:-}" in
     exit 1
     ;;
 esac
-

@@ -67,8 +67,27 @@ services:
         condition: service_healthy
     ports:
       - "${NACOS_HTTP_PORT}:8848"
+      - "${NACOS_CONSOLE_PORT}:8080"
       - "${NACOS_GRPC_PORT}:9848"
       - "${NACOS_RAFT_PORT}:9849"
+
+  ruoyi-sentinel:
+    build:
+      context: ../..
+      dockerfile: deploy/compose/docker/sentinel-dashboard.Dockerfile
+    container_name: ruoyi-sentinel
+    restart: unless-stopped
+    environment:
+      SENTINEL_DASHBOARD_PORT: 8718
+      JAVA_OPTS: ${SENTINEL_JAVA_OPTS}
+    healthcheck:
+      test: ["CMD", "/opt/sentinel/http-healthcheck.sh", "127.0.0.1", "8718", "/"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    ports:
+      - "${SENTINEL_DASHBOARD_PORT}:8718"
 
   ruoyi-auth:
     build:
@@ -82,6 +101,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9200
       JAVA_OPTS: ${JAVA_OPTS}
@@ -96,6 +116,8 @@ services:
         condition: service_healthy
       ruoyi-nacos:
         condition: service_started
+      ruoyi-sentinel:
+        condition: service_started
 
   ruoyi-system:
     build:
@@ -109,6 +131,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9201
       JAVA_OPTS: ${JAVA_OPTS}
@@ -125,6 +148,8 @@ services:
         condition: service_healthy
       ruoyi-nacos:
         condition: service_started
+      ruoyi-sentinel:
+        condition: service_started
 
   ruoyi-gen:
     build:
@@ -138,6 +163,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9202
       JAVA_OPTS: ${JAVA_OPTS}
@@ -154,6 +180,8 @@ services:
         condition: service_healthy
       ruoyi-nacos:
         condition: service_started
+      ruoyi-sentinel:
+        condition: service_started
 
   ruoyi-job:
     build:
@@ -167,6 +195,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9203
       JAVA_OPTS: ${JAVA_OPTS}
@@ -183,6 +212,8 @@ services:
         condition: service_healthy
       ruoyi-nacos:
         condition: service_started
+      ruoyi-sentinel:
+        condition: service_started
 
   ruoyi-file:
     build:
@@ -196,6 +227,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9300
       JAVA_OPTS: ${JAVA_OPTS}
@@ -209,6 +241,8 @@ services:
       start_period: 60s
     depends_on:
       ruoyi-nacos:
+        condition: service_started
+      ruoyi-sentinel:
         condition: service_started
     ports:
       - "${FILE_HTTP_PORT}:9300"
@@ -225,6 +259,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       HEALTHCHECK_PORT: 9100
       JAVA_OPTS: ${JAVA_OPTS}
@@ -236,6 +271,8 @@ services:
       start_period: 60s
     depends_on:
       ruoyi-nacos:
+        condition: service_started
+      ruoyi-sentinel:
         condition: service_started
     ports:
       - "${MONITOR_HTTP_PORT}:9100"
@@ -252,6 +289,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${RUOYI_PROFILE}
       SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: ruoyi-nacos:8848
+      SPRING_CLOUD_SENTINEL_TRANSPORT_DASHBOARD: ruoyi-sentinel:8718
       SPRING_CLOUD_SENTINEL_DATASOURCE_DS1_NACOS_SERVER_ADDR: ruoyi-nacos:8848
       SPRING_CLOUD_SENTINEL_EAGER: "false"
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -277,6 +315,8 @@ services:
       ruoyi-monitor:
         condition: service_healthy
       ruoyi-nacos:
+        condition: service_started
+      ruoyi-sentinel:
         condition: service_started
     ports:
       - "${GATEWAY_HTTP_PORT}:8080"

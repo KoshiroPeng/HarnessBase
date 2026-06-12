@@ -122,6 +122,24 @@ bash deploy/compose/manage-compose.sh up-apps
 bash deploy/compose/manage-compose.sh verify
 ```
 
+当前仓库已经在 `Windows 11 + Docker Desktop + WSL2 Ubuntu 24.04` 环境完成一轮真实联调验证，推荐优先按照上面的分阶段命令执行，而不是直接 `up-all`，这样更容易区分基础设施问题和业务服务问题。
+
+## 本地访问入口
+
+按默认 `deploy/compose/.env.example` 配置启动后，可访问的主要入口包括：
+
+- 前端入口：`http://127.0.0.1:80`
+- 网关健康检查：`http://127.0.0.1:8080/actuator/health`
+- 监控服务健康检查：`http://127.0.0.1:9100/actuator/health`
+- Sentinel 控制台：`http://127.0.0.1:8718`
+- Nacos 控制台：`http://127.0.0.1:8081`
+
+补充说明：
+
+- `8848` 对应的是 Nacos Server API，供微服务注册发现和配置读取使用。
+- 浏览器访问 Nacos 控制台时，应访问 `http://127.0.0.1:8081`，而不是旧的 `/nacos/index.html` 路径。
+- 如果要看完整的 `docker-compose` 环境变量、控制台入口、回滚与排障说明，请直接阅读 [deploy/compose/README.md](deploy/compose/README.md)。
+
 ## 协作入口
 
 | 你现在要做什么 | 建议先看 |
